@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,
+initial-scale=1.0">
+<title>MemoAtlas | Welcome</title>
+<style>
+:root {
+--primary-color: #2c3e50;
+--secondary-color: #3498db;
+--text-color: #333;
+--bg-color: #f4f7f6;
+}
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana,
+sans-serif;
+margin: 0;
+padding: 0;
+background-color: var(--bg-color);
+color: var(--text-color);
+}
+header {
+background-color: var(--primary-color);
+color: white;
+padding: 1rem 2rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+header h1 {
+margin: 0;
+font-size: 1.5rem;
+}
+nav ul {
+list-style: none;
+margin: 0;
+padding: 0;
+display: flex;
+gap: 1.5rem;
+}
+nav a {
+color: white;
+text-decoration: none;
+font-weight: bold;
+transition: color 0.3s ease;
+}
+nav a:hover {
+color: var(--secondary-color);
+}
+.hero {
+text-align: center;
+padding: 5rem 2rem;
+background: linear-gradient(135deg, #db7134, #a2ad44);
+color: white;
+}
+.hero h2 {
+font-size: 3rem;
+margin-bottom: 1rem;
+}
+.hero p {
+font-size: 1.2rem;
+max-width: 600px;
+margin: 0 auto 2rem auto;
+line-height: 1.6;
+}
+.btn {
+background-color: white;
+color: var(--primary-color);
+padding: 0.75rem 1.5rem;
+text-decoration: none;
+border-radius: 5px;
+font-weight: bold;
+font-size: 1.1rem;
+transition: background-color 0.3s ease;
+}
+.btn:hover {
+background-color: #eee;
+}
+.features {
+display: flex;
+justify-content: center;
+gap: 2rem;
+padding: 4rem 2rem;
+flex-wrap: wrap;
+}
+.feature-card {
+background: white;
+padding: 2rem;
+border-radius: 8px;
+box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+width: 300px;
+text-align: center;
+}
+footer {
+text-align: center;
+padding: 2rem;
+background-color: var(--primary-color);
+color: white;
+margin-top: auto;
+}
+</style>
+</head>
+<body>
+<header>
+<h1>Student Hub</h1>
+<nav>
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
+</header>
+<section class="hero">
+<h2>Your Campus, Connected.</h2>
+<p>Welcome to the ultimate platform for students. Access study
+materials, connect with peers, and stay updated on campus events all
+in one place.</p>
+<a href="#join" class="btn">Join the Community</a>
+</section>
+<section class="features">
+<div class="feature-card">
+<h3>Study Resources</h3>
+<p>Access our cloud library of past papers, lecture notes,
+and study guides optimized for your courses.</p>
+</div>
+<div class="feature-card">
+<h3>Tech Forums</h3>
+<p>Collaborate with IT and CS students, troubleshoot
+projects, and discuss the latest in infrastructure and coding.</p>
+</div>
+<div class="feature-card">
+<h3>Event Calendar</h3>
+<p>Never miss a deadline or a campus meetup. Sync our
+calendar directly with your devices.</p>
+</div>
+</section>
+<footer>
+<p>© 2026 Student Hub. All rights reserved.</p>
+</footer>
+</body>
+</html>
