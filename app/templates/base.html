@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MemoAtlas{% endblock %}</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #121212;
+            --border-color: #262626;
+            --text-main: #f5f5f5;
+            --text-muted: #a3a3a3;
+            --accent: #50545a; 
+            --accent-hover: #646c7e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--text-main); }
+        .nav-links a { color: var(--text-muted); text-decoration: none; margin-left: 2rem; }
+
+        main { flex: 1; }
+
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        
+        /* Flash message style */
+        .flashes { list-style: none; padding: 1rem; text-align: center; color: var(--accent); }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">MemoAtlas</a>
+        <nav class="nav-links">
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('notes.index') }}">Notes</a>
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}">Login</a>
+            {% endif %}
+            <a href="https://github.com/yourusername/memoAtlas" target="_blank">GitHub</a>
+        </nav>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MemoAtlas. Built for students.</p>
+    </footer>
+</body>
+</html>    
