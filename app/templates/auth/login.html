@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Login - MemoAtlas{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 4rem auto; padding: 2rem;">
+    <h1 style="margin-bottom: 1.5rem;">Sign In</h1>
+    <form method="POST" action="{{ url_for('auth.login') }}">
+        {{ form.hidden_tag() }}
+        <div style="margin-bottom: 1rem;">
+            {{ form.username.label }}<br>
+            {{ form.username(size=32, style="width: 100%; padding: 0.75rem; background: #121212; border: 1px solid #262626; border-radius: 8px; color: #f5f5f5; margin-top: 0.25rem;") }}
+            {% for error in form.username.errors %}
+                <span style="color: #ef4444; font-size: 0.875rem;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div style="margin-bottom: 1rem;">
+            {{ form.password.label }}<br>
+            {{ form.password(size=32, style="width: 100%; padding: 0.75rem; background: #121212; border: 1px solid #262626; border-radius: 8px; color: #f5f5f5; margin-top: 0.25rem;") }}
+            {% for error in form.password.errors %}
+                <span style="color: #ef4444; font-size: 0.875rem;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div style="margin-bottom: 1rem;">
+            {{ form.remember_me() }} {{ form.remember_me.label }}
+        </div>
+        {{ form.submit(class="btn", style="width: 100%;") }}
+    </form>
+    <p style="margin-top: 1rem; color: #a3a3a3;">
+        Don't have an account? <a href="{{ url_for('auth.register') }}" class="btn btn-secondary" style="width: 100%; text-align: center; margin-top: 0.5rem;">Create Account</a>
+    </p>
+</div>
+{% endblock %}

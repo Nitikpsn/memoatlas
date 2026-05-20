@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}{{ note.title }} - MemoAtlas{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 2rem auto; padding: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1.5rem;">
+        <div>
+            <h1 style="margin-bottom: 0.5rem;">{{ note.title }}</h1>
+            {% if note.subject %}
+                <span style="color: #50545a; font-size: 0.9rem;">{{ note.subject }}</span>
+            {% endif %}
+        </div>
+        <div>
+            <a href="{{ url_for('notes.edit', note_id=note.id) }}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Edit</a>
+            <form method="POST" action="{{ url_for('notes.delete', note_id=note.id) }}" style="display: inline;">
+                <button type="submit" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem; background: #7f1d1d; margin-left: 0.5rem;" onclick="return confirm('Delete this note?');">Delete</button>
+            </form>
+        </div>
+    </div>
+
+    <div style="background: #121212; padding: 2rem; border-radius: 12px; border: 1px solid #262626; margin-bottom: 2rem;">
+        <div style="white-space: pre-wrap; line-height: 1.8;">{{ note.content }}</div>
+    </div>
+
+    {% if note.tags %}
+        <div style="margin-bottom: 2rem;">
+            {% for tag in note.tag_list %}
+            <span style="background: #262626; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.85rem; margin-right: 0.25rem;">{{ tag }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <p style="color: #a3a3a3; font-size: 0.85rem;">
+        Created {{ note.created_at.strftime('%B %d, %Y') }} | Updated {{ note.updated_at.strftime('%B %d, %Y') }}
+    </p>
+
+    {% if connected_notes %}
+        <div style="margin-top: 2rem;">
+            <h2 style="margin-bottom: 1rem;">Connected Notes</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
+                {% for connected in connected_notes %}
+                <a href="{{ url_for('notes.detail', note_id=connected.id) }}" style="background: #121212; padding: 1rem; border-radius: 8px; border: 1px solid #262626; text-decoration: none; color: #f5f5f5;">
+                    <h4 style="margin-bottom: 0.25rem;">{{ connected.title }}</h4>
+                    {% if connected.subject %}
+                        <span style="color: #a3a3a3; font-size: 0.8rem;">{{ connected.subject }}</span>
+                    {% endif %}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <a href="{{ url_for('notes.index') }}" style="color: #a3a3a3; margin-top: 2rem; display: inline-block;">&larr; Back to notes</a>
+</div>
+{% endblock %}

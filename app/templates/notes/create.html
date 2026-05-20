@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Create Note - MemoAtlas{% endblock %}
+
+{% block content %}
+<div style="max-width: 700px; margin: 2rem auto; padding: 2rem;">
+    <h1 style="margin-bottom: 1.5rem;">Create Note</h1>
+    <form method="POST" action="{{ url_for('notes.create') }}">
+        {{ form.hidden_tag() }}
+        <div style="margin-bottom: 1rem;">
+            {{ form.title.label }}<br>
+            {{ form.title(size=64, style="width: 100%; padding: 0.75rem; background: #121212; border: 1px solid #262626; border-radius: 8px; color: #f5f5f5; margin-top: 0.25rem;") }}
+            {% for error in form.title.errors %}
+                <span style="color: #ef4444; font-size: 0.875rem;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div style="margin-bottom: 1rem;">
+            {{ form.subject.label }}<br>
+            {{ form.subject(size=32, style="width: 100%; padding: 0.75rem; background: #121212; border: 1px solid #262626; border-radius: 8px; color: #f5f5f5; margin-top: 0.25rem;") }}
+            {% for error in form.subject.errors %}
+                <span style="color: #ef4444; font-size: 0.875rem;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div style="margin-bottom: 1rem;">
+            {{ form.tags.label }}<br>
+            {{ form.tags(size=32, style="width: 100%; padding: 0.75rem; background: #121212; border: 1px solid #262626; border-radius: 8px; color: #f5f5f5; margin-top: 0.25rem;") }}
+            <span style="color: #a3a3a3; font-size: 0.8rem;">Separate tags with commas</span>
+            {% for error in form.tags.errors %}
+                <span style="color: #ef4444; font-size: 0.875rem;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+            {{ form.content.label }}<br>
+            {{ form.content(rows=12, style="width: 100%; padding: 0.75rem; background: #121212; border: 1px solid #262626; border-radius: 8px; color: #f5f5f5; margin-top: 0.25rem; font-family: inherit; resize: vertical;") }}
+            {% for error in form.content.errors %}
+                <span style="color: #ef4444; font-size: 0.875rem;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        {{ form.submit(class="btn") }}
+        <a href="{{ url_for('notes.index') }}" style="margin-left: 1rem; color: #a3a3a3;">Cancel</a>
+    </form>
+</div>
+{% endblock %}

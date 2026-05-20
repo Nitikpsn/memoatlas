@@ -41,6 +41,10 @@
             margin: 0 auto;
         }
 
+        .nav-links { display: flex; align-items: center; }
+        .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+        .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--text-main); margin: 5px 0; transition: 0.3s; border-radius: 2px; }
+
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
@@ -54,6 +58,7 @@
             text-decoration: none;
             margin-left: 2rem;
             transition: color 0.2s ease;
+            white-space: nowrap;
         }
 
         .nav-links a:hover {
@@ -162,7 +167,40 @@
         
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
-            .nav-links { display: none; } /* Simplify nav on mobile */
+            .menu-toggle { display: block; }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: var(--card-bg);
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1rem;
+                min-width: 200px;
+                border: 1px solid var(--border-color);
+                border-radius: 0 0 0 12px;
+                z-index: 100;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                margin-left: 0;
+                padding: 0.5rem 0;
+            }
+
+            header {
+                position: relative;
+            }
+
+            .hero {
+                padding: 4rem 1.5rem;
+            }
+
             .btn-secondary { margin-left: 0; margin-top: 1rem; display: block; }
         }
     </style>
@@ -171,8 +209,14 @@
 
     <header>
         <a href="/" class="logo">MemoAtlas</a>
+        <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <nav class="nav-links">
-            <a href="{{ url_for('auth.login') }}">Login</a> <a href="https://github.com/yourusername/memoAtlas" target="_blank">GitHub</a>
+            <a href="{{ url_for('auth.login') }}">Login</a>
+            <a href="https://github.com/Nitikpsn/memoatlas" target="_blank">GitHub</a>
         </nav>
     </header>
 
@@ -204,5 +248,14 @@
         <p>&copy; 2026 MemoAtlas. Built for students.</p>
     </footer>
 
+    <script>
+        document.addEventListener('click', function(e) {
+            const nav = document.querySelector('.nav-links');
+            const toggle = document.querySelector('.menu-toggle');
+            if (nav && toggle && !nav.contains(e.target) && !toggle.contains(e.target)) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>

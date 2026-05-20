@@ -1,0 +1,35 @@
+body {
+    background-color: #050505;
+    color: #f5f5f5;
+}
+
+a {
+    color: #50545a;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #646c7e;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #50545a;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #646c7e;
+}
+
+.card {
+    background: #121212;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #262626;
+}

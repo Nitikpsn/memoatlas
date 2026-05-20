@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - MemoAtlas{% endblock %}
+
+{% block content %}
+<div style="max-width: 1200px; margin: 0 auto; padding: 2rem 5%;">
+    <h1 style="margin-bottom: 2rem;">Dashboard</h1>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+        <div style="background: #121212; padding: 1.5rem; border-radius: 12px; border: 1px solid #262626;">
+            <h3 style="color: #a3a3a3; font-size: 0.9rem; margin-bottom: 0.5rem;">Total Notes</h3>
+            <p style="font-size: 2rem; font-weight: 700;">{{ stats.note_count }}</p>
+        </div>
+        <div style="background: #121212; padding: 1.5rem; border-radius: 12px; border: 1px solid #262626;">
+            <h3 style="color: #a3a3a3; font-size: 0.9rem; margin-bottom: 0.5rem;">Connections</h3>
+            <p style="font-size: 2rem; font-weight: 700;">{{ stats.connection_count }}</p>
+        </div>
+        <div style="background: #121212; padding: 1.5rem; border-radius: 12px; border: 1px solid #262626;">
+            <h3 style="color: #a3a3a3; font-size: 0.9rem; margin-bottom: 0.5rem;">Subjects</h3>
+            <p style="font-size: 2rem; font-weight: 700;">{{ stats.subject_distribution | length }}</p>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+        <div>
+            <h2 style="margin-bottom: 1rem;">Recent Notes</h2>
+            {% if recent_notes %}
+                <ul style="list-style: none;">
+                    {% for note in recent_notes %}
+                    <li style="padding: 0.75rem 0; border-bottom: 1px solid #262626;">
+                        <a href="{{ url_for('notes.detail', note_id=note.id) }}" style="color: #f5f5f5; text-decoration: none;">
+                            {{ note.title }}
+                        </a>
+                        {% if note.subject %}
+                            <span style="color: #a3a3a3; font-size: 0.85rem; margin-left: 0.5rem;">({{ note.subject }})</span>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p style="color: #a3a3a3;">No notes yet. <a href="{{ url_for('notes.create') }}" style="color: #50545a;">Create one</a></p>
+            {% endif %}
+        </div>
+
+        <div>
+            <h2 style="margin-bottom: 1rem;">Activity</h2>
+            {% if recent_activity %}
+                <ul style="list-style: none;">
+                    {% for entry in recent_activity[:5] %}
+                    <li style="padding: 0.5rem 0; color: #a3a3a3; font-size: 0.9rem;">
+                        {{ entry.action }} - {{ entry.timestamp.strftime('%b %d, %Y') }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p style="color: #a3a3a3;">No recent activity.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
