@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .dash-container { animation: fadeIn 0.5s ease-in; }
+    .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+    .stat-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 1.5rem; border-radius: 12px; }
+    .stat-val { font-size: 2rem; font-weight: 800; color: var(--text-main); }
+    .stat-label { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+
+    .grid-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem; }
+    .section-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; }
+    
+    .graph-placeholder { 
+        height: 300px; border: 2px dashed #222; border-radius: 12px; 
+        display: flex; flex-direction: column; align-items: center; justify-content: center; color: #444;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
+
+<div class="dash-container">
+    <div class="header-flex">
+        <h1>Dashboard</h1>
+        <a href="#" class="btn-sm" style="padding: 10px 20px;">+ New Note</a>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-label">Notes</div>
+            <div class="stat-val">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Connections</div>
+            <div class="stat-val">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Atlas Level</div>
+            <div class="stat-val">1</div>
+        </div>
+    </div>
+
+    <div class="grid-layout">
+        <div class="section-box">
+            <h3>Recent Activity</h3>
+            <p style="color: var(--text-muted); margin-top: 1rem;">No notes yet. Start mapping your knowledge!</p>
+        </div>
+        
+        <div class="section-box">
+            <h3>Atlas Preview</h3>
+            <div class="graph-placeholder">
+                <p>Knowledge Graph</p>
+                <small>Visualizing soon...</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
