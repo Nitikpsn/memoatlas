@@ -6,6 +6,12 @@ from app.forms.note_form import NoteForm
 
 notes = Blueprint('notes', __name__)
 
+@notes.route('/notes')
+@login_required
+def index():
+    user_notes = Note.query.filter_by(user_id=current_user.id).all()
+    return render_template('notes/list_notes.html', notes=user_notes)
+
 @notes.route('/note/new', methods=['GET', 'POST'])
 @login_required
 def create_note():

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>My Atlas Nodes</h2>
+    <ul>
+    {% for note in notes %}
+        <li>{{ note.title }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}

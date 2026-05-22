@@ -12,8 +12,6 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
 
-    # This links the user to their notes. 
-    # 'Note' must match the class name in your note.py model.
     notes = db.relationship('Note', backref='author', lazy=True)
 
     def set_password(self, password):
