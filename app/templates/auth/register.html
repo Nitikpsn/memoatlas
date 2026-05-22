@@ -1,24 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - MemoAtlas</title>
-</head>
-<body>
-    <h1>Register</h1>
-    <form method="POST" action="{{ url_for('auth.register') }}">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></p>
-</body>
-</html>
 {% extends "base.html" %}
 
-{% block title %}Join the Atlas | MemoAtlas{% endblock %}
+{% block title %}Register | MemoAtlas{% endblock %}
 
 {% block content %}
 <div class="auth-container">
@@ -26,30 +8,30 @@
         <h2>Create your Atlas</h2>
         <p class="auth-subtitle">Start connecting your thoughts today.</p>
 
-        <form method="POST" action="">
+        <form method="POST">
             {{ form.hidden_tag() }}
             
             <div class="form-group">
-                {{ form.username.label(class="form-label") }}
+                <label class="form-label">Username</label>
                 {{ form.username(class="form-input", placeholder="Choose a username") }}
             </div>
 
             <div class="form-group">
-                {{ form.email.label(class="form-label") }}
+                <label class="form-label">Email</label>
                 {{ form.email(class="form-input", placeholder="student@university.edu") }}
             </div>
 
             <div class="form-group">
-                {{ form.password.label(class="form-label") }}
+                <label class="form-label">Password</label>
                 {{ form.password(class="form-input", placeholder="••••••••") }}
             </div>
 
             <div class="form-group">
-                {{ form.confirm_password.label(class="form-label") }}
+                <label class="form-label">Confirm Password</label>
                 {{ form.confirm_password(class="form-input", placeholder="Confirm password") }}
             </div>
 
-            {{ form.submit(class="btn-auth") }}
+            <button type="submit" class="btn-auth">Sign Up</button>
         </form>
 
         <div class="auth-footer">
@@ -59,49 +41,43 @@
 </div>
 
 <style>
+    /* Ensure the background stays dark and the card centers */
     .auth-container {
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 80vh;
+        padding: 20px;
     }
     .auth-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        padding: 3rem;
+        background: #121212; /* Matching your landing page */
+        border: 1px solid #262626;
+        padding: 40px;
         border-radius: 20px;
         width: 100%;
-        max-width: 450px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        max-width: 400px;
+        text-align: center;
     }
-    h2 { font-size: 1.8rem; margin-bottom: 0.5rem; text-align: center; }
-    .auth-subtitle { color: var(--text-muted); text-align: center; margin-bottom: 2rem; font-size: 0.9rem; }
-    
-    .form-group { margin-bottom: 1.5rem; }
-    .form-label { display: block; margin-bottom: 0.5rem; font-size: 0.85rem; color: var(--text-muted); }
+    .form-group { text-align: left; margin-bottom: 20px; }
+    .form-label { display: block; color: #888; font-size: 0.8rem; margin-bottom: 8px; }
     .form-input {
         width: 100%;
-        padding: 12px;
         background: #000;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
+        border: 1px solid #333;
         color: white;
-        transition: border-color 0.3s;
+        padding: 12px;
+        border-radius: 8px;
     }
-    .form-input:focus { outline: none; border-color: #555; }
-    
     .btn-auth {
         width: 100%;
         padding: 12px;
-        background: white;
-        color: black;
+        background: #fff;
+        color: #000;
         border: none;
         border-radius: 8px;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
-        margin-top: 1rem;
+        margin-top: 10px;
     }
-    .auth-footer { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted); }
-    .auth-footer a { color: white; text-decoration: none; font-weight: 600; }
 </style>
 {% endblock %}
