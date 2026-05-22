@@ -24,7 +24,7 @@
 <div class="dash-container">
     <div class="header-flex">
         <h1>Dashboard{% if user %}<span style="font-size:1rem;color:var(--text-muted);margin-left:0.75rem;">{{ user.username }}</span>{% endif %}</h1>
-        <a href="#" class="btn-sm" style="padding: 10px 20px;">+ New Note</a>
+        <a href="{{ url_for('notes.index') }}" class="btn-sm" style="padding: 10px 20px;">+ New Note</a>
     </div>
 
     <div class="stats-row">
@@ -58,3 +58,6 @@
     </div>
 </div>
 {% endblock %}   
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
