@@ -10,12 +10,12 @@ class AuthTestCase(unittest.TestCase):
         self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
         self.app.config['WTF_CSRF_ENABLED'] = False
         self.client = self.app.test_client()
-        with self.app.app_context():
+        with self.app.app_context(): 
             db.create_all()
             user = User(username='testuser', email='test@example.com')
             user.set_password('password123')
             db.session.add(user)
-            db.session.commit()
+            db.session.commit() 
 
     def tearDown(self):
         with self.app.app_context():
