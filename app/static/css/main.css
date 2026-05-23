@@ -1,8 +1,8 @@
 :root {
     --bg-dark: #0f0f0f;
     --bg-card: #1a1a1a;
-    --accent: #7b59e0;
-    --accent-hover: #8c6cf0;
+    --accent: #555555;
+    --accent-hover: #777777;
     --text-main: #e0e0e0;
     --text-muted: #a3a3a3;
     --border: #262626;
@@ -18,7 +18,7 @@ body {
 .hero-section {
     text-align: center;
     padding: 100px 20px;
-    background: radial-gradient(circle at center, #1e1538 0%, #0f0f0f 70%);
+    background: radial-gradient(circle at center, #1a1a1a 0%, #0f0f0f 70%);
 }
 
 .hero-title {
@@ -89,7 +89,7 @@ body {
 .feature-card:hover {
     transform: translateY(-4px);
     border-color: var(--accent);
-    box-shadow: 0 0 20px rgba(123, 89, 224, 0.15);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
 }
 
 .feature-card h3 {
@@ -116,7 +116,7 @@ body {
     max-width: 700px;
     height: 350px;
     margin: 3rem auto 0;
-    background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f0f 70%);
+    background: radial-gradient(circle at center, #1a1a1a 0%, #0f0f0f 70%);
     border: 1px solid var(--border);
     border-radius: 16px;
     overflow: hidden;
