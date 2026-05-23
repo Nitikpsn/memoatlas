@@ -58,15 +58,8 @@ Bash
 
 
 python3 run.py
-🤝 Contributing
-Contributions are welcome! Please ensure all file names follow the snake_case.py convention to avoid Linux import conflicts.
 
 ⚖️ License
 Distributed under the MIT License.
-
-
-### **Pro-Tip for your GitHub Repo:**
-To get that "Obsidian" look on the actual GitHub page, you can upload one of those screenshots you showed me (like the Graph view) to your repo and add it to the top of the README like this:
-`![Graph Preview](./app/static/img/preview.png)`
 
 **Does this Markdown code cover everything you need for the initial launch?**
