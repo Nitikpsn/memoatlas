@@ -1,14 +1,6 @@
-from flask import Blueprint, render_template
-from flask_login import login_required, current_user
-
-dashboard = Blueprint('dashboard', __name__)
-
 @dashboard.route('/dashboard')
 @login_required
 def index():
-    notes_count = 0
-    connections_count = 0
-    return render_template('dashboard/dashboard.html',
-                         user=current_user,
-                         notes_count=notes_count,
-                         connections_count=connections_count)
+    # This actually counts your real notes in the DB
+    note_count = Note.query.filter_by(user_id=current_user.id).count()
+    return render_template('dashboard/dashboard.html', note_count=note_count)
