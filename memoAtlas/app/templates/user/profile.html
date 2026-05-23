@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+{% endblock %}
+{% block content %}
+<div class="dashboard-container">
+    <nav class="sidebar">
+        <div class="mb-5"><img src="/static/img/logo.png" width="30" alt="Logo"></div>
+        <a href="{{ url_for('dashboard.index') }}" class="sidebar-link"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="sidebar-link"><i class="fas fa-wallet"></i> Wallet</a>
+        <a href="#" class="sidebar-link"><i class="fas fa-users"></i> Communities</a>
+        <div class="mt-auto">
+            <a href="{{ url_for('auth.logout') }}" class="sidebar-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <nav aria-label="breadcrumb">
+                <span class="text-muted">Profile /</span> {{ user.username }}
+            </nav>
+            <div class="search-bar">
+                <input type="text" placeholder="Search..." class="glass-input">
+            </div>
+        </div>
+
+        <div class="banner-card"></div>
+
+        <div class="profile-info-grid">
+            <div class="glass-card">
+                <div class="mb-4">
+                    <span class="stats-pill">Feed</span>
+                    <span class="text-muted">History</span>
+                </div>
+                <ul class="list-unstyled">
+                    <li class="mb-3">
+                        <small class="text-muted d-block">Today</small>
+                        Created a new Node in <strong>MemoAtlas</strong>
+                    </li>
+                    <li class="mb-3">
+                        <small class="text-muted d-block">Yesterday</small>
+                        Connected 5 nodes in the Knowledge Graph
+                    </li>
+                </ul>
+            </div>
+
+            <div class="glass-card text-center">
+                <img src="{{ user.avatar }}" class="avatar-circle mb-3" alt="Avatar">
+                <h5>{{ user.username }}</h5>
+                <p class="text-muted small">{% if user.created_at %}Created {{ user.created_at.strftime('%b %Y') }}{% endif %}</p>
+                <hr style="border-color: var(--glass-border)">
+                <div class="text-left">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Nodes</span>
+                        <span>{{ user.notes|length }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

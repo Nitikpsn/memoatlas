@@ -1,0 +1,108 @@
+:root {
+    --glass-bg: rgba(25, 25, 25, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --text-muted: #888;
+    --accent-purple: #7b59e0;
+}
+
+body {
+    background: #0a0a0a;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: calc(100vh - 80px);
+}
+
+.sidebar {
+    width: 240px;
+    padding: 2rem;
+    border-right: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: 0.3s;
+    font-size: 0.95rem;
+}
+
+.sidebar-link.active,
+.sidebar-link:hover {
+    color: white;
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem 4rem;
+}
+
+.banner-card {
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/static/img/banner.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 250px;
+    border-radius: 24px;
+    margin-bottom: 2rem;
+    border: 1px solid var(--glass-border);
+}
+
+.profile-info-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.5rem;
+}
+
+.stats-pill {
+    background: #111;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.search-bar {
+    position: relative;
+}
+
+.glass-input {
+    background: rgba(25, 25, 25, 0.7);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    width: 200px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.glass-input:focus {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--glass-border);
+}
