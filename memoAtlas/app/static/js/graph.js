@@ -9,38 +9,24 @@ fetch('/api/graph-data')
   .then(r => r.json())
   .then(data => {
     graphData = data;
-    nodes = new vis.DataSet(data.nodes.map(n => ({
-      id: n.id,
-      label: n.title,
-      updated_at: n.updated_at
-    })));
-    const edges = new vis.DataSet(data.links);
 
-    const container = document.getElementById('mynetwork');
-    const networkData = { nodes, edges };
-    const options = {
+    const result = AtlasGraph.buildNetwork('mynetwork', data, {
       nodes: {
-        shape: 'dot',
         size: 16,
-        color: { background: '#8B5CF6', border: '#8B5CF6' },
-        font: { color: 'rgba(255,255,255,0.5)', size: 12 },
-        borderWidth: 0,
-        scaling: { label: { enabled: false } }
+        color: { background: '#555555', border: '#555555' },
+        font: { color: '#888888', size: 12 }
       },
       edges: {
-        color: { color: 'rgba(139,92,246,0.15)', highlight: 'rgba(139,92,246,0.3)' },
-        smooth: { type: 'continuous' }
+        color: { color: '#333333' }
       },
       physics: {
-        enabled: true,
-        solver: 'barnesHut',
-        barnesHut: { gravitationalConstant: -2000, springLength: 250, springConstant: 0.04 },
-        stabilization: { iterations: 100 }
-      },
-      interaction: { hover: true }
-    };
+        barnesHut: { gravitationalConstant: -2000, springLength: 250, springConstant: 0.04 }
+      }
+    });
 
-    network = new vis.Network(container, networkData, options);
+    if (!result) return;
+    network = result.network;
+    nodes = result.nodes;
 
     network.on('click', function(params) {
       if (params.nodes.length > 0) {
@@ -58,11 +44,11 @@ function preparePulseData(nodesData) {
     const updatedAt = n.updated_at ? new Date(n.updated_at).getTime() : now;
     const diffHours = (now - updatedAt) / (1000 * 60 * 60);
     let speed;
-    if (diffHours < 1) speed = 5 + Math.random() * 1;
+    if (diffHours < 1) speed = 5 + Math.random();
     else if (diffHours < 24) speed = 3 + Math.random() * 0.5;
     else if (diffHours < 168) speed = 1.5 + Math.random() * 0.3;
     else speed = 0.5 + Math.random() * 0.3;
-    return { id: n.id, speed, baseSize: 16 + Math.random() * 2 };
+    return { id: n.id, speed, baseSize: 16 };
   });
 }
 
@@ -70,11 +56,12 @@ if (pulseBtn) {
   pulseBtn.addEventListener('click', function() {
     pulseActive = !pulseActive;
     this.classList.toggle('active');
+    const indicator = this.querySelector('.pulse-indicator');
     if (pulseActive) {
-      pulseBtn.innerHTML = '<span class="pulse-indicator" style="animation:pulse-dot 1.2s ease-in-out infinite;"></span> Pulsing';
+      indicator.style.animation = 'pulse-dot 1s ease-in-out infinite';
       startPulse();
     } else {
-      pulseBtn.innerHTML = '<span class="pulse-indicator"></span> Pulse';
+      indicator.style.animation = '';
       stopPulse();
     }
   });

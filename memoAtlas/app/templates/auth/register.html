@@ -41,7 +41,6 @@
 </div>
 
 <style>
-    /* Ensure the background stays dark and the card centers */
     .auth-container {
         display: flex;
         justify-content: center;
@@ -50,34 +49,47 @@
         padding: 20px;
     }
     .auth-card {
-        background: #121212; /* Matching your landing page */
-        border: 1px solid #262626;
+        background: var(--surface-dark);
+        border: 1px solid var(--border-gray);
         padding: 40px;
-        border-radius: 20px;
+        border-radius: var(--radius-lg);
         width: 100%;
         max-width: 400px;
         text-align: center;
     }
+    .auth-card h2 {
+        font-family: var(--font-retro);
+        font-size: 1.25rem;
+        letter-spacing: -0.03em;
+        margin-bottom: 0.5rem;
+    }
     .form-group { text-align: left; margin-bottom: 20px; }
-    .form-label { display: block; color: #888; font-size: 0.8rem; margin-bottom: 8px; }
+    .form-label { display: block; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
     .form-input {
         width: 100%;
-        background: #000;
-        border: 1px solid #333;
-        color: white;
+        background: var(--bg-black);
+        border: 1px solid var(--border-gray);
+        color: var(--text-white);
         padding: 12px;
-        border-radius: 8px;
+        border-radius: var(--radius-sm);
+        outline: none;
+        font-family: var(--font-modern);
     }
+    .form-input:focus { border-color: var(--text-muted); }
     .btn-auth {
         width: 100%;
         padding: 12px;
-        background: #fff;
-        color: #000;
+        background: var(--text-white);
+        color: var(--bg-black);
         border: none;
-        border-radius: 8px;
-        font-weight: 700;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
         cursor: pointer;
         margin-top: 10px;
+        font-family: var(--font-modern);
+        font-size: 0.85rem;
+        transition: opacity var(--transition-fast);
     }
+    .btn-auth:hover { opacity: 0.85; }
 </style>
 {% endblock %}
