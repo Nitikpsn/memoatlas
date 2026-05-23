@@ -25,4 +25,4 @@ def get_graph_data(user_id):
                     "value": 1
                 })
                 
-    return {"nodes": nodes, "links": links}
+    return {"nodes": nodes, "links": links} 
