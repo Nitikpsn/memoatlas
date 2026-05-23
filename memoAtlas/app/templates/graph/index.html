@@ -3,40 +3,19 @@
 {% block title %}Knowledge Graph | MemoAtlas{% endblock %}
 
 {% block content %}
-<div class="graph-header">
-    <h2>Your Knowledge Graph</h2>
-    <p>Visualizing the connections between your thoughts.</p>
+<div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+  <div>
+    <h2>Your Knowledge Atlas</h2>
+    <p>Explore the living constellation of your thoughts.</p>
+  </div>
+  <button id="pulse-btn" class="pulse-btn">
+    <span class="pulse-indicator"></span>
+    Pulse
+  </button>
 </div>
 
-<div id="mynetwork" style="width: 100%; height: 600px; background-color: #050505; border: 1px solid #262626; border-radius: 20px;"></div>
+<div id="mynetwork" style="width: calc(100% - 2rem); height: 65vh; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; margin: 0 1rem;"></div>
 
 <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-
-<script type="text/javascript">
-    fetch('/api/graph-data')
-        .then(response => response.json())
-        .then(data => {
-            const nodes = new vis.DataSet(data.nodes.map(n => ({ id: n.id, label: n.title })));
-            const edges = new vis.DataSet(data.links);
-
-            const container = document.getElementById('mynetwork');
-            const graphData = { nodes: nodes, edges: edges };
-            const options = {
-                nodes: {
-                    shape: 'dot',
-                    size: 16,
-                    color: { background: '#ffffff', border: '#ffffff' },
-                    font: { color: '#a3a3a3', size: 12 }
-                },
-                edges: { color: '#262626' },
-                physics: { enabled: true, barnesHut: { gravitationalConstant: -2000 } }
-            };
-            const network = new vis.Network(container, graphData, options);
-            network.on('click', function(params) {
-                if (params.nodes.length > 0) {
-                    window.location.href = '/note/' + params.nodes[0];
-                }
-            });
-        });
-</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/graph.js') }}"></script>
 {% endblock %}

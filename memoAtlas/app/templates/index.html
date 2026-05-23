@@ -2,63 +2,72 @@
 
 {% block content %}
 <div class="hero-section">
-    <h1 class="hero-title">Sharpen your thinking.</h1>
-    <p class="hero-subtitle">The free and flexible personal knowledge base for your digital garden.</p>
-    
-    <div class="mt-5">
-        <a href="{{ url_for('auth.register') }}" class="btn-primary">Get MemoAtlas for Free</a>
-    </div>
-    
-    <div class="graph-preview">
-        <div id="home-graph" style="width: 100%; height: 100%;"></div>
-    </div>
+  <h1 class="hero-title">Your mind is a landscape. Map it.</h1>
+  <p class="hero-subtitle">
+    Forget folders. Forget files. MemoAtlas turns your sparks of inspiration into a living constellation of knowledge.
+  </p>
+
+  <div class="mt-5">
+    <a href="{{ url_for('auth.register') }}" class="btn-primary">Start Mapping &rarr;</a>
+  </div>
+
+  <div class="graph-preview">
+    <div id="home-graph" style="width: 100%; height: 100%;"></div>
+  </div>
 </div>
 
-<div class="container section-features">
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <div class="feature-card">
-                <h3>Your thoughts are yours.</h3>
-                <p>MemoAtlas stores notes in a connected network. No one else can read them, not even us.</p>
-            </div>
-        </div>
-        <div class="col-md-6 mb-4">
-            <div class="feature-card">
-                <h3>Knowledge should last.</h3>
-                <p>Use open formats and visual mapping to ensure your ideas stay accessible forever.</p>
-            </div>
-        </div>
+<div class="section-features">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="feature-card h-100">
+        <div style="font-size: 1.8rem; margin-bottom: 1rem; color: #8B5CF6;">&#127793;</div>
+        <h3>Plant a Seed</h3>
+        <p>Create a 'Node' for any thought&mdash;a code snippet, a dream, or a research paper. Every spark deserves a home.</p>
+      </div>
     </div>
+    <div class="col-md-4">
+      <div class="feature-card h-100">
+        <div style="font-size: 1.8rem; margin-bottom: 1rem; color: #06B6D4;">&#9671;</div>
+        <h3>Grow Connections</h3>
+        <p>Don't just tag; connect. See how your node on Artificial Intelligence naturally drifts toward your notes on Philosophy.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="feature-card h-100">
+        <div style="font-size: 1.8rem; margin-bottom: 1rem; color: #8B5CF6;">&#128197;</div>
+        <h3>Navigate the Atlas</h3>
+        <p>Use the Chronological Slider to see how your knowledge grew over the last year. Watch your garden expand.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 <script type="text/javascript">
-    fetch('/api/graph-data')
-        .then(response => response.json())
-        .then(data => {
-            const sample = {
-                nodes: data.nodes.slice(0, 20),
-                edges: data.links.slice(0, 30)
-            };
-            const nodes = new vis.DataSet(sample.nodes.map(n => ({ id: n.id, label: n.title })));
-            const edges = new vis.DataSet(sample.edges);
-            const container = document.getElementById('home-graph');
-            const graphData = { nodes, edges };
-            const options = {
-                nodes: {
-                    shape: 'dot',
-                    size: 12,
-                    color: { background: '#888888', border: '#888888' },
-                    font: { color: '#a3a3a3', size: 10 }
-                },
-                edges: { color: '#333333' },
-                physics: { enabled: true, barnesHut: { gravitationalConstant: -1500 } },
-                interaction: { dragNodes: false, zoomView: false, dragView: false }
-            };
-            new vis.Network(container, graphData, options);
-        })
-        .catch(() => {
-            document.getElementById('home-graph').innerHTML = '';
-        });
+  fetch('/api/graph-data')
+    .then(r => r.json())
+    .then(data => {
+      const sample = {
+        nodes: data.nodes ? data.nodes.slice(0, 20) : [],
+        edges: data.links ? data.links.slice(0, 30) : []
+      };
+      const nodes = new vis.DataSet(sample.nodes.map(n => ({ id: n.id, label: n.title })));
+      const edges = new vis.DataSet(sample.edges);
+      const container = document.getElementById('home-graph');
+      const options = {
+        nodes: {
+          shape: 'dot',
+          size: 14,
+          color: { background: '#8B5CF6', border: '#8B5CF6' },
+          font: { color: 'rgba(255,255,255,0.5)', size: 10 },
+          borderWidth: 0
+        },
+        edges: { color: { color: 'rgba(139,92,246,0.2)', highlight: 'rgba(139,92,246,0.4)' } },
+        physics: { enabled: true, barnesHut: { gravitationalConstant: -1500, springLength: 200 } },
+        interaction: { dragNodes: false, zoomView: false, dragView: false }
+      };
+      new vis.Network(container, { nodes, edges }, options);
+    })
+    .catch(() => {});
 </script>
 {% endblock %}

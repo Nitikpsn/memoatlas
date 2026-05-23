@@ -7,16 +7,14 @@ def get_graph_data(user_id):
     nodes = []
     links = []
     
-    # Create nodes for every notes
     for note in notes:
         nodes.append({
             "id": note.id,
             "title": note.title,
-            "group": 1 # You can use this for color coding later
+            "group": 1,
+            "updated_at": (note.updated_at or note.date_posted).isoformat()
         })
         
-        # BASIC LINKING: link notes created on the same day
-        # TODO: scan note content for [[wiki-links]]
         for other_note in notes:
             if note.id != other_note.id and note.date_posted.date() == other_note.date_posted.date():
                 links.append({
