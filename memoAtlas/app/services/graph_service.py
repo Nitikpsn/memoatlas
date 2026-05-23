@@ -7,7 +7,7 @@ def get_graph_data(user_id):
     nodes = []
     links = []
     
-    # Create nodes for every note
+    # Create nodes for every notes
     for note in notes:
         nodes.append({
             "id": note.id,
