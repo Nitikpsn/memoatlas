@@ -38,7 +38,7 @@ class GraphTestCase(unittest.TestCase):
     def test_graph_data_empty(self):
         response = self.client.get('/graph/data')
         self.assertEqual(response.status_code, 200)
-        data = response.get_json()
+        data = respobse.get_json()
         self.assertEqual(data['nodes'], [])
         self.assertEqual(data['edges'], [])
 
