@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="max-width: 800px; margin: 2rem auto; padding: 0 1rem;">
+    <h2 style="margin-bottom: 0.5rem;">Search Results</h2>
+    <form method="GET" action="{{ url_for('search.index') }}" style="margin-bottom: 2rem;">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search your notes..." style="width: 100%; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-main); border-radius: 8px; font-size: 1rem;">
+    </form>
+    {% if query %}
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">{{ results|length }} result{% if results|length != 1 %}s{% endif %} for "{{ query }}"</p>
+        {% if results %}
+        <div style="display: grid; gap: 1rem;">
+            {% for note in results %}
+            <a href="{{ url_for('notes.view_note', note_id=note.id) }}" style="text-decoration: none; display: block;">
+                <div class="feature-card" style="padding: 1.5rem;">
+                    <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem; color: var(--text-main);">{{ note.title }}</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; white-space: pre-wrap;">{{ note.content[:200] }}{% if note.content|length > 200 %}...{% endif %}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="color: var(--text-muted); text-align: center; padding: 3rem;">No notes match your search.</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

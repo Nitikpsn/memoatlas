@@ -30,6 +30,7 @@ def create_app():
     from .routes.dashboard import dashboard
     from .routes.graph import graph
     from .routes.api import api
+    from .routes.search import search_bp
 
     # Register Blueprints
     app.register_blueprint(main)
@@ -38,6 +39,7 @@ def create_app():
     app.register_blueprint(dashboard)
     app.register_blueprint(graph)
     app.register_blueprint(api)
+    app.register_blueprint(search_bp)
 
     # Create database tables if they don't exist
     with app.app_context():

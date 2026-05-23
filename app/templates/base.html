@@ -152,7 +152,12 @@
             <a href="https://github.com/nitikpsn/memoatlas" target="_blank">GitHub</a>
 
             {% if current_user.is_authenticated %}
+                <form method="GET" action="{{ url_for('search.index') }}" style="display: inline; position: relative;">
+                    <input type="text" name="q" placeholder="Search notes..." style="background: transparent; border: 1px solid var(--border); color: var(--text-main); padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; width: 140px; font-family: 'Inter', sans-serif;" id="search-input">
+                </form>
+                <a href="{{ url_for('notes.index') }}">Notes</a>
                 <a href="{{ url_for('dashboard.index') }}">Dashboard</a>
+                <a href="{{ url_for('graph.index') }}">Graph</a>
                 <a href="{{ url_for('auth.logout') }}">Logout</a>
             {% else %}
                 <a href="{{ url_for('auth.login') }}">Login</a>

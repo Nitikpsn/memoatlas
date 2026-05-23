@@ -31,7 +31,12 @@
                 edges: { color: '#262626' },
                 physics: { enabled: true, barnesHut: { gravitationalConstant: -2000 } }
             };
-            new vis.Network(container, graphData, options);
+            const network = new vis.Network(container, graphData, options);
+            network.on('click', function(params) {
+                if (params.nodes.length > 0) {
+                    window.location.href = '/note/' + params.nodes[0];
+                }
+            });
         });
 </script>
 {% endblock %}

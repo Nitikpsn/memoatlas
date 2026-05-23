@@ -18,7 +18,7 @@ def get_graph_data(user_id):
         # BASIC LINKING: link notes created on the same day
         # TODO: scan note content for [[wiki-links]]
         for other_note in notes:
-            if note.id != other_note.id and note.created_at.date() == other_note.created_at.date():
+            if note.id != other_note.id and note.date_posted.date() == other_note.date_posted.date():
                 links.append({
                     "source": note.id,
                     "target": other_note.id,
