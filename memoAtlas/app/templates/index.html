@@ -2,13 +2,13 @@
 
 {% block content %}
 <div class="hero-section">
-  <h1 class="hero-title">Your mind is a landscape. Map it.</h1>
+  <h1 class="hero-title">// YOUR MIND IS A LANDSCAPE. MAP IT.</h1>
   <p class="hero-subtitle">
     Forget folders. Forget files. MemoAtlas turns your sparks of inspiration into a living constellation of knowledge.
   </p>
 
   <div class="mt-5">
-    <a href="{{ url_for('auth.register') }}" class="btn-primary">Start Mapping &rarr;</a>
+    <a href="{{ url_for('auth.register') }}" class="btn-primary">START MAPPING &rarr;</a>
   </div>
 
   <div class="graph-preview">
@@ -17,25 +17,25 @@
 </div>
 
 <div class="section-features">
-  <div class="row g-4">
+  <div class="row g-32">
     <div class="col-md-4">
       <div class="feature-card h-100">
-        <div style="font-size: 1.8rem; margin-bottom: 1rem; color: #8B5CF6;">&#127793;</div>
-        <h3>Plant a Seed</h3>
+        <span class="feature-icon">&#127793;</span>
+        <h3>PLANT A SEED</h3>
         <p>Create a 'Node' for any thought&mdash;a code snippet, a dream, or a research paper. Every spark deserves a home.</p>
       </div>
     </div>
     <div class="col-md-4">
       <div class="feature-card h-100">
-        <div style="font-size: 1.8rem; margin-bottom: 1rem; color: #06B6D4;">&#9671;</div>
-        <h3>Grow Connections</h3>
+        <span class="feature-icon">&#9671;</span>
+        <h3>GROW CONNECTIONS</h3>
         <p>Don't just tag; connect. See how your node on Artificial Intelligence naturally drifts toward your notes on Philosophy.</p>
       </div>
     </div>
     <div class="col-md-4">
       <div class="feature-card h-100">
-        <div style="font-size: 1.8rem; margin-bottom: 1rem; color: #8B5CF6;">&#128197;</div>
-        <h3>Navigate the Atlas</h3>
+        <span class="feature-icon">&#128197;</span>
+        <h3>NAVIGATE THE ATLAS</h3>
         <p>Use the Chronological Slider to see how your knowledge grew over the last year. Watch your garden expand.</p>
       </div>
     </div>
@@ -57,12 +57,12 @@
       const options = {
         nodes: {
           shape: 'dot',
-          size: 14,
-          color: { background: '#8B5CF6', border: '#8B5CF6' },
-          font: { color: 'rgba(255,255,255,0.5)', size: 10 },
+          size: 12,
+          color: { background: '#555555', border: '#555555' },
+          font: { color: '#888888', size: 10 },
           borderWidth: 0
         },
-        edges: { color: { color: 'rgba(139,92,246,0.2)', highlight: 'rgba(139,92,246,0.4)' } },
+        edges: { color: { color: '#333333' } },
         physics: { enabled: true, barnesHut: { gravitationalConstant: -1500, springLength: 200 } },
         interaction: { dragNodes: false, zoomView: false, dragView: false }
       };

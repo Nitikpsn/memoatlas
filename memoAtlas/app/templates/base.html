@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
@@ -27,78 +27,61 @@
     {% endif %}
   {% endwith %}
 
-  <!-- Floating Glass Sidebar -->
-  <div class="sidebar" id="sidebar">
-    <a href="{{ url_for('main.index') }}" class="sidebar-logo">
-      <span class="logo-icon">&#9670;</span>
-      <span class="logo-text">MemoAtlas</span>
-    </a>
+  <div class="app-shell">
+    <!-- VS Code Style Sidebar -->
+    <nav class="sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <button id="toggleSidebar" class="icon-btn" aria-label="Toggle sidebar">
+          <i class="fas fa-bars"></i>
+        </button>
+        <span class="logo-text">MEMO</span>
+      </div>
 
-    <nav class="sidebar-nav">
-      <a href="{{ url_for('main.index') }}">
-        <i class="fas fa-home"></i><span>Home</span>
-      </a>
+      <ul class="sidebar-links">
+        <li><a href="{{ url_for('main.index') }}"><i class="fas fa-home"></i><span class="link-text">Home</span></a></li>
+        {% if current_user.is_authenticated %}
+          <li><a href="{{ url_for('notes.index') }}"><i class="fas fa-file-alt"></i><span class="link-text">Notes</span></a></li>
+          <li><a href="{{ url_for('dashboard.index') }}"><i class="fas fa-th-large"></i><span class="link-text">Dashboard</span></a></li>
+          <li><a href="{{ url_for('graph.index') }}"><i class="fas fa-project-diagram"></i><span class="link-text">Graph</span></a></li>
+          <li><a href="{{ url_for('search.index') }}"><i class="fas fa-search"></i><span class="link-text">Search</span></a></li>
+          <li><a href="{{ url_for('user.profile') }}"><i class="fas fa-user"></i><span class="link-text">Profile</span></a></li>
+        {% endif %}
+      </ul>
 
-      {% if current_user.is_authenticated %}
-        <a href="{{ url_for('notes.index') }}">
-          <i class="fas fa-file-alt"></i><span>Notes</span>
-        </a>
-        <a href="{{ url_for('dashboard.index') }}">
-          <i class="fas fa-th-large"></i><span>Dashboard</span>
-        </a>
-        <a href="{{ url_for('graph.index') }}">
-          <i class="fas fa-project-diagram"></i><span>Graph</span>
-        </a>
-        <a href="{{ url_for('search.index') }}">
-          <i class="fas fa-search"></i><span>Search</span>
-        </a>
-        <a href="{{ url_for('user.profile') }}">
-          <i class="fas fa-user"></i><span>Profile</span>
-        </a>
-      {% endif %}
+      <div class="sidebar-footer">
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt"></i><span class="link-text">Logout</span></a>
+        {% else %}
+          <a href="{{ url_for('auth.login') }}"><i class="fas fa-sign-in-alt"></i><span class="link-text">Login</span></a>
+          <a href="{{ url_for('auth.register') }}" class="sidebar-cta"><i class="fas fa-rocket"></i><span class="link-text">Get Started</span></a>
+        {% endif %}
+        <a href="https://github.com/nitikpsn/memoatlas" target="_blank" class="github-link"><i class="fab fa-github"></i><span class="link-text">GitHub</span></a>
+      </div>
     </nav>
 
-    <div class="sidebar-separator"></div>
+    <div class="app-content">
+      <main>
+        {% block content %}{% endblock %}
+      </main>
 
-    <div class="sidebar-footer">
-      {% if current_user.is_authenticated %}
-        <a href="{{ url_for('auth.logout') }}">
-          <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+      <footer>
+        <p>&copy; 2026 MemoAtlas &mdash; YOUR MIND IS A LANDSCAPE. MAP IT.</p>
+        <a href="https://github.com/nitikpsn/memoatlas" target="_blank" class="footer-github">
+          <i class="fab fa-github"></i> OPEN SOURCE ON GITHUB
         </a>
-      {% else %}
-        <a href="{{ url_for('auth.login') }}">
-          <i class="fas fa-sign-in-alt"></i><span>Login</span>
-        </a>
-        <a href="{{ url_for('auth.register') }}" class="sidebar-cta">
-          <i class="fas fa-rocket"></i><span>Get Started</span>
-        </a>
-      {% endif %}
-      <a href="https://github.com/nitikpsn/memoatlas" target="_blank" class="github-link">
-        <i class="fab fa-github"></i><span>GitHub</span>
-      </a>
+      </footer>
     </div>
   </div>
-
-  <main>
-    {% block content %}{% endblock %}
-  </main>
-
-  <footer>
-    <p>&copy; {{ now().year if now is defined else '2026' }} MemoAtlas &mdash; Your mind is a landscape. Map it.</p>
-    <a href="https://github.com/nitikpsn/memoatlas" target="_blank" class="footer-github">
-      <i class="fab fa-github"></i> Open source on GitHub
-    </a>
-  </footer>
 
   <script>
     const canvas = document.getElementById('particleCanvas');
     canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;';
     const ctx = canvas.getContext('2d');
 
-    let w, h, mouse = { x: 0, y: 0 };
+    let w, h, mouse = { x: -1000, y: -1000 };
     const particles = [];
-    const PARTICLE_COUNT = 80;
-    const CONNECTION_DIST = 120;
+    const PARTICLE_COUNT = 50;
+    const CONNECTION_DIST = 100;
 
     function resize() {
       w = canvas.width = window.innerWidth;
@@ -114,31 +97,30 @@
       reset() {
         this.x = Math.random() * w;
         this.y = Math.random() * h;
-        this.size = Math.random() * 2 + 0.5;
-        this.baseSize = this.size;
-        this.speedX = (Math.random() - 0.5) * 0.3;
-        this.speedY = (Math.random() - 0.5) * 0.3;
-        this.opacity = Math.random() * 0.5 + 0.1;
+        this.size = Math.random() * 1.5 + 0.3;
+        this.speedX = (Math.random() - 0.5) * 0.2;
+        this.speedY = (Math.random() - 0.5) * 0.2;
+        this.opacity = Math.random() * 0.3 + 0.05;
       }
       update() {
         const dx = mouse.x - this.x;
         const dy = mouse.y - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 250) {
-          const force = (250 - dist) / 250 * 0.02;
+        if (dist < 200) {
+          const force = (200 - dist) / 200 * 0.015;
           this.speedX -= dx * force;
           this.speedY -= dy * force;
         }
-        this.speedX *= 0.98;
-        this.speedY *= 0.98;
+        this.speedX *= 0.97;
+        this.speedY *= 0.97;
         this.x += this.speedX;
         this.y += this.speedY;
-        if (this.x < 0 || this.x > w || this.y < 0 || this.y > h) this.reset();
+        if (this.x < -50 || this.x > w + 50 || this.y < -50 || this.y > h + 50) this.reset();
       }
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
         ctx.fill();
       }
     }
@@ -147,10 +129,7 @@
 
     function animate() {
       ctx.clearRect(0, 0, w, h);
-      for (const p of particles) {
-        p.update();
-        p.draw();
-      }
+      for (const p of particles) { p.update(); p.draw(); }
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -160,7 +139,7 @@
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(139, 92, 246, ${(1 - dist / CONNECTION_DIST) * 0.12})`;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / CONNECTION_DIST) * 0.06})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -169,6 +148,17 @@
       requestAnimationFrame(animate);
     }
     animate();
+
+    // Sidebar toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const sidebar = document.getElementById('appSidebar');
+      const toggleBtn = document.getElementById('toggleSidebar');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+          sidebar.classList.toggle('collapsed');
+        });
+      }
+    });
   </script>
 
   {% block scripts %}{% endblock %}
