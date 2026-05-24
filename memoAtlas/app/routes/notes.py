@@ -4,14 +4,21 @@ from app.models.user import db
 from app.models.note import Note
 from app.forms.note_form import NoteForm
 from datetime import datetime
+from collections import defaultdict
 
 notes = Blueprint('notes', __name__)
 
 @notes.route('/notes')
 @login_required
 def index():
-    user_notes = Note.query.filter_by(user_id=current_user.id).all()
-    return render_template('notes/list_notes.html', notes=user_notes)
+    user_notes = Note.query.filter_by(user_id=current_user.id).order_by(Note.date_posted.desc()).all()
+
+    folders = defaultdict(list)
+    for note in user_notes:
+        month_key = note.date_posted.strftime('%B %Y')
+        folders[month_key].append(note)
+
+    return render_template('notes/list_notes.html', notes=user_notes, folders=dict(folders))
 
 @notes.route('/note/new', methods=['GET', 'POST'])
 @login_required

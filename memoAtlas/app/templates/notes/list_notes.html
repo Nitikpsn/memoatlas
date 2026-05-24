@@ -1,64 +1,77 @@
 {% extends "base.html" %}
-{% block content %}
-<div class="content-wrapper animate-in">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.5rem;">
-    <h1 style="font-family:var(--font-retro);font-size:1.5rem;letter-spacing:-0.03em;">ATLAS NODES</h1>
-    <a href="{{ url_for('notes.create_note') }}" class="btn-primary" style="padding:10px 20px;font-size:0.8rem;">+ NEW NODE</a>
-  </div>
 
-  {% if notes %}
-  <div style="display:grid;gap:16px;">
-    {% for note in notes %}
-    <div class="note-card" data-note-id="{{ note.id }}">
-      <a href="{{ url_for('notes.view_note', note_id=note.id) }}" style="text-decoration:none;color:inherit;display:block;">
-        <div style="display:flex;justify-content:space-between;align-items:start;">
+{% block title %}MemoAtlas | My Notes{% endblock %}
+
+{% block content %}
+<div class="workspace-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>FOLDERS</h2>
+    </div>
+
+    <div class="sidebar-section">
+      <ul class="folder-tree">
+        <li>
+          <details open>
+            <summary class="folder-item">
+              <span class="folder-label">&#128193; All Notes</span>
+              <span class="folder-count">{{ notes|length }}</span>
+            </summary>
+            <ul class="folder-children">
+              {% for month, folder_notes in folders.items() %}
+              <li>
+                <details>
+                  <summary class="folder-item subfolder">
+                    <span class="folder-label">{{ month }}</span>
+                    <span class="folder-count">{{ folder_notes|length }}</span>
+                  </summary>
+                  <ul class="folder-children">
+                    {% for note in folder_notes %}
+                    <li>
+                      <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="note-link">{{ note.title }}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </details>
+              </li>
+              {% endfor %}
+            </ul>
+          </details>
+        </li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="{{ url_for('notes.create_note') }}" class="btn-sidebar-new">+ NEW NOTE</a>
+    </div>
+  </aside>
+
+  <div class="workspace">
+    <div class="workspace-header">
+      <h1>ATLAS NODES</h1>
+    </div>
+
+    {% if notes %}
+    <div class="note-grid">
+      {% for note in notes %}
+      <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="note-card" data-note-id="{{ note.id }}">
+        <div class="note-card-header">
           <h3 class="note-card-title">{{ note.title }}</h3>
-          <small class="note-card-date">{{ note.date_posted.strftime('%b %d, %Y') }}</small>
+          <span class="note-card-date">{{ note.date_posted.strftime('%b %d, %Y') }}</span>
         </div>
         <p class="note-card-preview">{{ note.content[:200] }}{% if note.content|length > 200 %}...{% endif %}</p>
       </a>
-
-      <!-- Color Picker -->
-      <div class="note-color-picker">
-        <span class="color-dot active" data-color="#111111" style="background:#111111;border:1px solid #333;"></span>
-        <span class="color-dot" data-color="#1A1A1A" style="background:#1A1A1A;border:1px solid #333;"></span>
-        <span class="color-dot" data-color="#222222" style="background:#222222;border:1px solid #444;"></span>
-        <span class="color-dot" data-color="#FFFFFF" style="background:#FFFFFF;border:1px solid #ccc;"></span>
-        <span class="color-dot" data-color="#0A0A0A" style="background:#0A0A0A;border:1px solid #222;"></span>
-      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
+    {% else %}
+    <div class="empty-state">
+      <p class="empty-title">// YOUR ATLAS IS EMPTY</p>
+      <p class="empty-subtitle">Start mapping your knowledge, one node at a time.</p>
+      <a href="{{ url_for('notes.create_note') }}" class="btn-primary">CREATE YOUR FIRST NODE</a>
+    </div>
+    {% endif %}
   </div>
-  {% else %}
-  <div style="text-align:center;padding:5rem 2rem;">
-    <p style="font-family:var(--font-retro);font-size:1rem;color:var(--text-muted);margin-bottom:1.5rem;">// YOUR ATLAS IS EMPTY</p>
-    <a href="{{ url_for('notes.create_note') }}" class="btn-primary">CREATE YOUR FIRST NODE</a>
-  </div>
-  {% endif %}
-</div>
 
-<script>
-  document.querySelectorAll('.color-dot').forEach(dot => {
-    dot.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const card = this.closest('.note-card');
-      const color = this.getAttribute('data-color');
-      card.style.backgroundColor = color;
-      card.style.borderColor = color === '#FFFFFF' ? '#ccc' : '#333';
-      if (color === '#FFFFFF') {
-        card.style.color = '#000000';
-        card.querySelector('.note-card-title').style.color = '#000000';
-        card.querySelector('.note-card-date').style.color = '#555555';
-        card.querySelector('.note-card-preview').style.color = '#333333';
-      } else {
-        card.style.color = '';
-        card.querySelector('.note-card-title').style.color = '';
-        card.querySelector('.note-card-date').style.color = '';
-        card.querySelector('.note-card-preview').style.color = '';
-      }
-      this.closest('.note-color-picker').querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-      this.classList.add('active');
-    });
-  });
-</script>
+</div>
 {% endblock %}

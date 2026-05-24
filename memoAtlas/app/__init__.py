@@ -27,7 +27,6 @@ def create_app():
     from .routes.main import main
     from .routes.auth import auth
     from .routes.notes import notes
-    from .routes.dashboard import dashboard
     from .routes.graph import graph
     from .routes.api import api
     from .routes.search import search_bp
@@ -36,7 +35,6 @@ def create_app():
     app.register_blueprint(main)
     app.register_blueprint(auth)
     app.register_blueprint(notes)
-    app.register_blueprint(dashboard)
     app.register_blueprint(graph)
     app.register_blueprint(api)
     app.register_blueprint(search_bp)

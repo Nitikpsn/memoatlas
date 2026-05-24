@@ -9,7 +9,7 @@ auth = Blueprint('auth', __name__) # Removed url_prefix='/auth' so it's just /lo
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard.index'))
+        return redirect(url_for('notes.index'))
 
     if request.method == 'POST':
         email = request.form.get('email')
@@ -27,14 +27,14 @@ def login():
         
         # If the user was redirected here from a protected page, send them back
         next_page = request.args.get('next')
-        return redirect(next_page or url_for('dashboard.index'))
+        return redirect(next_page or url_for('notes.index'))
 
     return render_template('auth/login.html')
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard.index'))
+        return redirect(url_for('notes.index'))
 
     form = RegisterForm()
     if form.validate_on_submit():

@@ -42,8 +42,8 @@
         padding: 20px;
     }
     .auth-card {
-        background: var(--surface-dark);
-        border: 1px solid var(--border-gray);
+        background: var(--bg-card);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         padding: 3rem;
         border-radius: var(--radius-lg);
         width: 100%;
@@ -52,7 +52,6 @@
     .auth-card h2 {
         font-family: var(--font-retro);
         font-size: 1.25rem;
-        letter-spacing: -0.03em;
         margin-bottom: 0.5rem;
         text-align: center;
     }
@@ -62,30 +61,32 @@
     .form-input {
         width: 100%;
         padding: 14px;
-        background: var(--bg-black);
-        border: 1px solid var(--border-gray);
+        background: var(--bg-main);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: var(--radius-sm);
-        color: var(--text-white);
+        color: var(--text-main);
         font-size: 1rem;
         outline: none;
-        font-family: var(--font-modern);
+        font-family: var(--font-body);
     }
-    .form-input:focus { border-color: var(--text-muted); }
+    .form-input:focus { border-color: var(--accent-red); }
     .btn-auth {
         width: 100%;
         padding: 14px;
-        background: var(--text-white);
-        color: var(--bg-black);
+        background: var(--accent-red);
+        color: var(--text-main);
         border: none;
         border-radius: var(--radius-sm);
         font-weight: 600;
         cursor: pointer;
-        transition: opacity var(--transition-fast);
-        font-family: var(--font-modern);
+        transition: background var(--transition-fast);
+        font-family: var(--font-body);
         font-size: 0.85rem;
+        text-transform: uppercase;
     }
-    .btn-auth:hover { opacity: 0.85; }
+    .btn-auth:hover { background: #c1121f; }
     .auth-footer { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted); }
-    .auth-footer a { color: var(--text-white); text-decoration: none; font-weight: 600; }
+    .auth-footer a { color: var(--accent-red); text-decoration: none; font-weight: 600; }
+    .auth-footer a:hover { text-decoration: underline; }
 </style>
 {% endblock %}

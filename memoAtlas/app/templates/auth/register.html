@@ -10,7 +10,7 @@
 
         <form method="POST">
             {{ form.hidden_tag() }}
-            
+
             <div class="form-group">
                 <label class="form-label">Username</label>
                 {{ form.username(class="form-input", placeholder="Choose a username") }}
@@ -49,8 +49,8 @@
         padding: 20px;
     }
     .auth-card {
-        background: var(--surface-dark);
-        border: 1px solid var(--border-gray);
+        background: var(--bg-card);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         padding: 40px;
         border-radius: var(--radius-lg);
         width: 100%;
@@ -60,36 +60,36 @@
     .auth-card h2 {
         font-family: var(--font-retro);
         font-size: 1.25rem;
-        letter-spacing: -0.03em;
         margin-bottom: 0.5rem;
     }
     .form-group { text-align: left; margin-bottom: 20px; }
     .form-label { display: block; color: var(--text-muted); font-size: 0.8rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
     .form-input {
         width: 100%;
-        background: var(--bg-black);
-        border: 1px solid var(--border-gray);
-        color: var(--text-white);
+        background: var(--bg-main);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--text-main);
         padding: 12px;
         border-radius: var(--radius-sm);
         outline: none;
-        font-family: var(--font-modern);
+        font-family: var(--font-body);
     }
-    .form-input:focus { border-color: var(--text-muted); }
+    .form-input:focus { border-color: var(--accent-red); }
     .btn-auth {
         width: 100%;
         padding: 12px;
-        background: var(--text-white);
-        color: var(--bg-black);
+        background: var(--accent-red);
+        color: var(--text-main);
         border: none;
         border-radius: var(--radius-sm);
         font-weight: 600;
         cursor: pointer;
         margin-top: 10px;
-        font-family: var(--font-modern);
+        font-family: var(--font-body);
         font-size: 0.85rem;
-        transition: opacity var(--transition-fast);
+        transition: background var(--transition-fast);
+        text-transform: uppercase;
     }
-    .btn-auth:hover { opacity: 0.85; }
+    .btn-auth:hover { background: #c1121f; }
 </style>
 {% endblock %}
