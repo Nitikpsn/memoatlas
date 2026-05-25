@@ -1,50 +1,80 @@
 {% extends "base.html" %}
-
 {% block title %}MemoAtlas | Explore{% endblock %}
 
+{% block head %}
+<style>
+  body { overflow: hidden; }
+  .app-shell { min-height: 100vh; }
+  .app-content { display: flex; flex-direction: column; }
+  main { flex: 1; display: flex; flex-direction: column; }
+  footer { display: none; }
+  .profile-icon-link { display: none; }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="workspace-layout">
-
-  {% include "notes/_sidebar.html" %}
-
-  <div class="workspace game-workspace">
-    <div class="game-hud-top">
-      <div class="hud-left">
-        <span class="hud-label pixel">ATLAS MAP</span>
-        <span class="hud-divider">|</span>
-        <span class="hud-stat pixel">{{ notes|length }} LOCS</span>
-        <span class="hud-divider">|</span>
-        <span class="hud-stat pixel" id="scanStatus">LIVE</span>
-      </div>
-    </div>
-
-    <div class="game-map" id="gameMap">
-      <div class="radar-sweep" id="radarSweep"></div>
-
-      {% for note in notes %}
-      <a href="{{ url_for('notes.view_note', note_id=note.id) }}"
-         class="map-beacon"
-         data-id="{{ note.id }}"
-         data-title="{{ note.title }}"
-         style="--x: {{ (note.id * 137.5 % 100) }}%; --y: {{ (note.id * 89.3 % 100) }}%; --delay: {{ note.id % 10 / 10 }}s;">
-        <span class="beacon-dot"></span>
-        <span class="beacon-ring"></span>
-        <span class="beacon-label pixel">{{ note.title[:24] }}</span>
-      </a>
-      {% endfor %}
-
-      {% if not notes %}
-      <div class="empty-state" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;">
-        <p class="pixel" style="font-size:1.2rem;color:var(--retro-red);">// NO LOCATIONS</p>
-        <p style="color:var(--text-muted);font-size:0.8rem;margin-top:8px;">Plant your first node to explore the atlas.</p>
-      </div>
-      {% endif %}
+<div class="game-hud">
+  <div class="hud-left">
+    <span class="hud-brand pixel">ATLAS</span>
+    <span class="hud-divider">|</span>
+    <span class="hud-label pixel">LEVEL {{ folders|length }}</span>
+    <div class="xp-container">
+      <div class="xp-fill" style="width:{{ (notes|length / 20 * 100)|round }}%"></div>
+      <span class="xp-text pixel">{{ notes|length }} / 20 NODES</span>
     </div>
   </div>
+  <div class="hud-right">
+    <span class="hud-streak pixel">🔥 {{ range(1, 8) | random }}</span>
+    <a href="{{ url_for('user.profile') }}" class="hud-profile-link">
+      <img src="{{ current_user.avatar }}" alt="Profile" class="hud-profile-icon">
+    </a>
+  </div>
+</div>
 
+<div class="game-body">
+  <aside class="game-sidebar">
+    <div class="game-sidebar-header">
+      <h3 class="pixel">>> GRAVITY</h3>
+      <span class="gravity-indicator">jaccard pull signal</span>
+    </div>
+    <div class="game-sidebar-section">
+      <div class="focus-tunnel" id="focusTunnel">
+        <div id="tunnelItems">
+          <div class="tunnel-node dim">
+            <span class="pixel-prefix">>></span> click a node to pull...
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="game-sidebar-footer">
+      <a href="{{ url_for('notes.create_note') }}" class="btn-sidebar-new">+ NEW NODE</a>
+      <a href="{{ url_for('auth.logout') }}" class="btn-sidebar-logout">LOG OUT</a>
+    </div>
+  </aside>
+
+  <div class="game-canvas-wrap">
+    <canvas id="mapCanvas"></canvas>
+    <div class="map-controls">
+      <button class="map-ctrl-btn" id="btnZoomIn">+</button>
+      <button class="map-ctrl-btn" id="btnZoomOut">−</button>
+      <button class="map-ctrl-btn" id="btnReset">⟲</button>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/gravity.js') }}"></script>
 <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var tunnel = new FocusTunnel('focusTunnel', 'tunnelItems');
+  var map = new SpatialMap('mapCanvas', tunnel);
+  map.load();
+
+  document.getElementById('btnZoomIn').addEventListener('click', function() { map.zoom(0.3); });
+  document.getElementById('btnZoomOut').addEventListener('click', function() { map.zoom(-0.3); });
+  document.getElementById('btnReset').addEventListener('click', function() { map.resetView(); });
+});
+</script>
 {% endblock %}
