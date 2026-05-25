@@ -23,43 +23,85 @@ h1, h2, h3, .pixel {
     border-left: 2px solid var(--retro-red);
 }
 
+/* --- Game-Map Note Tiles --- */
+.note-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    padding: 8px;
+}
+
 .note-card {
     background: var(--dark-void);
-    border: 1px solid transparent;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 0;
+    position: relative;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.note-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--retro-red);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.note-card:hover::before {
+    transform: scaleX(1);
 }
 
 .note-card:hover {
     border-color: var(--retro-red);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px -10px rgba(239, 68, 68, 0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -12px rgba(239, 68, 68, 0.4);
 }
 
-/* Focus Tunnel */
+/* region indicator on card top-right */
+.note-card::after {
+    content: 'NODE';
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-family: var(--pixel-font);
+    font-size: 0.55rem;
+    color: rgba(239, 68, 68, 0.25);
+    letter-spacing: 2px;
+}
+
+/* --- Focus Tunnel (Spatial Pull) --- */
 .focus-tunnel {
     background: var(--dark-void);
     border: 1px solid rgba(239, 68, 68, 0.2);
-    border-radius: 4px;
+    border-radius: 0;
     padding: 0.75rem;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
+    position: relative;
+    min-height: 100px;
 }
 
 .focus-tunnel h3 {
     font-family: var(--pixel-font);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--retro-red);
     margin-bottom: 0.5rem;
     letter-spacing: 1px;
 }
 
 .tunnel-node {
-    padding: 6px 8px;
-    margin: 4px 0;
-    font-size: 0.85rem;
+    padding: 5px 8px;
+    margin: 3px 0;
+    font-size: 0.82rem;
     color: var(--text-muted);
     cursor: pointer;
     border-left: 2px solid transparent;
     transition: all 0.2s ease;
+    position: relative;
 }
 
 .tunnel-node:hover {
@@ -74,6 +116,33 @@ h1, h2, h3, .pixel {
     margin-right: 6px;
 }
 
+.tunnel-node.dim {
+    opacity: 0.4;
+    cursor: default;
+}
+
+/* attract spawn animation */
+.tunnel-node.entering {
+    animation: attract-in 0.35s ease-out forwards;
+    border-left-color: var(--retro-red);
+}
+
+@keyframes attract-in {
+    0% {
+        opacity: 0;
+        transform: translateX(-20px) scale(0.8);
+        filter: blur(2px);
+    }
+    60% {
+        opacity: 1;
+        transform: translateX(4px) scale(1.02);
+        filter: blur(0);
+    }
+    100% {
+        transform: translateX(0) scale(1);
+    }
+}
+
 @keyframes pulse-red {
     0%, 100% { border-left-color: transparent; }
     50% { border-left-color: var(--retro-red); }
@@ -81,4 +150,88 @@ h1, h2, h3, .pixel {
 
 .pulse-red {
     animation: pulse-red 2s ease-in-out infinite;
+}
+
+/* --- Scanline overlay for game feel --- */
+.workspace-layout::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.06) 2px,
+        rgba(0, 0, 0, 0.06) 4px
+    );
+}
+
+/* --- Terminal glow for content areas --- */
+.workspace textarea,
+.workspace .form-textarea {
+    background: #121212;
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    color: #e0e0e0;
+    font-family: 'VT323', monospace;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    line-height: 1.6;
+    resize: vertical;
+    box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.03);
+}
+
+.workspace textarea:focus,
+.workspace .form-textarea:focus {
+    border-color: var(--retro-red);
+    box-shadow: inset 0 0 30px rgba(239, 68, 68, 0.06),
+                0 0 15px rgba(239, 68, 68, 0.08);
+    outline: none;
+}
+
+/* --- Sidebar zoom panel (minimap) --- */
+.sidebar-zoom {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.zoom-btn {
+    font-family: var(--pixel-font);
+    font-size: 0.65rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-dim);
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.zoom-btn:hover {
+    border-color: var(--retro-red);
+    color: var(--retro-red);
+}
+
+.zoom-btn.active {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--retro-red);
+    color: var(--retro-red);
+}
+
+/* --- Gravity status indicator --- */
+.gravity-indicator {
+    font-family: var(--pixel-font);
+    font-size: 0.6rem;
+    color: rgba(239, 68, 68, 0.4);
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
 }
