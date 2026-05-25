@@ -1,0 +1,154 @@
+/* Beautiful Note - Master Tome Layout */
+.note-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: #18181B;
+    border: 1px solid #27272A;
+    padding: 3rem;
+    box-shadow: 20px 20px 0px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.note-container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%;
+    height: 4px;
+    background: #EF4444;
+}
+
+.note-body {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    line-height: 1.6;
+    color: #D4D4D8;
+    font-size: 1.1rem;
+}
+
+.note-title-input {
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 2.5rem;
+    background: transparent;
+    border: none;
+    color: #EF4444;
+    width: 100%;
+    margin-bottom: 1rem;
+    outline: none;
+}
+
+.note-title-input:focus {
+    color: #EF4444;
+}
+
+/* Label styling for the master tome */
+.note-label {
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 0.65rem;
+    color: rgba(239, 68, 68, 0.5);
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+/* Note detail body text */
+.note-detail-body {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    line-height: 1.8;
+    color: #D4D4D8;
+    font-size: 1rem;
+    white-space: pre-wrap;
+}
+
+/* Match animation */
+@keyframes match-caught {
+    0% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); transform: scale(1); }
+    50% { box-shadow: 0 0 40px rgba(239, 68, 68, 0.6); transform: scale(1.05); }
+    100% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); transform: scale(1); }
+}
+
+.match-caught {
+    animation: match-caught 0.6s ease-out;
+}
+
+/* XP Flash */
+@keyframes xp-flash {
+    0% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); }
+    50% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.8), 0 0 60px rgba(239, 68, 68, 0.4); }
+    100% { box-shadow: 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+.xp-flash {
+    animation: xp-flash 0.5s ease-out;
+}
+
+/* Match Toast */
+.match-toast {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #18181B;
+    border: 2px solid #EF4444;
+    padding: 1.5rem 3rem;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 1.5rem;
+    color: #EF4444;
+    z-index: 10000;
+    pointer-events: none;
+    animation: toast-in 0.3s ease-out, toast-out 0.3s ease-in 1.7s forwards;
+    box-shadow: 0 0 40px rgba(239, 68, 68, 0.3);
+    text-align: center;
+}
+
+.match-toast .xp-sub {
+    display: block;
+    font-size: 0.75rem;
+    color: rgba(239, 68, 68, 0.6);
+    margin-top: 0.5rem;
+    letter-spacing: 2px;
+}
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes toast-out {
+    from { opacity: 1; }
+    to { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+}
+
+/* In-fog node state */
+.in-fog {
+    filter: grayscale(100%) opacity(0.4);
+}
+
+/* Match-caught on canvas node */
+.match-caught-node {
+    filter: none;
+}
+
+/* Link button */
+.link-btn {
+    background: transparent;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #EF4444;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 0.6rem;
+    padding: 2px 8px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    margin-left: 6px;
+}
+
+.link-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: #EF4444;
+}
+
+.link-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}

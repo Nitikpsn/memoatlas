@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from app.models.note import Note
+from app.models.progress import Progress
 from collections import defaultdict
 
 game = Blueprint('game', __name__)
@@ -13,4 +14,5 @@ def index():
     for note in user_notes:
         month_key = note.date_posted.strftime('%B %Y')
         folders[month_key].append(note)
-    return render_template('game/index.html', notes=user_notes, folders=dict(folders))
+    progress = Progress.query.filter_by(user_id=current_user.id).first()
+    return render_template('game/index.html', notes=user_notes, folders=dict(folders), progress=progress)

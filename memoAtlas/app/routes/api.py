@@ -77,3 +77,52 @@ def gravity_by_content():
 
     scored.sort(key=lambda x: x['proximityScore'], reverse=True)
     return jsonify(scored[:3])
+
+@api.route('/link', methods=['POST'])
+@login_required
+def create_link():
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'No data provided'}), 400
+
+    source_id = data.get('source_id')
+    target_id = data.get('target_id')
+    if not source_id or not target_id:
+        return jsonify({'error': 'source_id and target_id required'}), 400
+
+    source_note = db.session.get(Note, source_id)
+    target_note = db.session.get(Note, target_id)
+    if not source_note or not target_note:
+        return jsonify({'error': 'Note not found'}), 404
+    if source_note.author != current_user or target_note.author != current_user:
+        return jsonify({'error': 'Forbidden'}), 403
+
+    was_unmatched = not source_note.is_matched or not target_note.is_matched
+
+    conn = GraphService.create_connection(
+        current_user.id, source_id, target_id,
+        relationship_type=data.get('type', 'related')
+    )
+
+    progress = Progress.query.filter_by(user_id=current_user.id).first()
+    if not progress:
+        progress = Progress(user_id=current_user.id, xp=0, level=1)
+        db.session.add(progress)
+
+    xp_gained = 0
+    if was_unmatched:
+        xp_gained = 100
+        progress.xp += xp_gained
+        db.session.commit()
+
+    return jsonify({
+        'connection': {
+            'id': conn.id,
+            'source_id': conn.source_note_id,
+            'target_id': conn.target_note_id,
+        },
+        'xp_gained': xp_gained,
+        'total_xp': progress.xp,
+        'source_matched': source_note.is_matched,
+        'target_matched': target_note.is_matched,
+    })
