@@ -43,4 +43,12 @@ def create_app(test_config=None):
     with app.app_context():
         db.create_all()
 
+        from sqlalchemy import inspect as sa_inspect, text as sa_text
+        inspector = sa_inspect(db.engine)
+        if 'note' in inspector.get_table_names():
+            cols = [c['name'] for c in inspector.get_columns('note')]
+            if 'is_matched' not in cols:
+                db.session.execute(sa_text('ALTER TABLE note ADD COLUMN is_matched BOOLEAN DEFAULT 0'))
+                db.session.commit()
+
     return app
