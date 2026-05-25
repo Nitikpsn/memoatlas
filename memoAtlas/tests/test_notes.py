@@ -39,10 +39,9 @@ class NotesTestCase(unittest.TestCase):
         self.assertIn(b'My Notes', response.data)
 
     def test_create_note(self):
-        response = self.client.post('/notes/create', data={
+        response = self.client.post('/note/new', data={
             'title': 'Test Note',
             'content': 'This is test content.',
-            'subject': 'Biology',
             'tags': 'cells, biology'
         }, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -50,8 +49,8 @@ class NotesTestCase(unittest.TestCase):
         with self.app.app_context():
             note = Note.query.filter_by(title='Test Note').first()
             self.assertIsNotNone(note)
-            self.assertEqual(note.subject, 'Biology')
-            self.assertIn('cells', note.tag_list)
+            self.assertEqual(note.is_matched, False)
+            self.assertIn('cells', note.tag_list())
 
     def test_view_note_detail(self):
         with self.app.app_context():
@@ -60,7 +59,7 @@ class NotesTestCase(unittest.TestCase):
             db.session.commit()
             note_id = note.id
 
-        response = self.client.get(f'/notes/{note_id}')
+        response = self.client.get(f'/note/{note_id}')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Detail Test', response.data)
 
@@ -71,10 +70,9 @@ class NotesTestCase(unittest.TestCase):
             db.session.commit()
             note_id = note.id
 
-        response = self.client.post(f'/notes/{note_id}/edit', data={
+        response = self.client.post(f'/note/{note_id}/edit', data={
             'title': 'Updated Title',
             'content': 'Updated content',
-            'subject': 'Chemistry',
             'tags': 'updated'
         }, follow_redirects=True)
         self.assertEqual(response.status_code, 200)
@@ -90,7 +88,7 @@ class NotesTestCase(unittest.TestCase):
             db.session.commit()
             note_id = note.id
 
-        response = self.client.post(f'/notes/{note_id}/delete', follow_redirects=True)
+        response = self.client.post(f'/note/{note_id}/delete', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
 
         with self.app.app_context():
@@ -109,7 +107,7 @@ class NotesTestCase(unittest.TestCase):
             db.session.commit()
             note_id = note.id
 
-        response = self.client.get(f'/notes/{note_id}')
+        response = self.client.get(f'/note/{note_id}')
         self.assertEqual(response.status_code, 404)
 
 
