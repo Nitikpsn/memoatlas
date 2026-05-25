@@ -1,6 +1,10 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from app.models.note import Note
+from app.models.connection import Connection
+from app.models.progress import Progress
+from app.models.user import db
+from app.services.graph_service import GraphService
 
 api = Blueprint('api', __name__, url_prefix='/api')
 

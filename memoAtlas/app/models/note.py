@@ -9,6 +9,7 @@ class Note(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    is_matched = db.Column(db.Boolean, default=False)
 
     def tag_list(self):
         return [t.strip() for t in (self.tags or '').split(',') if t.strip()]
