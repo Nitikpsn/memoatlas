@@ -55,7 +55,6 @@ h1 { font-size: 1.5rem; }
 h2 { font-size: 1.15rem; }
 h3 { font-size: 1rem; }
 
-/* --- App Shell --- */
 .app-shell {
   display: flex;
   min-height: 100vh;
@@ -75,7 +74,6 @@ main {
   flex-direction: column;
 }
 
-/* --- Profile Icon --- */
 .profile-icon-link {
   position: fixed;
   top: 1.5rem;
@@ -97,7 +95,6 @@ main {
   border-color: var(--accent-red);
 }
 
-/* --- Buttons --- */
 .btn-primary {
   background: var(--accent-red);
   color: var(--text-main);
@@ -156,7 +153,6 @@ main {
   border-color: var(--text-muted);
 }
 
-/* --- Hero Section (Landing Page) --- */
 .hero-section {
   text-align: center;
   padding: 120px 4rem 80px;
@@ -186,7 +182,6 @@ main {
   align-items: center;
 }
 
-/* --- Features Section --- */
 .section-features {
   padding: 60px 4rem 80px;
   max-width: 1000px;
@@ -230,14 +225,12 @@ main {
   color: var(--text-muted);
 }
 
-/* --- Workspace Layout (2-column: sidebar + content) --- */
 .workspace-layout {
   display: flex;
   height: 100vh;
   overflow: hidden;
 }
 
-/* --- Sidebar / Folder Tree --- */
 .sidebar {
   width: 260px;
   min-width: 260px;
@@ -378,7 +371,6 @@ main {
   background: #c1121f;
 }
 
-/* --- Workspace (Main Content) --- */
 .workspace {
   flex: 1;
   padding: 2rem 2.5rem;
@@ -394,7 +386,6 @@ main {
   font-size: 1.3rem;
 }
 
-/* --- Note Grid --- */
 .note-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -453,7 +444,6 @@ main {
   overflow: hidden;
 }
 
-/* --- Empty State --- */
 .empty-state {
   text-align: center;
   padding: 5rem 2rem;
@@ -472,7 +462,6 @@ main {
   margin-bottom: 2rem;
 }
 
-/* --- Flash Messages --- */
 .flash-container {
   position: fixed;
   top: 24px;
@@ -498,7 +487,6 @@ main {
   border-color: var(--accent-red);
 }
 
-/* --- Footer --- */
 footer {
   text-align: center;
   padding: 1.5rem;
@@ -508,7 +496,6 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.03);
 }
 
-/* --- Page Header --- */
 .page-header {
   padding: 2rem 2.5rem 1rem;
 }
@@ -525,7 +512,6 @@ footer {
   font-size: 0.9rem;
 }
 
-/* --- Pulse Button --- */
 .pulse-btn {
   background: var(--bg-card);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -571,7 +557,6 @@ footer {
   50% { transform: scale(1.8); opacity: 0.3; }
 }
 
-/* --- Graph Container --- */
 .graph-container {
   margin: 1.5rem 2.5rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -585,7 +570,6 @@ footer {
   display: block;
 }
 
-/* --- Content Wrapper (for detail/edit/create pages) --- */
 .content-wrapper {
   padding: 2rem 2.5rem;
   max-width: 1000px;
@@ -593,7 +577,6 @@ footer {
   width: 100%;
 }
 
-/* --- Form Inputs --- */
 .form-input,
 .form-textarea {
   width: 100%;
@@ -618,7 +601,6 @@ footer {
   resize: vertical;
 }
 
-/* --- Animations --- */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -633,7 +615,6 @@ footer {
   animation: fadeInUp 0.6s ease;
 }
 
-/* --- Responsive --- */
 @media (max-width: 768px) {
   .hero-section {
     padding: 80px 1.5rem 60px;

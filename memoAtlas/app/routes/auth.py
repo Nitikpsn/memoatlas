@@ -1,10 +1,9 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from ..models.user import User, db
-from ..forms.register_form import RegisterForm  # Import your WTF forms
-# from ..forms.login_form import LoginForm     # Create this if you haven't yet
+from ..forms.register_form import RegisterForm
 
-auth = Blueprint('auth', __name__) # Removed url_prefix='/auth' so it's just /login
+auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -36,17 +35,15 @@ def register():
 
     form = RegisterForm()
     if form.validate_on_submit():
-        # Check if email already exists
         if User.query.filter_by(email=form.email.data).first():
             flash('Email address already exists.', 'danger')
             return redirect(url_for('auth.register'))
 
-        # Create new user
         new_user = User(
             username=form.username.data,
             email=form.email.data
         )
-        new_user.set_password(form.password.data) # Hashes the password
+        new_user.set_password(form.password.data)
 
         db.session.add(new_user)
         db.session.commit()

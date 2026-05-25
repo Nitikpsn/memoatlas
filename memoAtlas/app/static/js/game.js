@@ -84,7 +84,6 @@ class SpatialMap {
 
     ctx.clearRect(0, 0, w, h);
 
-    /* grid */
     ctx.strokeStyle = 'rgba(239,68,68,0.03)';
     ctx.lineWidth = 1;
     for (var x = 0; x < w; x += 60) {
@@ -100,7 +99,6 @@ class SpatialMap {
     ctx.scale(this.scale, this.scale);
     ctx.translate(-w / 2, -h / 2);
 
-    /* draw branches (quadratic bezier curves) */
     var nodeMap = {};
     this.nodes.forEach(function(n) { nodeMap[n.id] = n; });
 
@@ -120,7 +118,6 @@ class SpatialMap {
       ctx.stroke();
     }.bind(this));
 
-    /* draw nodes */
     this.nodes.forEach(function(n) {
       var isSel = n.id == this.selectedId;
       var r = isSel ? 9 : 6;
@@ -144,8 +141,6 @@ class SpatialMap {
 
     ctx.restore();
   }
-
-  /* --- interaction --- */
 
   _getNodeAt(clientX, clientY) {
     var rect = this.canvas.getBoundingClientRect();

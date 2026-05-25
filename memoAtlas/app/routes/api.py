@@ -9,7 +9,6 @@ def index():
     return ''
 
 def _jaccard_similarity(a_tags, b_tags):
-    """Gravity score using Jaccard Similarity Index: |intersection| / |union|"""
     set_a = set(a_tags)
     set_b = set(b_tags)
     if not set_a and not set_b:

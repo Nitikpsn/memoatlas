@@ -24,7 +24,6 @@ h1, h2, h3, .pixel, .node-label {
     border-left: 2px solid var(--retro-red);
 }
 
-/* --- Game-Map Note Tiles --- */
 .note-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -63,7 +62,6 @@ h1, h2, h3, .pixel, .node-label {
     box-shadow: 0 12px 24px -12px rgba(239, 68, 68, 0.4);
 }
 
-/* region indicator on card top-right */
 .note-card::after {
     content: 'NODE';
     position: absolute;
@@ -75,7 +73,6 @@ h1, h2, h3, .pixel, .node-label {
     letter-spacing: 2px;
 }
 
-/* --- Focus Tunnel (Spatial Pull) --- */
 .focus-tunnel {
     background: var(--dark-void);
     border: 1px solid rgba(239, 68, 68, 0.2);
@@ -122,7 +119,6 @@ h1, h2, h3, .pixel, .node-label {
     cursor: default;
 }
 
-/* attract spawn animation */
 .tunnel-node.entering {
     animation: attract-in 0.35s ease-out forwards;
     border-left-color: var(--retro-red);
@@ -153,7 +149,6 @@ h1, h2, h3, .pixel, .node-label {
     animation: pulse-red 2s ease-in-out infinite;
 }
 
-/* --- Scanline overlay for game feel --- */
 .workspace-layout::after {
     content: '';
     position: fixed;
@@ -172,7 +167,6 @@ h1, h2, h3, .pixel, .node-label {
     );
 }
 
-/* --- Terminal glow for content areas --- */
 .workspace textarea,
 .workspace .form-textarea {
     background: #121212;
@@ -194,7 +188,6 @@ h1, h2, h3, .pixel, .node-label {
     outline: none;
 }
 
-/* --- Sidebar zoom panel (minimap) --- */
 .sidebar-zoom {
     padding: 8px 12px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
@@ -227,7 +220,6 @@ h1, h2, h3, .pixel, .node-label {
     color: var(--retro-red);
 }
 
-/* --- Gravity status indicator --- */
 .gravity-indicator {
     font-family: var(--pixel-font);
     font-size: 0.6rem;
@@ -237,11 +229,6 @@ h1, h2, h3, .pixel, .node-label {
     letter-spacing: 1px;
 }
 
-/* ========================================
-   KNOWLEDGE RPG — ATLAS WORLD MAP
-   ======================================== */
-
-/* --- Game HUD (Fixed Top Status Bar) --- */
 .game-hud {
     position: fixed;
     top: 0; left: 0; width: 100%;
@@ -280,7 +267,6 @@ h1, h2, h3, .pixel, .node-label {
     font-size: 1rem;
 }
 
-/* XP Bar */
 .xp-container {
     width: 180px;
     height: 14px;
@@ -308,14 +294,12 @@ h1, h2, h3, .pixel, .node-label {
     letter-spacing: 1px;
 }
 
-/* Streak */
 .hud-streak {
     font-size: 0.75rem;
     color: rgba(239, 68, 68, 0.7);
     letter-spacing: 1px;
 }
 
-/* HUD Profile */
 .hud-profile-link {
     display: block;
     line-height: 0;
@@ -334,14 +318,12 @@ h1, h2, h3, .pixel, .node-label {
     border-color: var(--retro-red);
 }
 
-/* --- Game Body (Sidebar + Canvas) --- */
 .game-body {
     display: flex;
     position: fixed;
     top: 52px; left: 0; right: 0; bottom: 0;
 }
 
-/* Game Sidebar (Focus Tunnel only) */
 .game-sidebar {
     width: 240px;
     min-width: 240px;
@@ -410,7 +392,6 @@ h1, h2, h3, .pixel, .node-label {
     margin-top: 6px;
 }
 
-/* --- Canvas World Map --- */
 .game-canvas-wrap {
     flex: 1;
     position: relative;
@@ -429,7 +410,6 @@ h1, h2, h3, .pixel, .node-label {
     cursor: grabbing;
 }
 
-/* Zoom controls */
 .map-controls {
     position: absolute;
     bottom: 20px;
@@ -484,7 +464,6 @@ h1, h2, h3, .pixel, .node-label {
     background: rgba(239, 68, 68, 0.05);
 }
 
-/* sidebar nav link to game */
 .nav-game-link {
     display: flex;
     align-items: center;
@@ -508,14 +487,12 @@ h1, h2, h3, .pixel, .node-label {
     font-size: 0.9rem;
 }
 
-/* --- Beacon ping animation --- */
 @keyframes ping {
     0% { transform: scale(1); opacity: 0.6; }
     50% { transform: scale(2.5); opacity: 0; }
     100% { transform: scale(1); opacity: 0; }
 }
 
-/* --- Gravity Meter --- */
 .gravity-meter {
     height: 3px;
     background: rgba(255, 255, 255, 0.05);
@@ -532,7 +509,6 @@ h1, h2, h3, .pixel, .node-label {
     box-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
 }
 
-/* --- Pull Animation --- */
 .focus-tunnel.pull-animation {
     animation: pull-glow 0.4s ease;
 }

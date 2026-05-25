@@ -1,6 +1,3 @@
-/* Organic Fractal Branching Graph
-   Each edge is a bezier curve like a tree limb.
-   Thickness tapers from root to leaf. */
 const AtlasGraph = (function() {
 
   function init(containerId, options) {

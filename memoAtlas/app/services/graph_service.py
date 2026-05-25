@@ -1,7 +1,6 @@
 from ..models.note import Note
 
 def get_graph_data(user_id):
-    """Converts user notes into a format suitable for D3.js or Vis.js"""
     notes = Note.query.filter_by(user_id=user_id).all()
     
     nodes = []
