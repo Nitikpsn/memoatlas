@@ -39,6 +39,10 @@ def register():
             flash('Email address already exists.', 'danger')
             return redirect(url_for('auth.register'))
 
+        if User.query.filter_by(username=form.username.data).first():
+            flash('Username already exists.', 'danger')
+            return redirect(url_for('auth.register'))
+
         new_user = User(
             username=form.username.data,
             email=form.email.data
