@@ -8,34 +8,34 @@
   {% include "notes/_sidebar.html" %}
 
   <div class="workspace">
-    <div class="workspace-header">
-      <h1 class="pixel">>> PLANT NEW NODE</h1>
-      <p style="color:var(--text-muted);font-size:0.75rem;font-family:var(--pixel-font);letter-spacing:0.5px;margin-top:2px;">your thoughts have mass. they pull others in.</p>
+    <div class="note-container animate-in">
+      <h1 class="pixel note-label">>> PLANT NEW NODE</h1>
+      <p style="color:var(--text-muted);font-size:0.7rem;font-family:var(--pixel-font);letter-spacing:0.5px;margin-bottom:1.5rem;">your thoughts have mass. they pull others in.</p>
+
+      <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div style="margin-bottom:1.5rem;">
+          <span class="note-label">TITLE</span>
+          {{ form.title(placeholder="e.g. Quantum Physics Basics", class="note-title-input", id="nodeTitle") }}
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+          <span class="note-label">CONTENT</span>
+          {{ form.content(placeholder="Start writing. watch the gravity shift...", class="note-body form-textarea", style="background:#121212;border:1px solid rgba(239,68,68,0.15);height:380px;resize:vertical;width:100%;padding:1rem;outline:none;color:#D4D4D8;", id="nodeContent") }}
+        </div>
+
+        <div style="margin-bottom:2rem;">
+          <span class="note-label">TAGS</span>
+          {{ form.tags(placeholder="comma, separated, values", class="note-body", style="background:#121212;border:1px solid rgba(239,68,68,0.15);width:100%;padding:0.75rem 1rem;outline:none;color:#D4D4D8;font-size:0.9rem;", id="nodeTags") }}
+        </div>
+
+        <div style="display:flex;gap:1rem;align-items:center;">
+          <button type="submit" class="btn-primary">DEPLOY NODE</button>
+          <a href="{{ url_for('notes.workspace') }}" class="btn-secondary">CANCEL</a>
+        </div>
+      </form>
     </div>
-
-    <form method="POST" class="animate-in" style="max-width:900px;">
-      {{ form.hidden_tag() }}
-
-      <div style="margin-bottom:1.25rem;">
-        <label style="font-family:var(--pixel-font);font-size:0.7rem;color:var(--retro-red);letter-spacing:1px;display:block;margin-bottom:6px;">TITLE</label>
-        {{ form.title(placeholder="e.g. Quantum Physics Basics", class="form-input", style="font-size:1.1rem;background:#121212;", id="nodeTitle") }}
-      </div>
-
-      <div style="margin-bottom:1.25rem;">
-        <label style="font-family:var(--pixel-font);font-size:0.7rem;color:var(--retro-red);letter-spacing:1px;display:block;margin-bottom:6px;">CONTENT</label>
-        {{ form.content(placeholder="Start writing. watch the gravity shift...", class="form-textarea", style="height:380px;", id="nodeContent") }}
-      </div>
-
-      <div style="margin-bottom:1.5rem;">
-        <label style="font-family:var(--pixel-font);font-size:0.7rem;color:var(--retro-red);letter-spacing:1px;display:block;margin-bottom:6px;">TAGS</label>
-        {{ form.tags(placeholder="comma, separated, values", class="form-input", style="font-size:0.85rem;background:#121212;", id="nodeTags") }}
-      </div>
-
-      <div style="display:flex;gap:1rem;align-items:center;">
-        <button type="submit" class="btn-primary">DEPLOY NODE</button>
-        <a href="{{ url_for('notes.workspace') }}" class="btn-secondary">CANCEL</a>
-      </div>
-    </form>
   </div>
 
 </div>

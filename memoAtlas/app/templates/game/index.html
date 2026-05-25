@@ -18,10 +18,13 @@
     <span class="hud-brand pixel">ATLAS</span>
     <span class="hud-divider">|</span>
     <span class="hud-label pixel">LEVEL {{ folders|length }}</span>
-    <div class="xp-container">
-      <div class="xp-fill" style="width:{{ (notes|length / 20 * 100)|round }}%"></div>
-      <span class="xp-text pixel">{{ notes|length }} / 20 NODES</span>
+    <div class="xp-container" id="xpContainer">
+      <div class="xp-fill" id="xpFill" style="width:{{ (notes|length / 20 * 100)|round }}%"></div>
+      <span class="xp-text pixel" id="xpText">{{ notes|length }} / 20 NODES</span>
     </div>
+    {% if progress %}
+    <span class="hud-label pixel" style="margin-left:8px;">XP {{ progress.xp }}</span>
+    {% endif %}
   </div>
   <div class="hud-right">
     <span class="hud-streak pixel">🔥 {{ range(1, 8) | random }}</span>
@@ -61,6 +64,7 @@
     </div>
   </div>
 </div>
+<div id="matchToastContainer"></div>
 {% endblock %}
 
 {% block scripts %}
