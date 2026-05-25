@@ -31,6 +31,7 @@ def create_app():
     from .routes.api import api
     from .routes.search import search_bp
     from .routes.user import user_bp
+    from .routes.game import game
 
     app.register_blueprint(main)
     app.register_blueprint(auth)
@@ -39,6 +40,7 @@ def create_app():
     app.register_blueprint(api)
     app.register_blueprint(search_bp)
     app.register_blueprint(user_bp)
+    app.register_blueprint(game)
 
     # Create database tables if they don't exist
     with app.app_context():

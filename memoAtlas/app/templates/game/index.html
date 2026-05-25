@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}MemoAtlas | Explore{% endblock %}
+
+{% block content %}
+<div class="workspace-layout">
+
+  {% include "notes/_sidebar.html" %}
+
+  <div class="workspace game-workspace">
+    <div class="game-hud-top">
+      <div class="hud-left">
+        <span class="hud-label pixel">ATLAS MAP</span>
+        <span class="hud-divider">|</span>
+        <span class="hud-stat pixel">{{ notes|length }} LOCS</span>
+        <span class="hud-divider">|</span>
+        <span class="hud-stat pixel" id="scanStatus">SCANNING</span>
+      </div>
+      <div class="hud-right">
+        <span class="compass-rose">N</span>
+        <span class="hud-coords pixel" id="hudCoords">0, 0</span>
+      </div>
+    </div>
+
+    <div class="game-map" id="gameMap">
+      <div class="radar-sweep" id="radarSweep"></div>
+
+      {% for note in notes %}
+      <a href="{{ url_for('notes.view_note', note_id=note.id) }}"
+         class="map-beacon"
+         data-id="{{ note.id }}"
+         data-title="{{ note.title }}"
+         style="--x: {{ (note.id * 137.5 % 100) }}%; --y: {{ (note.id * 89.3 % 100) }}%; --delay: {{ note.id % 10 / 10 }}s;">
+        <span class="beacon-dot"></span>
+        <span class="beacon-ring"></span>
+        <span class="beacon-label pixel">{{ note.title[:20] }}</span>
+      </a>
+      {% endfor %}
+
+      {% if not notes %}
+      <div class="empty-state" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;">
+        <p class="pixel" style="font-size:1.2rem;color:var(--retro-red);">// NO LOCATIONS</p>
+        <p style="color:var(--text-muted);font-size:0.8rem;margin-top:8px;">Plant your first node to explore the atlas.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="game-hud-bottom">
+      <div class="game-controls">
+        <button class="game-btn" id="btnScan" title="SCAN">
+          <span class="game-btn-icon">⟳</span>
+          <span class="game-btn-label pixel">SCAN</span>
+        </button>
+        <button class="game-btn" id="btnPulse" title="PULSE">
+          <span class="game-btn-icon">◉</span>
+          <span class="game-btn-label pixel">PULSE</span>
+        </button>
+        <button class="game-btn" id="btnRadar" title="RADAR">
+          <span class="game-btn-icon">◎</span>
+          <span class="game-btn-label pixel">RADAR</span>
+        </button>
+        <button class="game-btn" id="btnCompass" title="COMPASS">
+          <span class="game-btn-icon">⟐</span>
+          <span class="game-btn-label pixel">COMPASS</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/game.js') }}"></script>
+{% endblock %}
