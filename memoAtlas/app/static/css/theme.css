@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+    --charcoal: #27272A;
+    --dark-void: #18181B;
+    --retro-red: #EF4444;
+    --pixel-font: 'VT323', monospace;
+}
+
+h1, h2, h3, .pixel {
+    font-family: var(--pixel-font);
+    color: var(--retro-red);
+    text-transform: uppercase;
+}
+
+.sidebar-tree {
+    background: var(--dark-void);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.folder-item:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 2px solid var(--retro-red);
+}
+
+.note-card {
+    background: var(--dark-void);
+    border: 1px solid transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.note-card:hover {
+    border-color: var(--retro-red);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px -10px rgba(239, 68, 68, 0.5);
+}
+
+/* Focus Tunnel */
+.focus-tunnel {
+    background: var(--dark-void);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 4px;
+    padding: 0.75rem;
+    margin-top: 1rem;
+}
+
+.focus-tunnel h3 {
+    font-family: var(--pixel-font);
+    font-size: 0.8rem;
+    color: var(--retro-red);
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.tunnel-node {
+    padding: 6px 8px;
+    margin: 4px 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.tunnel-node:hover {
+    border-left-color: var(--retro-red);
+    color: var(--text-main);
+    background: rgba(239, 68, 68, 0.05);
+}
+
+.tunnel-node .pixel {
+    font-family: var(--pixel-font);
+    color: var(--retro-red);
+    margin-right: 6px;
+}
+
+@keyframes pulse-red {
+    0%, 100% { border-left-color: transparent; }
+    50% { border-left-color: var(--retro-red); }
+}
+
+.pulse-red {
+    animation: pulse-red 2s ease-in-out infinite;
+}

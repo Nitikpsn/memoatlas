@@ -12,6 +12,9 @@
       <div style="margin-bottom:1.5rem;">
         {{ form.content(class="form-textarea", style="height:400px;") }}
       </div>
+      <div style="margin-bottom:1.5rem;">
+        {{ form.tags(class="form-input", style="font-size:0.9rem;", placeholder="Tags: comma, separated, values") }}
+      </div>
       <div style="display:flex;gap:1rem;">
         <button type="submit" class="btn-primary">SAVE CHANGES</button>
         <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="btn-secondary">CANCEL</a>

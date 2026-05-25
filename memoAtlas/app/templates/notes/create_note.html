@@ -14,9 +14,12 @@
       <div style="margin-bottom:1.5rem;">
         {{ form.content(placeholder="Start writing...", class="form-textarea", style="height:400px;") }}
       </div>
+      <div style="margin-bottom:1.5rem;">
+        {{ form.tags(placeholder="Tags: comma, separated, values", class="form-input", style="font-size:0.9rem;") }}
+      </div>
       <div style="display:flex;gap:1rem;">
         <button type="submit" class="btn-primary">CREATE NODE</button>
-        <a href="{{ url_for('notes.index') }}" class="btn-secondary">CANCEL</a>
+        <a href="{{ url_for('notes.workspace') }}" class="btn-secondary">CANCEL</a>
       </div>
     </form>
   </div>

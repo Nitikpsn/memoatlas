@@ -8,9 +8,9 @@ from collections import defaultdict
 
 notes = Blueprint('notes', __name__)
 
-@notes.route('/notes')
+@notes.route('/workspace')
 @login_required
-def index():
+def workspace():
     user_notes = Note.query.filter_by(user_id=current_user.id).order_by(Note.date_posted.desc()).all()
 
     folders = defaultdict(list)
@@ -20,6 +20,11 @@ def index():
 
     return render_template('notes/list_notes.html', notes=user_notes, folders=dict(folders))
 
+@notes.route('/notes')
+@login_required
+def index():
+    return redirect(url_for('notes.workspace'))
+
 @notes.route('/note/new', methods=['GET', 'POST'])
 @login_required
 def create_note():
@@ -28,12 +33,13 @@ def create_note():
         new_note = Note(
             title=form.title.data,
             content=form.content.data,
+            tags=form.tags.data,
             author=current_user
         )
         db.session.add(new_note)
         db.session.commit()
         flash('Note added to your Atlas!', 'success')
-        return redirect(url_for('notes.index'))
+        return redirect(url_for('notes.workspace'))
     return render_template('notes/create_note.html', form=form)
 
 @notes.route('/note/<int:note_id>')
@@ -54,6 +60,7 @@ def edit_note(note_id):
     if form.validate_on_submit():
         note.title = form.title.data
         note.content = form.content.data
+        note.tags = form.tags.data
         note.date_posted = datetime.utcnow()
         db.session.commit()
         flash('Note updated!', 'success')
@@ -69,4 +76,4 @@ def delete_note(note_id):
     db.session.delete(note)
     db.session.commit()
     flash('Note deleted.', 'info')
-    return redirect(url_for('notes.index'))
+    return redirect(url_for('notes.workspace'))

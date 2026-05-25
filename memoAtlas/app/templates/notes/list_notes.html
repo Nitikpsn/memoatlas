@@ -5,9 +5,9 @@
 {% block content %}
 <div class="workspace-layout">
 
-  <aside class="sidebar">
+  <aside class="sidebar sidebar-tree">
     <div class="sidebar-header">
-      <h2>FOLDERS</h2>
+      <h2 class="pixel">// ATLAS</h2>
     </div>
 
     <div class="sidebar-section">
@@ -15,7 +15,7 @@
         <li>
           <details open>
             <summary class="folder-item">
-              <span class="folder-label">&#128193; All Notes</span>
+              <span class="folder-label">&#128193; MY LIBRARY</span>
               <span class="folder-count">{{ notes|length }}</span>
             </summary>
             <ul class="folder-children">
@@ -29,7 +29,7 @@
                   <ul class="folder-children">
                     {% for note in folder_notes %}
                     <li>
-                      <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="note-link">{{ note.title }}</a>
+                      <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="note-link" data-note-id="{{ note.id }}">{{ note.title }}</a>
                     </li>
                     {% endfor %}
                   </ul>
@@ -40,16 +40,25 @@
           </details>
         </li>
       </ul>
+
+      <div class="focus-tunnel" id="focusTunnel">
+        <h3 class="pixel">>> GRAVITY</h3>
+        <div id="tunnelNodes">
+          <div class="tunnel-node">
+            <span class="pixel">>></span> Select a note to pull related thoughts...
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="sidebar-footer">
-      <a href="{{ url_for('notes.create_note') }}" class="btn-sidebar-new">+ NEW NOTE</a>
+      <a href="{{ url_for('notes.create_note') }}" class="btn-sidebar-new">+ NEW NODE</a>
     </div>
   </aside>
 
   <div class="workspace">
     <div class="workspace-header">
-      <h1>ATLAS NODES</h1>
+      <h1 class="pixel">ATLAS NODES</h1>
     </div>
 
     {% if notes %}
@@ -66,7 +75,7 @@
     </div>
     {% else %}
     <div class="empty-state">
-      <p class="empty-title">// YOUR ATLAS IS EMPTY</p>
+      <p class="empty-title pixel">// YOUR ATLAS IS EMPTY</p>
       <p class="empty-subtitle">Start mapping your knowledge, one node at a time.</p>
       <a href="{{ url_for('notes.create_note') }}" class="btn-primary">CREATE YOUR FIRST NODE</a>
     </div>
@@ -74,4 +83,25 @@
   </div>
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/gravity.js') }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tunnel = new FocusTunnel('tunnelNodes');
+
+    document.querySelectorAll('.note-card, .note-link').forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        const noteId = this.dataset.noteId;
+        if (noteId) {
+          fetch('/api/gravity/' + noteId)
+            .then(function(res) { return res.json(); })
+            .then(function(data) { tunnel.updateGravity(data); })
+            .catch(function() {});
+        }
+      });
+    });
+  });
+</script>
 {% endblock %}

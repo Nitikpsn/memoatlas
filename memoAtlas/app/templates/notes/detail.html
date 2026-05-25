@@ -14,11 +14,18 @@
         </form>
       </div>
     </div>
+    {% if note.tags %}
+    <div style="margin-bottom:1.5rem;display:flex;gap:0.5rem;flex-wrap:wrap;">
+      {% for tag in note.tag_list() %}
+      <span style="background:rgba(239,68,68,0.1);color:var(--retro-red, #EF4444);padding:2px 10px;border-radius:12px;font-size:0.75rem;font-family:var(--pixel-font, monospace);text-transform:uppercase;">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
     <div style="background:var(--bg-card);border:1px solid rgba(255,255,255,0.1);border-radius:var(--radius-lg);padding:2rem;">
       <div style="white-space:pre-wrap;line-height:1.8;color:var(--text-main);font-size:0.95rem;">{{ note.content }}</div>
     </div>
     <div style="margin-top:2rem;">
-      <a href="{{ url_for('notes.index') }}" style="color:var(--text-muted);font-size:0.85rem;">&larr; BACK TO ALL NODES</a>
+      <a href="{{ url_for('notes.workspace') }}" style="color:var(--text-muted);font-size:0.85rem;">&larr; BACK TO ALL NODES</a>
     </div>
   </div>
 </div>
