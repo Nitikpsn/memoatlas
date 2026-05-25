@@ -8,6 +8,16 @@ api = Blueprint('api', __name__, url_prefix='/api')
 def index():
     return ''
 
+def _jaccard_similarity(a_tags, b_tags):
+    """Gravity score using Jaccard Similarity Index: |intersection| / |union|"""
+    set_a = set(a_tags)
+    set_b = set(b_tags)
+    if not set_a and not set_b:
+        return 0.0
+    intersection = set_a & set_b
+    union = set_a | set_b
+    return len(intersection) / len(union)
+
 @api.route('/gravity/<int:note_id>')
 @login_required
 def gravity(note_id):
@@ -23,15 +33,13 @@ def gravity(note_id):
 
     scored = []
     for other in user_notes:
-        other_tags = other.tag_list()
-        shared = len(set(target_tags) & set(other_tags))
-        if shared > 0 or not target_tags:
-            scored.append({
-                'id': str(other.id),
-                'title': other.title,
-                'proximityScore': shared,
-                'tags': other_tags
-            })
+        score = _jaccard_similarity(target_tags, other.tag_list())
+        scored.append({
+            'id': str(other.id),
+            'title': other.title,
+            'proximityScore': round(score, 4),
+            'tags': other.tag_list()
+        })
 
     scored.sort(key=lambda x: x['proximityScore'], reverse=True)
     return jsonify(scored[:3])
@@ -43,20 +51,24 @@ def gravity_by_content():
     if not q:
         return jsonify([])
 
-    words = q.lower().split()
+    query_words = set(q.lower().split())
     user_notes = Note.query.filter(Note.user_id == current_user.id).all()
 
     scored = []
     for other in user_notes:
-        content = (other.title + ' ' + other.content).lower()
-        word_matches = sum(1 for w in words if w in content)
-        tag_matches = len(set(words) & set(other.tag_list()))
-        score = word_matches + (tag_matches * 3)
+        content_words = set((other.title + ' ' + other.content).lower().split())
+        tag_words = set(other.tag_list())
+        all_words = content_words | tag_words
+        if not all_words:
+            continue
+        intersection = query_words & all_words
+        union = query_words | all_words
+        score = len(intersection) / len(union)
         if score > 0:
             scored.append({
                 'id': str(other.id),
                 'title': other.title,
-                'proximityScore': score,
+                'proximityScore': round(score, 4),
                 'tags': other.tag_list()
             })
 

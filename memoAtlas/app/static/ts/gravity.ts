@@ -7,41 +7,44 @@ interface GravityNode {
 
 class FocusTunnel {
     private tunnelElement: HTMLElement;
-    private prevNodes: GravityNode[] = [];
+    private itemsElement: HTMLElement;
+    public currentFocusId: string | null = null;
 
-    constructor(elementId: string) {
-        this.tunnelElement = document.getElementById(elementId)!;
+    constructor(tunnelId: string, itemsId: string) {
+        this.tunnelElement = document.getElementById(tunnelId)!;
+        this.itemsElement = document.getElementById(itemsId)!;
     }
 
-    public updateGravity(nodes: GravityNode[]): void {
-        nodes.sort((a, b) => b.proximityScore - a.proximityScore);
-        const top3 = nodes.slice(0, 3);
+    public async zoomToCluster(noteId: string): Promise<void> {
+        this.currentFocusId = noteId;
+        this.tunnelElement.classList.add('pull-animation');
+        try {
+            const res = await fetch(`/api/gravity/${noteId}`);
+            const neighbors: GravityNode[] = await res.json();
+            this.renderNeighbors(neighbors.slice(0, 3));
+        } catch (_) {}
+        setTimeout(() => this.tunnelElement.classList.remove('pull-animation'), 400);
+    }
 
-        if (JSON.stringify(top3) === JSON.stringify(this.prevNodes)) return;
-        this.prevNodes = top3;
-        this.tunnelElement.innerHTML = '';
-
-        if (top3.length === 0) {
-            const div = document.createElement('div');
-            div.className = 'tunnel-node dim';
-            div.innerHTML = `<span class="pixel">>></span> no gravity pull...`;
-            this.tunnelElement.appendChild(div);
+    private renderNeighbors(notes: GravityNode[]): void {
+        if (!this.itemsElement) return;
+        if (notes.length === 0) {
+            this.itemsElement.innerHTML =
+                '<div class="tunnel-node dim"><span class="pixel-prefix">>></span> no gravity pull...</div>';
             return;
         }
-
-        top3.forEach((node, i) => {
-            setTimeout(() => this.attractNode(node), i * 180);
-        });
-    }
-
-    private attractNode(node: GravityNode): void {
-        const div = document.createElement('div');
-        div.className = 'tunnel-node entering';
-        div.innerHTML = `<span class="pixel">>></span> ${node.title}`;
-        this.tunnelElement.appendChild(div);
+        this.itemsElement.innerHTML = notes.map(n => {
+            const pct = Math.round((n.proximityScore || 0) * 100);
+            return (
+                '<div class="tunnel-node entering">' +
+                    '<span class="pixel-prefix">>></span> ' +
+                    '<span class="node-title">' + n.title + '</span>' +
+                    '<div class="gravity-meter"><div class="gravity-meter-fill" style="width:' + pct + '%"></div></div>' +
+                '</div>'
+            );
+        }).join('');
         requestAnimationFrame(() => {
-            div.classList.remove('entering');
-            div.classList.add('pulse-red');
+            document.querySelectorAll('.tunnel-node.entering').forEach(el => el.classList.remove('entering'));
         });
     }
 }

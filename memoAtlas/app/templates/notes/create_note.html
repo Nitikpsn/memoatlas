@@ -45,9 +45,9 @@
 <script src="{{ url_for('static', filename='js/gravity.js') }}"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const tunnel = new FocusTunnel('tunnelNodes');
-    let gravityTimer;
+    const tunnel = new FocusTunnel('focusTunnel', 'tunnelItems');
 
+    let gravityTimer;
     function pullGravity() {
       const title = document.getElementById('nodeTitle').value;
       const content = document.getElementById('nodeContent').value;
@@ -57,7 +57,7 @@
 
       fetch('/api/gravity-by-content?q=' + encodeURIComponent(query))
         .then(function(res) { return res.json(); })
-        .then(function(data) { tunnel.updateGravity(data); })
+        .then(function(data) { tunnel.renderNeighbors(data.slice(0, 3)); })
         .catch(function() {});
     }
 

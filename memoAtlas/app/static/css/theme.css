@@ -430,6 +430,30 @@ h1, h2, h3, .pixel, .node-label {
     box-shadow: 0 0 16px rgba(239, 68, 68, 0.8);
 }
 
+.btn-sidebar-logout {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 8px;
+    text-align: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.25);
+    font-family: 'Pixelify Sans', var(--pixel-font);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.btn-sidebar-logout:hover {
+    border-color: rgba(239, 68, 68, 0.3);
+    color: var(--retro-red);
+    background: rgba(239, 68, 68, 0.05);
+}
+
 /* sidebar nav link to game */
 .nav-game-link {
     display: flex;
@@ -459,4 +483,44 @@ h1, h2, h3, .pixel, .node-label {
     0% { transform: scale(1); opacity: 0.6; }
     50% { transform: scale(2.5); opacity: 0; }
     100% { transform: scale(1); opacity: 0; }
+}
+
+/* --- Gravity Meter --- */
+.gravity-meter {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    margin-top: 4px;
+    overflow: hidden;
+}
+
+.gravity-meter-fill {
+    height: 100%;
+    background: var(--retro-red);
+    border-radius: 2px;
+    transition: width 0.35s ease;
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
+}
+
+/* --- Pull Animation --- */
+.focus-tunnel.pull-animation {
+    animation: pull-glow 0.4s ease;
+}
+
+@keyframes pull-glow {
+    0% { border-color: rgba(239, 68, 68, 0.2); }
+    50% { border-color: rgba(239, 68, 68, 0.6); box-shadow: 0 0 12px rgba(239, 68, 68, 0.15); }
+    100% { border-color: rgba(239, 68, 68, 0.2); }
+}
+
+.pixel-prefix {
+    font-family: var(--pixel-font);
+    color: var(--retro-red);
+    margin-right: 4px;
+}
+
+.node-title {
+    font-family: 'Pixelify Sans', var(--pixel-font);
+    font-size: 0.82rem;
+    color: var(--text-muted);
 }

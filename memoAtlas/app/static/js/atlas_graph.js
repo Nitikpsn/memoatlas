@@ -1,7 +1,6 @@
-/**
- * AtlasGraph — dedicated module for root node graph logic.
- * Keeps graph rendering cleanly separated from UI interactions.
- */
+/* Organic Fractal Branching Graph
+   Each edge is a bezier curve like a tree limb.
+   Thickness tapers from root to leaf. */
 const AtlasGraph = (function() {
 
   function init(containerId, options) {
@@ -11,25 +10,26 @@ const AtlasGraph = (function() {
     const defaults = {
       nodes: {
         shape: 'dot',
-        size: 14,
-        color: { background: '#555555', border: '#555555' },
-        font: { color: '#888888', size: 11 },
+        size: 16,
+        color: { background: '#EF4444', border: '#EF4444' },
+        font: { color: '#cccccc', size: 11, face: 'Pixelify Sans' },
         borderWidth: 0,
         scaling: { label: { enabled: false } }
       },
       edges: {
-        color: { color: '#333333' },
-        smooth: { type: 'continuous' }
+        color: { color: 'rgba(239,68,68,0.25)', highlight: 'rgba(239,68,68,0.5)' },
+        smooth: { type: 'cubicBezier', roundness: 0.4 },
+        width: 1.2
       },
       physics: {
         enabled: true,
         solver: 'barnesHut',
         barnesHut: {
-          gravitationalConstant: -2000,
-          springLength: 250,
-          springConstant: 0.04
+          gravitationalConstant: -3000,
+          springLength: 200,
+          springConstant: 0.03
         },
-        stabilization: { iterations: 100 }
+        stabilization: { iterations: 150 }
       },
       interaction: { hover: true }
     };
@@ -59,13 +59,29 @@ const AtlasGraph = (function() {
     if (!config) return null;
 
     const nodes = new vis.DataSet(
-      (data.nodes || []).map(n => ({
-        id: n.id,
-        label: n.title,
-        updated_at: n.updated_at
-      }))
+      (data.nodes || []).map(function(n, i) {
+        return {
+          id: n.id,
+          label: n.title,
+          updated_at: n.updated_at,
+          size: Math.max(10, 20 - i * 0.5)
+        };
+      })
     );
-    const edges = new vis.DataSet(data.links || []);
+
+    const edges = new vis.DataSet(
+      (data.links || []).map(function(l) {
+        return {
+          from: l.from || l.source,
+          to: l.to || l.target,
+          smooth: {
+            type: 'cubicBezier',
+            roundness: 0.2 + Math.random() * 0.3
+          }
+        };
+      })
+    );
+
     const network = new vis.Network(config.container, { nodes, edges }, config.options);
 
     return { network, nodes, edges, rawData: data };

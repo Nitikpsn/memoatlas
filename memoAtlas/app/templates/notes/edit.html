@@ -43,16 +43,11 @@
 <script src="{{ url_for('static', filename='js/gravity.js') }}"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const tunnel = new FocusTunnel('tunnelNodes');
+    const tunnel = new FocusTunnel('focusTunnel', 'tunnelItems');
 
-    // initial gravity pull from the note being edited
     const noteId = {{ note.id }};
-    fetch('/api/gravity/' + noteId)
-      .then(function(res) { return res.json(); })
-      .then(function(data) { tunnel.updateGravity(data); })
-      .catch(function() {});
+    tunnel.zoomToCluster(noteId);
 
-    // real-time gravity as content changes
     let gravityTimer;
     function pullGravity() {
       const title = document.getElementById('nodeTitle').value;
@@ -63,7 +58,7 @@
 
       fetch('/api/gravity-by-content?q=' + encodeURIComponent(query))
         .then(function(res) { return res.json(); })
-        .then(function(data) { tunnel.updateGravity(data); })
+        .then(function(data) { tunnel.renderNeighbors(data.slice(0, 3)); })
         .catch(function() {});
     }
 
