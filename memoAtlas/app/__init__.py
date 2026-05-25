@@ -4,9 +4,11 @@ from flask_login import LoginManager
 from config import Config
 from .models.user import db
 
-def create_app():
+def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_object(Config)
+    if test_config:
+        app.config.update(test_config)
     db.init_app(app)
 
     login_manager = LoginManager()

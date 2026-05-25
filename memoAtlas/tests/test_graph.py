@@ -10,9 +10,10 @@ from app.services.graph_service import GraphService
 class GraphTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.app = create_app()
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app = create_app(dict(
+            SQLALCHEMY_DATABASE_URI='sqlite:///:memory:',
+            WTF_CSRF_ENABLED=False
+        ))
         self.client = self.app.test_client()
         with self.app.app_context():
             db.create_all()
@@ -20,9 +21,9 @@ class GraphTestCase(unittest.TestCase):
             user.set_password('password123')
             db.session.add(user)
             db.session.commit()
-            self.user = user
-            self.client.post('/auth/login', data={
-                'username': 'testuser',
+            self.user_id = user.id
+            self.client.post('/login', data={
+                'email': 'test@example.com',
                 'password': 'password123'
             }, follow_redirects=True)
 
@@ -32,8 +33,8 @@ class GraphTestCase(unittest.TestCase):
             db.drop_all()
 
     def test_graph_page_requires_login(self):
-        self.client.get('/auth/logout')
-        response = self.client.get('/graph/')
+        self.client.get('/logout')
+        response = self.client.get('/graph')
         self.assertEqual(response.status_code, 302)
 
     def test_graph_data_empty(self):
@@ -45,7 +46,7 @@ class GraphTestCase(unittest.TestCase):
 
     def test_graph_data_with_notes(self):
         with self.app.app_context():
-            note = Note(title='Test Note', content='Content', user_id=self.user.id)
+            note = Note(title='Test Note', content='Content', user_id=self.user_id)
             db.session.add(note)
             db.session.commit()
 
@@ -57,13 +58,13 @@ class GraphTestCase(unittest.TestCase):
 
     def test_create_connection(self):
         with self.app.app_context():
-            note1 = Note(title='Note 1', content='Content 1', user_id=self.user.id)
-            note2 = Note(title='Note 2', content='Content 2', user_id=self.user.id)
+            note1 = Note(title='Note 1', content='Content 1', user_id=self.user_id)
+            note2 = Note(title='Note 2', content='Content 2', user_id=self.user_id)
             db.session.add_all([note1, note2])
             db.session.commit()
 
             conn = GraphService.create_connection(
-                self.user.id, note1.id, note2.id, 'related to'
+                self.user_id, note1.id, note2.id, 'related to'
             )
             self.assertIsNotNone(conn)
             self.assertEqual(conn.source_note_id, note1.id)
@@ -74,28 +75,30 @@ class GraphTestCase(unittest.TestCase):
 
     def test_get_connected_notes(self):
         with self.app.app_context():
-            note1 = Note(title='Note 1', content='Content 1', user_id=self.user.id)
-            note2 = Note(title='Note 2', content='Content 2', user_id=self.user.id)
-            note3 = Note(title='Note 3', content='Content 3', user_id=self.user.id)
+            note1 = Note(title='Note 1', content='Content 1', user_id=self.user_id)
+            note2 = Note(title='Note 2', content='Content 2', user_id=self.user_id)
+            note3 = Note(title='Note 3', content='Content 3', user_id=self.user_id)
             db.session.add_all([note1, note2, note3])
             db.session.commit()
 
-            GraphService.create_connection(self.user.id, note1.id, note2.id)
-            GraphService.create_connection(self.user.id, note1.id, note3.id)
+            GraphService.create_connection(self.user_id, note1.id, note2.id)
+            GraphService.create_connection(self.user_id, note1.id, note3.id)
 
-            connected = GraphService.get_connected_notes(note1.id, self.user.id)
+            connected = GraphService.get_connected_notes(note1.id, self.user_id)
             self.assertEqual(len(connected), 2)
 
     def test_link_api(self):
+        note_ids = []
         with self.app.app_context():
-            note1 = Note(title='Note 1', content='Content 1', user_id=self.user.id)
-            note2 = Note(title='Note 2', content='Content 2', user_id=self.user.id)
+            note1 = Note(title='Note 1', content='Content 1', user_id=self.user_id)
+            note2 = Note(title='Note 2', content='Content 2', user_id=self.user_id)
             db.session.add_all([note1, note2])
             db.session.commit()
+            note_ids = [note1.id, note2.id]
 
         response = self.client.post('/api/link', json={
-            'source_id': note1.id,
-            'target_id': note2.id
+            'source_id': note_ids[0],
+            'target_id': note_ids[1]
         })
         self.assertEqual(response.status_code, 200)
         data = response.get_json()

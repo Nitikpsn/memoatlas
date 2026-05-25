@@ -6,9 +6,10 @@ from app.models.user import User
 class AuthTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.app = create_app()
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app = create_app(dict(
+            SQLALCHEMY_DATABASE_URI='sqlite:///:memory:',
+            WTF_CSRF_ENABLED=False
+        ))
         self.client = self.app.test_client()
         with self.app.app_context(): 
             db.create_all()

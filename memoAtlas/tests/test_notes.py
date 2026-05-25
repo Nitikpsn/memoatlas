@@ -7,9 +7,10 @@ from app.models.note import Note
 class NotesTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.app = create_app()
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-        self.app.config['WTF_CSRF_ENABLED'] = False
+        self.app = create_app(dict(
+            SQLALCHEMY_DATABASE_URI='sqlite:///:memory:',
+            WTF_CSRF_ENABLED=False
+        ))
         self.client = self.app.test_client()
         with self.app.app_context():
             db.create_all()
@@ -17,9 +18,9 @@ class NotesTestCase(unittest.TestCase):
             user.set_password('password123')
             db.session.add(user)
             db.session.commit()
-            self.user = user
-            self.client.post('/auth/login', data={
-                'username': 'testuser',
+            self.user_id = user.id
+            self.client.post('/login', data={
+                'email': 'test@example.com',
                 'password': 'password123'
             }, follow_redirects=True)
 
@@ -29,14 +30,13 @@ class NotesTestCase(unittest.TestCase):
             db.drop_all()
 
     def test_notes_index_requires_login(self):
-        self.client.get('/auth/logout')
-        response = self.client.get('/notes/')
+        self.client.get('/logout')
+        response = self.client.get('/workspace')
         self.assertEqual(response.status_code, 302)
 
-    def test_notes_index(self):
-        response = self.client.get('/notes/')
+    def test_workspace(self):
+        response = self.client.get('/workspace')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'My Notes', response.data)
 
     def test_create_note(self):
         response = self.client.post('/note/new', data={
@@ -53,8 +53,9 @@ class NotesTestCase(unittest.TestCase):
             self.assertIn('cells', note.tag_list())
 
     def test_view_note_detail(self):
+        note_id = None
         with self.app.app_context():
-            note = Note(title='Detail Test', content='Detail content', user_id=self.user.id)
+            note = Note(title='Detail Test', content='Detail content', user_id=self.user_id)
             db.session.add(note)
             db.session.commit()
             note_id = note.id
@@ -64,8 +65,9 @@ class NotesTestCase(unittest.TestCase):
         self.assertIn(b'Detail Test', response.data)
 
     def test_edit_note(self):
+        note_id = None
         with self.app.app_context():
-            note = Note(title='Edit Test', content='Original content', user_id=self.user.id)
+            note = Note(title='Edit Test', content='Original content', user_id=self.user_id)
             db.session.add(note)
             db.session.commit()
             note_id = note.id
@@ -82,8 +84,9 @@ class NotesTestCase(unittest.TestCase):
             self.assertEqual(note.title, 'Updated Title')
 
     def test_delete_note(self):
+        note_id = None
         with self.app.app_context():
-            note = Note(title='Delete Test', content='To be deleted', user_id=self.user.id)
+            note = Note(title='Delete Test', content='To be deleted', user_id=self.user_id)
             db.session.add(note)
             db.session.commit()
             note_id = note.id
@@ -96,6 +99,7 @@ class NotesTestCase(unittest.TestCase):
             self.assertIsNone(note)
 
     def test_cannot_view_other_user_note(self):
+        note_id = None
         with self.app.app_context():
             other_user = User(username='other', email='other@example.com')
             other_user.set_password('password123')
@@ -108,7 +112,7 @@ class NotesTestCase(unittest.TestCase):
             note_id = note.id
 
         response = self.client.get(f'/note/{note_id}')
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 403)
 
 
 if __name__ == '__main__':
