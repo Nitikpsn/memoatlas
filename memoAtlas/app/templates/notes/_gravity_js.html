@@ -1,0 +1,18 @@
+<script src="{{ url_for('static', filename='js/gravity.js') }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tunnel = new FocusTunnel('tunnelNodes');
+
+    document.querySelectorAll('.note-card, .note-link').forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        const noteId = this.dataset.noteId;
+        if (noteId) {
+          fetch('/api/gravity/' + noteId)
+            .then(function(res) { return res.json(); })
+            .then(function(data) { tunnel.updateGravity(data); })
+            .catch(function() {});
+        }
+      });
+    });
+  });
+</script>

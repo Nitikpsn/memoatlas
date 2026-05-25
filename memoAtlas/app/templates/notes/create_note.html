@@ -1,27 +1,72 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="content-wrapper animate-in">
-  <div style="max-width:800px;">
-    <h2 style="font-family:var(--font-retro);font-size:1.25rem;letter-spacing:-0.03em;margin-bottom:0.5rem;">NEW KNOWLEDGE NODE</h2>
-    <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:2rem;">Plant a seed for your atlas.</p>
+{% block title %}MemoAtlas | Plant Node{% endblock %}
 
-    <form method="POST">
+{% block content %}
+<div class="workspace-layout">
+
+  {% include "notes/_sidebar.html" %}
+
+  <div class="workspace">
+    <div class="workspace-header">
+      <h1 class="pixel">>> PLANT NEW NODE</h1>
+      <p style="color:var(--text-muted);font-size:0.75rem;font-family:var(--pixel-font);letter-spacing:0.5px;margin-top:2px;">your thoughts have mass. they pull others in.</p>
+    </div>
+
+    <form method="POST" class="animate-in" style="max-width:900px;">
       {{ form.hidden_tag() }}
-      <div style="margin-bottom:1.5rem;">
-        {{ form.title(placeholder="Note Title (e.g., Quantum Physics Basics)", class="form-input", style="font-size:1.2rem;") }}
+
+      <div style="margin-bottom:1.25rem;">
+        <label style="font-family:var(--pixel-font);font-size:0.7rem;color:var(--retro-red);letter-spacing:1px;display:block;margin-bottom:6px;">TITLE</label>
+        {{ form.title(placeholder="e.g. Quantum Physics Basics", class="form-input", style="font-size:1.1rem;background:#121212;", id="nodeTitle") }}
       </div>
-      <div style="margin-bottom:1.5rem;">
-        {{ form.content(placeholder="Start writing...", class="form-textarea", style="height:400px;") }}
+
+      <div style="margin-bottom:1.25rem;">
+        <label style="font-family:var(--pixel-font);font-size:0.7rem;color:var(--retro-red);letter-spacing:1px;display:block;margin-bottom:6px;">CONTENT</label>
+        {{ form.content(placeholder="Start writing. watch the gravity shift...", class="form-textarea", style="height:380px;", id="nodeContent") }}
       </div>
+
       <div style="margin-bottom:1.5rem;">
-        {{ form.tags(placeholder="Tags: comma, separated, values", class="form-input", style="font-size:0.9rem;") }}
+        <label style="font-family:var(--pixel-font);font-size:0.7rem;color:var(--retro-red);letter-spacing:1px;display:block;margin-bottom:6px;">TAGS</label>
+        {{ form.tags(placeholder="comma, separated, values", class="form-input", style="font-size:0.85rem;background:#121212;", id="nodeTags") }}
       </div>
-      <div style="display:flex;gap:1rem;">
-        <button type="submit" class="btn-primary">CREATE NODE</button>
+
+      <div style="display:flex;gap:1rem;align-items:center;">
+        <button type="submit" class="btn-primary">DEPLOY NODE</button>
         <a href="{{ url_for('notes.workspace') }}" class="btn-secondary">CANCEL</a>
       </div>
     </form>
   </div>
+
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/gravity.js') }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tunnel = new FocusTunnel('tunnelNodes');
+    let gravityTimer;
+
+    function pullGravity() {
+      const title = document.getElementById('nodeTitle').value;
+      const content = document.getElementById('nodeContent').value;
+      const tags = document.getElementById('nodeTags').value;
+      const query = (title + ' ' + content + ' ' + tags).trim();
+      if (query.length < 3) return;
+
+      fetch('/api/gravity-by-content?q=' + encodeURIComponent(query))
+        .then(function(res) { return res.json(); })
+        .then(function(data) { tunnel.updateGravity(data); })
+        .catch(function() {});
+    }
+
+    ['nodeTitle', 'nodeContent', 'nodeTags'].forEach(function(id) {
+      document.getElementById(id).addEventListener('input', function() {
+        clearTimeout(gravityTimer);
+        gravityTimer = setTimeout(pullGravity, 300);
+      });
+    });
+  });
+</script>
 {% endblock %}

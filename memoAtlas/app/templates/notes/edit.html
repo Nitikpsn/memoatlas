@@ -1,25 +1,78 @@
 {% extends "base.html" %}
+{% block title %}MemoAtlas | Edit {{ note.title }}{% endblock %}
 {% block content %}
-<div class="content-wrapper animate-in">
-  <div style="max-width:800px;">
-    <h2 style="font-family:var(--font-retro);font-size:1.25rem;letter-spacing:-0.03em;margin-bottom:0.5rem;">EDIT NODE</h2>
-    <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:2rem;">Editing: {{ note.title }}</p>
-    <form method="POST">
+<div class="workspace-layout">
+
+  {% include "notes/_sidebar.html" %}
+
+  <div class="workspace">
+    <div class="workspace-header">
+      <h1 class="pixel">>> EDIT NODE</h1>
+      <p style="color:var(--text-muted);font-size:0.75rem;font-family:var(--pixel-font);letter-spacing:0.5px;margin-top:2px;">adjusting: {{ note.title }}</p>
+    </div>
+
+    <form method="POST" class="animate-in" style="max-width:900px;">
       {{ form.hidden_tag() }}
-      <div style="margin-bottom:1.5rem;">
-        {{ form.title(class="form-input", style="font-size:1.2rem;") }}
+
+      <div style="margin-bottom:1.25rem;">
+        <label style="font-family:var(--pixel-font);font-size:0.7rem;color:var(--retro-red);letter-spacing:1px;display:block;margin-bottom:6px;">TITLE</label>
+        {{ form.title(class="form-input", style="font-size:1.1rem;background:#121212;", id="nodeTitle") }}
       </div>
-      <div style="margin-bottom:1.5rem;">
-        {{ form.content(class="form-textarea", style="height:400px;") }}
+
+      <div style="margin-bottom:1.25rem;">
+        <label style="font-family:var(--pixel-font);font-size:0.7rem;color:var(--retro-red);letter-spacing:1px;display:block;margin-bottom:6px;">CONTENT</label>
+        {{ form.content(class="form-textarea", style="height:380px;", id="nodeContent") }}
       </div>
+
       <div style="margin-bottom:1.5rem;">
-        {{ form.tags(class="form-input", style="font-size:0.9rem;", placeholder="Tags: comma, separated, values") }}
+        <label style="font-family:var(--pixel-font);font-size:0.7rem;color:var(--retro-red);letter-spacing:1px;display:block;margin-bottom:6px;">TAGS</label>
+        {{ form.tags(class="form-input", style="font-size:0.85rem;background:#121212;", id="nodeTags") }}
       </div>
-      <div style="display:flex;gap:1rem;">
+
+      <div style="display:flex;gap:1rem;align-items:center;">
         <button type="submit" class="btn-primary">SAVE CHANGES</button>
         <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="btn-secondary">CANCEL</a>
       </div>
     </form>
   </div>
+
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/gravity.js') }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tunnel = new FocusTunnel('tunnelNodes');
+
+    // initial gravity pull from the note being edited
+    const noteId = {{ note.id }};
+    fetch('/api/gravity/' + noteId)
+      .then(function(res) { return res.json(); })
+      .then(function(data) { tunnel.updateGravity(data); })
+      .catch(function() {});
+
+    // real-time gravity as content changes
+    let gravityTimer;
+    function pullGravity() {
+      const title = document.getElementById('nodeTitle').value;
+      const content = document.getElementById('nodeContent').value;
+      const tags = document.getElementById('nodeTags').value;
+      const query = (title + ' ' + content + ' ' + tags).trim();
+      if (query.length < 3) return;
+
+      fetch('/api/gravity-by-content?q=' + encodeURIComponent(query))
+        .then(function(res) { return res.json(); })
+        .then(function(data) { tunnel.updateGravity(data); })
+        .catch(function() {});
+    }
+
+    ['nodeTitle', 'nodeContent', 'nodeTags'].forEach(function(id) {
+      document.getElementById(id).addEventListener('input', function() {
+        clearTimeout(gravityTimer);
+        gravityTimer = setTimeout(pullGravity, 300);
+      });
+    });
+  });
+</script>
 {% endblock %}
