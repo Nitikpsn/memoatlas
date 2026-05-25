@@ -7,10 +7,11 @@
     --pixel-font: 'VT323', monospace;
 }
 
-h1, h2, h3, .pixel {
-    font-family: var(--pixel-font);
+h1, h2, h3, .pixel, .node-label {
+    font-family: 'Pixelify Sans', var(--pixel-font);
     color: var(--retro-red);
     text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .sidebar-tree {
@@ -246,7 +247,15 @@ h1, h2, h3, .pixel {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: #0f0f0f;
+    background: #0a0a0a;
+}
+
+.game-workspace .game-hud-top {
+    flex-shrink: 0;
+}
+
+.game-workspace .game-map {
+    flex: 1;
 }
 
 /* --- HUD Top Bar --- */
@@ -421,64 +430,13 @@ h1, h2, h3, .pixel {
     box-shadow: 0 0 16px rgba(239, 68, 68, 0.8);
 }
 
-/* --- HUD Bottom Controls --- */
-.game-hud-bottom {
-    flex-shrink: 0;
-    padding: 8px 16px;
-    background: rgba(0, 0, 0, 0.7);
-    border-top: 1px solid rgba(239, 68, 68, 0.15);
-    z-index: 20;
-}
-
-.game-controls {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-}
-
-.game-btn {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--text-dim);
-    padding: 6px 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.15s ease;
-    font-family: inherit;
-}
-
-.game-btn:hover {
-    border-color: var(--retro-red);
-    color: var(--retro-red);
-    background: rgba(239, 68, 68, 0.05);
-}
-
-.game-btn.active {
-    background: rgba(239, 68, 68, 0.08);
-    border-color: var(--retro-red);
-    color: var(--retro-red);
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.15);
-}
-
-.game-btn-icon {
-    font-size: 1rem;
-    line-height: 1;
-}
-
-.game-btn-label {
-    font-size: 0.65rem;
-    letter-spacing: 1px;
-}
-
 /* sidebar nav link to game */
 .nav-game-link {
     display: flex;
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
-    font-family: var(--pixel-font);
+    font-family: 'Pixelify Sans', var(--pixel-font);
     font-size: 0.75rem;
     color: var(--text-dim);
     border-top: 1px solid rgba(255, 255, 255, 0.04);
