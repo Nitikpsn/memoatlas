@@ -74,6 +74,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   var tunnel = new FocusTunnel('focusTunnel', 'tunnelItems');
   var map = new SpatialMap('mapCanvas', tunnel);
+  window.mapInstance = map;
   map.load();
 
   document.getElementById('btnZoomIn').addEventListener('click', function() { map.zoom(0.3); });

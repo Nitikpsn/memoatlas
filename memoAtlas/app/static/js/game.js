@@ -16,6 +16,7 @@ class SpatialMap {
     this.dragOffY = 0;
     this.animFrame = null;
     this.branchCache = {};
+    this.linkInProgress = false;
 
     this._resize();
     window.addEventListener('resize', function() { this._resize(); this.render(); }.bind(this));
@@ -120,22 +121,45 @@ class SpatialMap {
 
     this.nodes.forEach(function(n) {
       var isSel = n.id == this.selectedId;
-      var r = isSel ? 9 : 6;
+      var isMatched = n.is_matched === true;
+      var r = isSel ? 9 : 7;
+
+      if (!isMatched) {
+        ctx.globalAlpha = 0.35;
+      }
+
       ctx.beginPath();
       ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
-      ctx.fillStyle = isSel ? '#EF4444' : 'rgba(239,68,68,0.6)';
-      if (isSel) {
-        ctx.shadowColor = '#EF4444';
-        ctx.shadowBlur = 20;
+
+      if (isMatched) {
+        ctx.fillStyle = isSel ? '#EF4444' : '#EF4444';
+        if (isSel) {
+          ctx.shadowColor = '#EF4444';
+          ctx.shadowBlur = 20;
+        } else {
+          ctx.shadowColor = 'rgba(239,68,68,0.4)';
+          ctx.shadowBlur = 8;
+        }
+      } else {
+        ctx.fillStyle = isSel ? 'rgba(239,68,68,0.8)' : 'rgba(160,160,160,0.5)';
+        ctx.shadowBlur = 0;
       }
       ctx.fill();
       ctx.shadowBlur = 0;
+      ctx.globalAlpha = 1;
 
       if (n.title) {
         ctx.font = '13px Pixelify Sans';
-        ctx.fillStyle = '#F4F4F5';
+        ctx.fillStyle = isMatched ? '#F4F4F5' : 'rgba(160,160,160,0.5)';
         ctx.textAlign = 'center';
         ctx.fillText(n.title, n.x, n.y + r + 16);
+      }
+
+      if (!isMatched && isSel) {
+        ctx.font = '9px Pixelify Sans';
+        ctx.fillStyle = 'rgba(239,68,68,0.5)';
+        ctx.textAlign = 'center';
+        ctx.fillText('[LOCKED]', n.x, n.y + r + 30);
       }
     }.bind(this));
 
@@ -207,4 +231,98 @@ class SpatialMap {
     this._layout();
     this.render();
   }
+
+  async createLink(targetId) {
+    if (this.linkInProgress) return;
+    this.linkInProgress = true;
+
+    var sourceId = this.selectedId;
+    if (!sourceId || !targetId || sourceId == targetId) {
+      this.linkInProgress = false;
+      return;
+    }
+
+    try {
+      var res = await fetch('/api/link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ source_id: sourceId, target_id: targetId })
+      });
+      var data = await res.json();
+      if (!res.ok) {
+        console.error('Link error:', data);
+        this.linkInProgress = false;
+        return;
+      }
+
+      if (data.xp_gained > 0) {
+        this._showMatchToast();
+      }
+
+      var sourceNode = this.nodes.find(function(n) { return n.id === data.connection.source_id; });
+      var targetNode = this.nodes.find(function(n) { return n.id === data.connection.target_id; });
+      if (sourceNode) sourceNode.is_matched = true;
+      if (targetNode) targetNode.is_matched = true;
+
+      this.edges.push({
+        source: data.connection.source_id,
+        target: data.connection.target_id,
+        value: 1,
+        manual: true
+      });
+      this._hashBranches();
+
+      this.render();
+
+      if (this.tunnel && data.xp_gained > 0) {
+        this.tunnel.renderNeighborsWithLink(data.connection.source_id, data.connection.target_id);
+      }
+    } catch(e) {
+      console.error('Link creation error', e);
+    }
+
+    this.linkInProgress = false;
+  }
+
+  _showMatchToast() {
+    var container = document.getElementById('matchToastContainer');
+    if (!container) return;
+
+    var toast = document.createElement('div');
+    toast.className = 'match-toast';
+    toast.innerHTML = 'MATCH CAUGHT<span class="xp-sub">+100 XP</span>';
+    container.appendChild(toast);
+
+    var xpContainer = document.getElementById('xpContainer');
+    if (xpContainer) {
+      xpContainer.classList.remove('xp-flash');
+      void xpContainer.offsetWidth;
+      xpContainer.classList.add('xp-flash');
+    }
+
+    setTimeout(function() {
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 2000);
+  }
+}
+
+function showMatchToast(message, xp) {
+  var container = document.getElementById('matchToastContainer');
+  if (!container) return;
+
+  var toast = document.createElement('div');
+  toast.className = 'match-toast';
+  toast.innerHTML = (message || 'MATCH CAUGHT') + '<span class="xp-sub">+' + (xp || 100) + ' XP</span>';
+  container.appendChild(toast);
+
+  var xpContainer = document.getElementById('xpContainer');
+  if (xpContainer) {
+    xpContainer.classList.remove('xp-flash');
+    void xpContainer.offsetWidth;
+    xpContainer.classList.add('xp-flash');
+  }
+
+  setTimeout(function() {
+    if (toast.parentNode) toast.parentNode.removeChild(toast);
+  }, 2000);
 }
