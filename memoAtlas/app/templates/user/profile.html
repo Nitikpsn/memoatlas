@@ -1,7 +1,4 @@
 {% extends "base.html" %}
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
-{% endblock %}
 {% block content %}
 <div class="content-wrapper animate-in">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
@@ -28,7 +25,7 @@
     </div>
 
     <div class="bento-item bento-avatar" style="text-align:center;padding:2.5rem 2rem;">
-      <img src="{{ user.avatar }}" class="avatar-circle" alt="Avatar">
+      <img src="{{ user.get_avatar() }}" class="avatar-circle" alt="Avatar">
       <h4 style="margin-top:1rem;font-family:var(--font-retro);font-size:1rem;">{{ user.username }}</h4>
       <p style="color:var(--text-muted);font-size:0.75rem;">
         {% if user.created_at %}Joined {{ user.created_at.strftime('%b %Y') }}{% endif %}

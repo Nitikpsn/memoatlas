@@ -1,5 +1,5 @@
-from app import db
 from datetime import datetime
+from . import db
 
 class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -11,8 +11,11 @@ class Note(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     is_matched = db.Column(db.Boolean, default=False)
 
-    def tag_list(self):
-        return [t.strip() for t in (self.tags or '').split(',') if t.strip()]
+    def get_tag_list(self):
+        """turn the comma-separated tags into a list"""
+        if not self.tags:
+            return []
+        return [tag.strip() for tag in self.tags.split(',') if tag.strip()]
 
     def __repr__(self):
-        return f"Note('{self.title}', '{self.date_posted}')"
+        return "Note('" + self.title + "', '" + str(self.date_posted) + "')"

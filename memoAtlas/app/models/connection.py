@@ -1,5 +1,5 @@
-from app import db
 from datetime import datetime
+from . import db
 
 class Connection(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -13,4 +13,4 @@ class Connection(db.Model):
     target_note = db.relationship('Note', foreign_keys=[target_note_id])
 
     def __repr__(self):
-        return f"Connection('{self.source_note_id}' -> '{self.target_note_id}')"
+        return "Connection('" + str(self.source_note_id) + "' -> '" + str(self.target_note_id) + "')"

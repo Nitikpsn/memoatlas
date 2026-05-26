@@ -1,27 +1,30 @@
-import os
 from flask import Flask
 from flask_login import LoginManager
 from config import Config
-from .models.user import db
+from .models import db, User
 
 def create_app(test_config=None):
+    # create the flask app
     app = Flask(__name__)
     app.config.from_object(Config)
+
     if test_config:
         app.config.update(test_config)
+
+    # connect the database
     db.init_app(app)
 
+    # set up login
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    from .models.user import User
-    from .models.connection import Connection
-    from .models.progress import Progress
+    # tell flask how to load a user from the database
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
 
+    # register all the blueprints (route groups)
     from .routes.main import main
     from .routes.auth import auth
     from .routes.notes import notes
@@ -40,15 +43,8 @@ def create_app(test_config=None):
     app.register_blueprint(user_bp)
     app.register_blueprint(game)
 
+    # create all the database tables
     with app.app_context():
         db.create_all()
-
-        from sqlalchemy import inspect as sa_inspect, text as sa_text
-        inspector = sa_inspect(db.engine)
-        if 'note' in inspector.get_table_names():
-            cols = [c['name'] for c in inspector.get_columns('note')]
-            if 'is_matched' not in cols:
-                db.session.execute(sa_text('ALTER TABLE note ADD COLUMN is_matched BOOLEAN DEFAULT 0'))
-                db.session.commit()
 
     return app

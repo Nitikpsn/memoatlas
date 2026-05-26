@@ -27,9 +27,9 @@
     {% endif %}
   </div>
   <div class="hud-right">
-    <span class="hud-streak pixel">🔥 {{ range(1, 8) | random }}</span>
+    <span class="hud-streak pixel">&#x1F525; {{ range(1, 8) | random }}</span>
     <a href="{{ url_for('user.profile') }}" class="hud-profile-link">
-      <img src="{{ current_user.avatar }}" alt="Profile" class="hud-profile-icon">
+      <img src="{{ current_user.get_avatar() }}" alt="Profile" class="hud-profile-icon">
     </a>
   </div>
 </div>
@@ -37,14 +37,14 @@
 <div class="game-body">
   <aside class="game-sidebar">
     <div class="game-sidebar-header">
-      <h3 class="pixel">>> GRAVITY</h3>
+      <h3 class="pixel">&gt;&gt; GRAVITY</h3>
       <span class="gravity-indicator">jaccard pull signal</span>
     </div>
     <div class="game-sidebar-section">
       <div class="focus-tunnel" id="focusTunnel">
         <div id="tunnelItems">
           <div class="tunnel-node dim">
-            <span class="pixel-prefix">>></span> click a node to pull...
+            <span class="pixel-prefix">&gt;&gt;</span> click a node to pull...
           </div>
         </div>
       </div>
@@ -59,8 +59,8 @@
     <canvas id="mapCanvas"></canvas>
     <div class="map-controls">
       <button class="map-ctrl-btn" id="btnZoomIn">+</button>
-      <button class="map-ctrl-btn" id="btnZoomOut">−</button>
-      <button class="map-ctrl-btn" id="btnReset">⟲</button>
+      <button class="map-ctrl-btn" id="btnZoomOut">-</button>
+      <button class="map-ctrl-btn" id="btnReset">&#x27F2;</button>
     </div>
   </div>
 </div>

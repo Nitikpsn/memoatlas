@@ -1,5 +1,5 @@
-from app import db
 from datetime import datetime
+from . import db
 
 class Progress(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -9,4 +9,4 @@ class Progress(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def __repr__(self):
-        return f"Progress(user_id='{self.user_id}', xp={self.xp}, level={self.level})"
+        return "Progress(user_id='" + str(self.user_id) + "', xp=" + str(self.xp) + ", level=" + str(self.level) + ")"
