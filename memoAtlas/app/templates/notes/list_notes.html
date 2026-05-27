@@ -1,39 +1,74 @@
 {% extends "base.html" %}
-
-{% block title %}MemoAtlas | Map{% endblock %}
-
+{% block title %}MemoAtlas | Forest{% endblock %}
 {% block content %}
-<div class="workspace-layout">
-
+<div class="workspace-layout" style="display:flex;height:100vh;">
   {% include "notes/_sidebar.html" %}
-
-  <div class="workspace">
-    <div class="workspace-header" style="display:flex;align-items:center;justify-content:space-between;">
-      <h1 class="pixel">ATLAS NODES</h1>
-      <span style="font-family:var(--pixel-font);font-size:0.65rem;color:rgba(239,68,68,0.35);letter-spacing:2px;">{{ notes|length }} LOCATIONS</span>
+  <div class="forest-content animate-in">
+    <div class="forest-page-header">
+      <h1>// YOUR TREES</h1>
+      <span>{{ notes|length }} TREE{% if notes|length != 1 %}S{% endif %}</span>
     </div>
 
     {% if notes %}
-    <div class="note-grid">
+    <div class="tree-grid">
       {% for note in notes %}
-      <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="note-card" data-note-id="{{ note.id }}">
-        <div class="note-card-header">
-          <h3 class="note-card-title">{{ note.title }}</h3>
-          <span class="note-card-date">{{ note.date_posted.strftime('%b %d, %Y') }}</span>
+      {% set health = note.effective_health() %}
+      {% set wilted = note.is_wilted() %}
+      {% set stage = "wilt" if wilted else ("seed" if health < 30 else "sprout" if health < 70 else "tree") %}
+      <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="tree-card {% if wilted %}wilt-border{% endif %}" data-note-id="{{ note.id }}">
+        <div class="tree-icon plant-{{ stage }}">
+          {% if stage == "wilt" %}
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <line x1="12" y1="20" x2="12" y2="8" stroke="#444" stroke-width="1.5"/>
+            <line x1="8" y1="4" x2="12" y2="8" stroke="#444" stroke-width="1.5"/>
+            <line x1="16" y1="4" x2="12" y2="8" stroke="#444" stroke-width="1.5"/>
+            <line x1="8" y1="14" x2="16" y2="14" stroke="#444" stroke-width="1"/>
+          </svg>
+          {% elif stage == "seed" %}
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <circle cx="12" cy="16" r="3" fill="none" stroke="#888" stroke-width="1.5"/>
+            <line x1="12" y1="16" x2="12" y2="6" stroke="#888" stroke-width="1.5"/>
+            <circle cx="12" cy="4" r="1.5" fill="#888"/>
+          </svg>
+          {% elif stage == "sprout" %}
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <line x1="12" y1="20" x2="12" y2="8" stroke="#888" stroke-width="1.5"/>
+            <polygon points="12,4 6,14 18,14" fill="none" stroke="#FFF" stroke-width="1.5"/>
+          </svg>
+          {% else %}
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <line x1="12" y1="20" x2="12" y2="6" stroke="#888" stroke-width="1.5"/>
+            <polygon points="12,2 4,14 20,14" fill="none" stroke="#FFF" stroke-width="1.5"/>
+            <polygon points="12,6 6,16 18,16" fill="none" stroke="#888" stroke-width="1"/>
+          </svg>
+          {% endif %}
         </div>
-        <p class="note-card-preview">{{ note.content[:180] }}{% if note.content|length > 180 %}...{% endif %}</p>
+
+        <div class="tree-card-header">
+          <h3 class="tree-card-title {% if wilted %}wilt-text{% endif %}">{{ note.title }}</h3>
+          <span class="tree-card-date">{{ note.date_posted.strftime('%b %d') }}</span>
+        </div>
+        <p class="tree-card-preview">{{ note.content[:150] }}{% if note.content|length > 150 %}...{% endif %}</p>
+
+        <div class="health-bar">
+          <div class="health-fill {% if wilted %}wilt{% endif %}" style="width:{{ health }}%"></div>
+        </div>
       </a>
       {% endfor %}
     </div>
     {% else %}
-    <div class="empty-state">
-      <p class="empty-title pixel">// YOUR ATLAS IS EMPTY</p>
-      <p class="empty-subtitle">Start mapping your knowledge, one node at a time.</p>
-      <a href="{{ url_for('notes.create_note') }}" class="btn-primary">CREATE YOUR FIRST NODE</a>
+    <div class="forest-empty">
+      <svg style="width:48px;height:48px;margin:0 auto 1.5rem;display:block;" viewBox="0 0 48 48">
+        <line x1="24" y1="40" x2="24" y2="18" stroke="#888" stroke-width="1.5"/>
+        <polygon points="24,6 8,26 40,26" fill="none" stroke="#888" stroke-width="1.5"/>
+        <circle cx="24" cy="14" r="3" fill="none" stroke="#888" stroke-width="1.5"/>
+      </svg>
+      <p class="forest-empty-title">// YOUR FOREST IS EMPTY</p>
+      <p class="forest-empty-subtitle">Plant your first tree and start growing your knowledge.</p>
+      <a href="{{ url_for('notes.create_note') }}" class="forest-btn" style="display:inline-block;width:auto;padding:0.7rem 2rem;">PLANT A TREE</a>
     </div>
     {% endif %}
   </div>
-
 </div>
 {% endblock %}
 

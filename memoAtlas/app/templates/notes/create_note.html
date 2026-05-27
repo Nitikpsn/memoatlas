@@ -1,72 +1,45 @@
 {% extends "base.html" %}
-
-{% block title %}MemoAtlas | Plant Node{% endblock %}
-
+{% block title %}MemoAtlas | Plant Tree{% endblock %}
 {% block content %}
-<div class="workspace-layout">
-
+<div style="display:flex;height:100vh;">
   {% include "notes/_sidebar.html" %}
-
-  <div class="workspace">
-    <div class="note-container animate-in">
-      <h1 class="pixel note-label">>> PLANT NEW NODE</h1>
-      <p style="color:var(--text-muted);font-size:0.7rem;font-family:var(--pixel-font);letter-spacing:0.5px;margin-bottom:1.5rem;">your thoughts have mass. they pull others in.</p>
+  <div class="forest-content animate-in">
+    <div class="tree-detail" style="max-width:720px;margin:0 auto;">
+      <svg style="width:28px;height:28px;margin-bottom:1rem;" viewBox="0 0 28 28">
+        <circle cx="14" cy="18" r="4" fill="none" stroke="#888" stroke-width="1.5"/>
+        <line x1="14" y1="18" x2="14" y2="6" stroke="#888" stroke-width="1.5"/>
+        <circle cx="14" cy="3" r="1.5" fill="#FFF"/>
+      </svg>
+      <h1 style="font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.25rem;">PLANT A NEW TREE</h1>
+      <p style="font-size:0.6rem;color:var(--forest-muted);margin-bottom:2rem;">every thought starts as a seed.</p>
 
       <form method="POST">
         {{ form.hidden_tag() }}
 
-        <div style="margin-bottom:1.5rem;">
-          <span class="note-label">TITLE</span>
-          {{ form.title(placeholder="e.g. Quantum Physics Basics", class="note-title-input", id="nodeTitle") }}
+        <div class="forest-form-group">
+          <span class="forest-label">Title</span>
+          {{ form.title(placeholder="e.g. Quantum Physics Basics", class="forest-input", id="nodeTitle") }}
         </div>
 
-        <div style="margin-bottom:1.5rem;">
-          <span class="note-label">CONTENT</span>
-          {{ form.content(placeholder="Start writing. watch the gravity shift...", class="note-body form-textarea", style="background:#121212;border:1px solid rgba(239,68,68,0.15);height:380px;resize:vertical;width:100%;padding:1rem;outline:none;color:#D4D4D8;", id="nodeContent") }}
+        <div class="forest-form-group">
+          <span class="forest-label">Content</span>
+          {{ form.content(placeholder="Write your thoughts here...", class="forest-input forest-textarea", id="nodeContent") }}
         </div>
 
-        <div style="margin-bottom:2rem;">
-          <span class="note-label">TAGS</span>
-          {{ form.tags(placeholder="comma, separated, values", class="note-body", style="background:#121212;border:1px solid rgba(239,68,68,0.15);width:100%;padding:0.75rem 1rem;outline:none;color:#D4D4D8;font-size:0.9rem;", id="nodeTags") }}
+        <div class="forest-form-group">
+          <span class="forest-label">Tags</span>
+          {{ form.tags(placeholder="comma, separated, values", class="forest-input", id="nodeTags") }}
         </div>
 
         <div style="display:flex;gap:1rem;align-items:center;">
-          <button type="submit" class="btn-primary">DEPLOY NODE</button>
-          <a href="{{ url_for('notes.workspace') }}" class="btn-secondary">CANCEL</a>
+          <button type="submit" class="forest-btn" style="width:auto;padding:0.7rem 2rem;">PLANT TREE</button>
+          <a href="{{ url_for('notes.workspace') }}" class="forest-btn forest-btn-dim" style="width:auto;padding:0.7rem 2rem;">CANCEL</a>
         </div>
       </form>
     </div>
   </div>
-
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/gravity.js') }}"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const tunnel = new FocusTunnel('focusTunnel', 'tunnelItems');
-
-    let gravityTimer;
-    function pullGravity() {
-      const title = document.getElementById('nodeTitle').value;
-      const content = document.getElementById('nodeContent').value;
-      const tags = document.getElementById('nodeTags').value;
-      const query = (title + ' ' + content + ' ' + tags).trim();
-      if (query.length < 3) return;
-
-      fetch('/api/gravity-by-content?q=' + encodeURIComponent(query))
-        .then(function(res) { return res.json(); })
-        .then(function(data) { tunnel.renderNeighbors(data.slice(0, 3)); })
-        .catch(function() {});
-    }
-
-    ['nodeTitle', 'nodeContent', 'nodeTags'].forEach(function(id) {
-      document.getElementById(id).addEventListener('input', function() {
-        clearTimeout(gravityTimer);
-        gravityTimer = setTimeout(pullGravity, 300);
-      });
-    });
-  });
-</script>
 {% endblock %}

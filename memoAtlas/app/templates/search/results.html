@@ -1,28 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="content-wrapper animate-in">
-  <div style="max-width:800px;">
-    <h2 style="font-family:var(--font-retro);font-size:1.25rem;letter-spacing:-0.03em;margin-bottom:0.5rem;">SEARCH RESULTS</h2>
-    <form method="GET" action="{{ url_for('search.index') }}" style="margin-bottom:2rem;">
-      <input type="text" name="q" value="{{ query }}" placeholder="Search your notes..." class="form-input" style="font-size:1rem;">
+<div class="forest-content animate-in">
+  <div class="forest-search">
+    <div class="forest-page-header">
+      <h1>// SEARCH</h1>
+    </div>
+    <form method="GET" action="{{ url_for('search.index') }}">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search your forest..." class="forest-input" style="font-size:0.85rem;">
     </form>
     {% if query %}
-      <p style="color:var(--text-muted);margin-bottom:1.5rem;font-size:0.85rem;">{{ results|length }} result{% if results|length != 1 %}s{% endif %} for "{{ query }}"</p>
+      <p class="forest-search-count">{{ results|length }} result{% if results|length != 1 %}s{% endif %} for "{{ query }}"</p>
       {% if results %}
-      <div style="display:grid;gap:16px;">
+      <div class="forest-search-list">
         {% for note in results %}
         <a href="{{ url_for('notes.view_note', note_id=note.id) }}" style="text-decoration:none;display:block;">
-          <div class="note-card" style="padding:1.5rem;">
-            <h3 class="note-card-title">{{ note.title }}</h3>
-            <p class="note-card-preview">{{ note.content[:200] }}{% if note.content|length > 200 %}...{% endif %}</p>
+          <div class="tree-card">
+            <div class="tree-card-header">
+              <h3 class="tree-card-title">{{ note.title }}</h3>
+              <span class="tree-card-date">{{ note.date_posted.strftime('%b %d') }}</span>
+            </div>
+            <p class="tree-card-preview">{{ note.content[:200] }}{% if note.content|length > 200 %}...{% endif %}</p>
           </div>
         </a>
         {% endfor %}
       </div>
       {% else %}
-      <p style="color:var(--text-muted);text-align:center;padding:3rem;font-size:0.85rem;">No notes match your search.</p>
+      <p style="text-align:center;padding:3rem;font-size:0.7rem;color:var(--forest-dim);">No trees match your search.</p>
       {% endif %}
     {% endif %}
+    <div style="margin-top:1.5rem;">
+      <a href="{{ url_for('notes.workspace') }}" style="font-size:0.6rem;color:var(--forest-dim);letter-spacing:1px;">&larr; BACK TO FOREST</a>
+    </div>
   </div>
 </div>
 {% endblock %}

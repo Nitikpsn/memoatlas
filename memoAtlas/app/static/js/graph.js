@@ -87,13 +87,9 @@ if (pulseBtn) {
     pulseBtn.addEventListener('click', function() {
         pulseActive = !pulseActive;
         this.classList.toggle('active');
-        var indicator = this.querySelector('.pulse-indicator');
-
         if (pulseActive) {
-            indicator.style.animation = 'pulse-dot 1s ease-in-out infinite';
             startPulse();
         } else {
-            indicator.style.animation = '';
             stopPulse();
         }
     });

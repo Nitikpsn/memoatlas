@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, abort, request
+from flask import Blueprint, render_template, redirect, url_for, flash, abort, request, jsonify
 from flask_login import login_required, current_user
 from ..models import db
 from ..models.note import Note
@@ -77,7 +77,6 @@ def edit_note(note_id):
         note.title = form.title.data
         note.content = form.content.data
         note.tags = form.tags.data
-        note.date_posted = datetime.utcnow()
         db.session.commit()
         flash('Note updated!', 'success')
         return redirect(url_for('notes.view_note', note_id=note.id))
@@ -95,3 +94,30 @@ def delete_note(note_id):
     db.session.commit()
     flash('Note deleted.', 'info')
     return redirect(url_for('notes.workspace'))
+
+
+@notes.route('/revise/<int:note_id>', methods=['POST'])
+@login_required
+def complete_revision(note_id):
+    note = Note.query.get_or_404(note_id)
+    if note.author != current_user:
+        return jsonify({"error": "Unauthorized"}), 403
+    note.last_revised = datetime.utcnow()
+    note.health_score += 20
+    if note.health_score > 100:
+        note.health_score = 100
+    db.session.commit()
+    return jsonify({
+        "success": True,
+        "new_health": note.health_score,
+        "message": "Tree grew successfully!"
+    })
+
+
+@notes.route('/revise/<int:note_id>', methods=['GET'])
+@login_required
+def revise_view(note_id):
+    note = Note.query.get_or_404(note_id)
+    if note.author != current_user:
+        abort(403)
+    return render_template('dashboard/revise.html', note=note)

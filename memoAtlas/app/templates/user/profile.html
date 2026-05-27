@@ -1,60 +1,60 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="content-wrapper animate-in">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
-    <h1 style="font-family:var(--font-retro);font-size:1.5rem;letter-spacing:-0.03em;">PROFILE</h1>
-  </div>
+<div class="forest-content animate-in">
+  <div class="forest-profile">
+    <div class="forest-page-header">
+      <h1>// PROFILE</h1>
+    </div>
 
-  <div class="profile-bento">
-    <div class="bento-item bento-feed">
-      <h3>Activity Feed</h3>
-      <div style="margin-bottom:1.5rem;">
-        <span class="stats-pill">Feed</span>
-        <span style="color:var(--text-dim);font-size:0.8rem;">History</span>
+    <div class="forest-profile-grid">
+      <div class="forest-profile-card" style="grid-column:1;grid-row:1/3;">
+        <h3>Activity</h3>
+        <ul style="list-style:none;">
+          <li class="forest-activity-item">
+            <span class="forest-activity-date">TODAY</span>
+            Tended to <strong>{{ user.username }}</strong>'s forest
+          </li>
+          <li class="forest-activity-item">
+            <span class="forest-activity-date">TREES</span>
+            <strong>{{ user.notes|length }}</strong> trees in your forest
+          </li>
+        </ul>
       </div>
-      <ul style="list-style:none;">
-        <li style="margin-bottom:1.25rem;color:var(--text-secondary);font-size:0.85rem;">
-          <small style="color:var(--text-muted);display:block;margin-bottom:0.25rem;font-family:var(--font-retro);font-size:0.65rem;letter-spacing:0.5px;">TODAY</small>
-          Created a new Node in <strong style="color:var(--text-main);">{{ user.username }}</strong>
-        </li>
-        <li style="margin-bottom:1.25rem;color:var(--text-secondary);font-size:0.85rem;">
-          <small style="color:var(--text-muted);display:block;margin-bottom:0.25rem;font-family:var(--font-retro);font-size:0.65rem;letter-spacing:0.5px;">YESTERDAY</small>
-          Connected 5 nodes in the Knowledge Graph
-        </li>
-      </ul>
-    </div>
 
-    <div class="bento-item bento-avatar" style="text-align:center;padding:2.5rem 2rem;">
-      <img src="{{ user.get_avatar() }}" class="avatar-circle" alt="Avatar">
-      <h4 style="margin-top:1rem;font-family:var(--font-retro);font-size:1rem;">{{ user.username }}</h4>
-      <p style="color:var(--text-muted);font-size:0.75rem;">
-        {% if user.created_at %}Joined {{ user.created_at.strftime('%b %Y') }}{% endif %}
-      </p>
-    </div>
+      <div class="forest-profile-card" style="grid-column:2;grid-row:1;text-align:center;">
+        <img src="{{ user.get_avatar() }}" class="forest-avatar" alt="Avatar">
+        <div class="forest-avatar-name">{{ user.username }}</div>
+        <div class="forest-avatar-date">Joined {{ user.created_at.strftime('%b %Y') }}</div>
+      </div>
 
-    <div class="bento-item bento-connections">
-      <h3>Connections</h3>
-      <p style="color:var(--text-muted);font-size:0.8rem;">
-        Your knowledge graph has <strong style="color:var(--text-main);">{{ user.notes|length }}</strong> nodes.
-      </p>
-    </div>
+      <div class="forest-profile-card" style="grid-column:3;grid-row:1;">
+        <h3>Connections</h3>
+        <p style="font-size:0.65rem;color:var(--forest-muted);">
+          Your forest has <strong style="color:var(--forest-text);">{{ user.notes|length }}</strong> trees.
+        </p>
+      </div>
 
-    <div class="bento-item bento-stats">
-      <h3>Atlas Stats</h3>
-      <div class="bento-stats-grid">
-        <div class="bento-stat-item">
-          <div class="stat-number">{{ user.notes|length }}</div>
-          <div class="stat-desc">Total Nodes</div>
-        </div>
-        <div class="bento-stat-item">
-          <div class="stat-number">0</div>
-          <div class="stat-desc">Connections</div>
-        </div>
-        <div class="bento-stat-item">
-          <div class="stat-number">1</div>
-          <div class="stat-desc">Atlas Level</div>
+      <div class="forest-profile-card" style="grid-column:2/4;grid-row:2;">
+        <h3>Forest Stats</h3>
+        <div class="forest-stats-grid">
+          <div class="forest-stat">
+            <div class="forest-stat-num">{{ user.notes|length }}</div>
+            <div class="forest-stat-desc">Total Trees</div>
+          </div>
+          <div class="forest-stat">
+            <div class="forest-stat-num">0</div>
+            <div class="forest-stat-desc">Branches</div>
+          </div>
+          <div class="forest-stat">
+            <div class="forest-stat-num">1</div>
+            <div class="forest-stat-desc">Forest Level</div>
+          </div>
         </div>
       </div>
+    </div>
+
+    <div style="margin-top:1.5rem;">
+      <a href="{{ url_for('notes.workspace') }}" class="forest-btn forest-btn-sm forest-btn-dim" style="display:inline-block;width:auto;">&larr; BACK TO FOREST</a>
     </div>
   </div>
 </div>

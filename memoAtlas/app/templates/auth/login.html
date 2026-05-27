@@ -1,92 +1,38 @@
 {% extends "base.html" %}
-
 {% block title %}Login | MemoAtlas{% endblock %}
-
 {% block content %}
-<div class="auth-container">
-    <div class="auth-card">
-        <h2>Welcome Back</h2>
-        <p class="auth-subtitle">Log in to access your knowledge graph.</p>
+<div class="forest-auth animate-in">
+  <div class="forest-auth-card">
+    <svg style="width:32px;height:32px;margin:0 auto 1rem;display:block;" viewBox="0 0 32 32">
+      <polygon points="16,4 4,28 28,28" fill="none" stroke="#FFF" stroke-width="1.5"/>
+      <line x1="16" y1="14" x2="16" y2="22" stroke="#888" stroke-width="1.5"/>
+      <line x1="10" y1="22" x2="22" y2="22" stroke="#888" stroke-width="1.5"/>
+    </svg>
+    <h2>Welcome Back</h2>
+    <p class="forest-auth-subtitle">Log in to tend your forest.</p>
 
-        <form method="POST">
-            <div class="form-group">
-                <label class="form-label">Email Address</label>
-                <input type="email" name="email" class="form-input" placeholder="name@email.com" required>
-            </div>
+    <form method="POST">
+      <div class="forest-form-group">
+        <label class="forest-label">Email</label>
+        <input type="email" name="email" class="forest-input" placeholder="name@email.com" required>
+      </div>
 
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" name="password" class="form-input" placeholder="••••••••" required>
-            </div>
+      <div class="forest-form-group">
+        <label class="forest-label">Password</label>
+        <input type="password" name="password" class="forest-input" placeholder="••••••••" required>
+      </div>
 
-            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
-                <input type="checkbox" name="remember" id="remember">
-                <label for="remember" style="font-size: 0.85rem; color: var(--text-muted);">Remember me</label>
-            </div>
+      <div class="forest-checkbox">
+        <input type="checkbox" name="remember" id="remember">
+        <label for="remember">Remember me</label>
+      </div>
 
-            <button type="submit" class="btn-auth">Login to Atlas</button>
-        </form>
+      <button type="submit" class="forest-btn">LOGIN TO FOREST</button>
+    </form>
 
-        <div class="auth-footer">
-            New here? <a href="{{ url_for('auth.register') }}">Create an account</a>
-        </div>
+    <div class="forest-auth-footer">
+      New here? <a href="{{ url_for('auth.register') }}">Create an account</a>
     </div>
+  </div>
 </div>
-
-<style>
-    .auth-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 70vh;
-        padding: 20px;
-    }
-    .auth-card {
-        background: var(--bg-card);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 3rem;
-        border-radius: var(--radius-lg);
-        width: 100%;
-        max-width: 400px;
-    }
-    .auth-card h2 {
-        font-family: var(--font-retro);
-        font-size: 1.25rem;
-        margin-bottom: 0.5rem;
-        text-align: center;
-    }
-    .auth-subtitle { color: var(--text-muted); text-align: center; margin-bottom: 2rem; font-size: 0.85rem; }
-    .form-group { margin-bottom: 1.5rem; }
-    .form-label { display: block; margin-bottom: 0.5rem; font-size: 0.8rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
-    .form-input {
-        width: 100%;
-        padding: 14px;
-        background: var(--bg-main);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: var(--radius-sm);
-        color: var(--text-main);
-        font-size: 1rem;
-        outline: none;
-        font-family: var(--font-body);
-    }
-    .form-input:focus { border-color: var(--accent-red); }
-    .btn-auth {
-        width: 100%;
-        padding: 14px;
-        background: var(--accent-red);
-        color: var(--text-main);
-        border: none;
-        border-radius: var(--radius-sm);
-        font-weight: 600;
-        cursor: pointer;
-        transition: background var(--transition-fast);
-        font-family: var(--font-body);
-        font-size: 0.85rem;
-        text-transform: uppercase;
-    }
-    .btn-auth:hover { background: #c1121f; }
-    .auth-footer { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted); }
-    .auth-footer a { color: var(--accent-red); text-decoration: none; font-weight: 600; }
-    .auth-footer a:hover { text-decoration: underline; }
-</style>
 {% endblock %}

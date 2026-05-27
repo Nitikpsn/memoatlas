@@ -133,11 +133,10 @@ def create_link():
         progress = Progress(user_id=current_user.id, xp=0, level=1)
         db.session.add(progress)
 
-    xp_gained = 0
+    xp_gained = 100 if was_unmatched else 0
     if was_unmatched:
-        xp_gained = 100
         progress.xp += xp_gained
-        db.session.commit()
+    db.session.commit()
 
     return jsonify({
         'connection': {

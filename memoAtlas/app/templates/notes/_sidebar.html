@@ -1,66 +1,38 @@
-<aside class="sidebar sidebar-tree">
-  <div class="sidebar-header">
-    <h2 class="pixel">// ATLAS</h2>
+<aside class="garden-sidebar">
+  <div class="garden-sidebar-header">
+    <h2>// FOREST</h2>
   </div>
 
-  <div class="sidebar-zoom">
-    <span class="zoom-btn active">ALL</span>
-    <span class="zoom-btn">CLUSTER</span>
-    <span class="zoom-btn">NODE</span>
-  </div>
+  <nav class="garden-sidebar-nav">
+    <a href="{{ url_for('notes.workspace') }}" class="garden-nav-item {% if request.endpoint == 'notes.workspace' %}active{% endif %}">TREES</a>
+    <a href="{{ url_for('notes.create_note') }}" class="garden-nav-item {% if request.endpoint == 'notes.create_note' %}active{% endif %}">+ NEW TREE</a>
 
-  <div class="sidebar-section">
-    <ul class="folder-tree">
-      <li>
-        <details open>
-          <summary class="folder-item">
-            <span class="folder-label">&#128193; MY LIBRARY</span>
-            <span class="folder-count">{{ notes|length }}</span>
-          </summary>
-          <ul class="folder-children">
-            {% for month, folder_notes in folders.items() %}
-            <li>
-              <details>
-                <summary class="folder-item subfolder">
-                  <span class="folder-label">{{ month }}</span>
-                  <span class="folder-count">{{ folder_notes|length }}</span>
-                </summary>
-                <ul class="folder-children">
-                  {% for note in folder_notes %}
-                  <li>
-                    <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="note-link" data-note-id="{{ note.id }}">{{ note.title }}</a>
-                  </li>
-                  {% endfor %}
-                </ul>
-              </details>
-            </li>
-            {% endfor %}
-          </ul>
-        </details>
-      </li>
-    </ul>
-  </div>
-
-  <div style="margin-top:auto;">
-    <a href="{{ url_for('game.index') }}" class="nav-game-link">
-      <span class="game-icon">⌘</span>
-      EXPLORE MAP
-    </a>
-
-    <div class="focus-tunnel" id="focusTunnel">
-      <h3 class="pixel">>> GRAVITY</h3>
-      <span class="gravity-indicator">jaccard pull signal</span>
-      <div id="tunnelItems">
-        <div class="tunnel-node dim">
-          <span class="pixel-prefix">>></span> scan thoughts...
-        </div>
-      </div>
+    <div style="border-top:1px solid var(--garden-border);margin:0.75rem 1rem;padding-top:0.75rem;">
+      <span style="font-size:0.55rem;color:var(--garden-dim);letter-spacing:1px;display:block;padding:0 1rem;margin-bottom:0.5rem;text-transform:uppercase;">Canopy</span>
+      <ul class="garden-folder">
+        {% for month, folder_notes in folders.items() %}
+        <li>
+          <details {% if loop.first %}open{% endif %}>
+            <summary class="garden-folder-label">
+              <span>{{ month }}</span>
+              <span class="garden-folder-count">{{ folder_notes|length }}</span>
+            </summary>
+            <ul class="garden-folder-children">
+              {% for note in folder_notes %}
+              <li>
+                <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="garden-note-link" data-note-id="{{ note.id }}">{{ note.title }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </details>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
+  </nav>
 
-    <div class="sidebar-footer">
-      <a href="{{ url_for('notes.create_note') }}" class="btn-sidebar-new">+ NEW NODE</a>
-      <a href="{{ url_for('auth.logout') }}" class="btn-sidebar-logout">LOG OUT</a>
-    </div>
+  <div class="garden-sidebar-footer">
+    <a href="{{ url_for('notes.create_note') }}" class="garden-btn garden-btn-sm">+ NEW TREE</a>
+    <a href="{{ url_for('auth.logout') }}" class="garden-btn garden-btn-sm garden-btn-dim">LOG OUT</a>
   </div>
 </aside>
-{% block sidebar_scripts %}{% endblock %}

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
+from ..models import db
 from ..models.note import Note
 from ..models.progress import Progress
 
@@ -23,4 +24,8 @@ def get_folders(user_id):
 def index():
     user_notes, folders = get_folders(current_user.id)
     progress = Progress.query.filter_by(user_id=current_user.id).first()
+    if not progress:
+        progress = Progress(user_id=current_user.id, xp=0, level=1)
+        db.session.add(progress)
+        db.session.commit()
     return render_template('game/index.html', notes=user_notes, folders=folders, progress=progress)

@@ -3,137 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Pixelify+Sans:wght@400;700&family=VT323&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-  <title>{% block title %}MemoAtlas | Your Atlas of Thought{% endblock %}</title>
+  <title>{% block title %}MemoAtlas | Forest{% endblock %}</title>
   {% block head %}{% endblock %}
 </head>
 <body>
-
-  <canvas id="particleCanvas"></canvas>
-
-  <!-- flash messages -->
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-      <div class="flash-container">
+      <div class="forest-flash">
       {% for category, message in messages %}
-        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+        <div class="forest-flash-msg">{{ message }}</div>
       {% endfor %}
       </div>
     {% endif %}
   {% endwith %}
 
-  <!-- profile link -->
-  {% if current_user.is_authenticated %}
-    <a href="{{ url_for('user.profile') }}" class="profile-icon-link">
-      <img src="{{ current_user.get_avatar() }}" alt="Profile" class="profile-icon">
-    </a>
-  {% endif %}
-
-  <div class="app-shell">
-    <div class="app-content">
+  <div class="forest-shell">
+    <div class="forest-main">
       <main>
         {% block content %}{% endblock %}
       </main>
-
-      <footer>
-        <p>&copy; 2026 MemoAtlas &mdash; YOUR MIND IS A LANDSCAPE. MAP IT.</p>
+      <footer class="forest-footer">
+        <p>&copy; 2026 MemoAtlas &mdash; Tend your forest.</p>
       </footer>
     </div>
   </div>
-
-  <!-- particle background animation -->
-  <script>
-    var canvas = document.getElementById('particleCanvas');
-    canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;';
-    var ctx = canvas.getContext('2d');
-
-    var w, h, mouse = { x: -1000, y: -1000 };
-    var particles = [];
-    var PARTICLE_COUNT = 50;
-    var CONNECTION_DIST = 100;
-
-    function resize() {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    document.addEventListener('mousemove', function(e) {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
-
-    function Particle() {
-      this.reset();
-    }
-
-    Particle.prototype.reset = function() {
-      this.x = Math.random() * w;
-      this.y = Math.random() * h;
-      this.size = Math.random() * 1.5 + 0.3;
-      this.speedX = (Math.random() - 0.5) * 0.2;
-      this.speedY = (Math.random() - 0.5) * 0.2;
-      this.opacity = Math.random() * 0.3 + 0.05;
-    };
-
-    Particle.prototype.update = function() {
-      var dx = mouse.x - this.x;
-      var dy = mouse.y - this.y;
-      var dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 200) {
-        var force = (200 - dist) / 200 * 0.015;
-        this.speedX -= dx * force;
-        this.speedY -= dy * force;
-      }
-      this.speedX *= 0.97;
-      this.speedY *= 0.97;
-      this.x += this.speedX;
-      this.y += this.speedY;
-      if (this.x < -50 || this.x > w + 50 || this.y < -50 || this.y > h + 50) {
-        this.reset();
-      }
-    };
-
-    Particle.prototype.draw = function() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 255, 255, ' + this.opacity + ')';
-      ctx.fill();
-    };
-
-    for (var i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push(new Particle());
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, w, h);
-      for (var i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-      }
-      for (var i = 0; i < particles.length; i++) {
-        for (var j = i + 1; j < particles.length; j++) {
-          var dx = particles[i].x - particles[j].x;
-          var dy = particles[i].y - particles[j].y;
-          var dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < CONNECTION_DIST) {
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = 'rgba(255, 255, 255, ' + ((1 - dist / CONNECTION_DIST) * 0.06) + ')';
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
-        }
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-  </script>
 
   {% block scripts %}{% endblock %}
 </body>

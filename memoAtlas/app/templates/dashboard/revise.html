@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+.forest-shell, .forest-main, main { height: 100vh !important; overflow: hidden !important; }
+.forest-footer { display: none !important; }
+</style>
+{% endblock %}
+
+{% block content %}
+{% set health = note.effective_health() %}
+{% set wilted = note.is_wilted() %}
+<style>
+.focus-container {
+  display: flex;
+  height: 100vh;
+  background: #000;
+  font-family: 'Space Mono', monospace;
+}
+.note-reading-area {
+  flex: 1;
+  padding: 4rem;
+  border-right: 1px solid #333;
+  overflow-y: auto;
+}
+.note-reading-area h1 {
+  color: #FFF;
+  font-family: 'Space Mono', monospace;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+.note-reading-area .content {
+  color: #888;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  font-size: 0.85rem;
+}
+.garden-area {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+#timer-display {
+  font-family: 'Space Mono', monospace;
+  font-size: 4rem;
+  color: #FFF;
+  margin-bottom: 1rem;
+  transition: opacity 0.3s;
+}
+.wilt-warning {
+  font-size: 0.6rem;
+  color: #555;
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+}
+.retro-tree {
+  position: relative;
+  width: 120px;
+  height: 200px;
+  transition: all 0.8s ease;
+}
+.retro-tree .stem {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  background: #888;
+  border-radius: 2px;
+  transition: height 0.8s ease;
+}
+.stage-seed .stem { height: 20px; }
+.stage-sprout .stem { height: 60px; }
+.stage-full .stem { height: 120px; }
+.stage-wilt .stem { height: 15px; background: #444; }
+.retro-tree .leaves {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all 0.8s ease;
+}
+.stage-seed .leaves { width: 0; height: 0; }
+.stage-sprout .leaves {
+  width: 30px;
+  height: 30px;
+  background: #FFF;
+  bottom: 55px;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.stage-full .leaves {
+  width: 80px;
+  height: 80px;
+  bottom: 100px;
+}
+.stage-full .leaves::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: #FFF;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.stage-full .leaves::after {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  background: #FFF;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.stage-full .leaves div {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #888;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.stage-full .leaves div:nth-child(1) {
+  top: -20px; left: -30px;
+  transform: rotate(-20deg);
+}
+.stage-full .leaves div:nth-child(2) {
+  top: -20px; right: -30px;
+  transform: rotate(20deg);
+}
+.stage-full .leaves div:nth-child(3) {
+  top: 15px; left: -35px;
+  transform: rotate(-35deg);
+  width: 40px; height: 40px;
+}
+.stage-full .leaves div:nth-child(4) {
+  top: 15px; right: -35px;
+  transform: rotate(35deg);
+  width: 40px; height: 40px;
+}
+.stage-wilt .leaves { width: 0; height: 0; }
+.stage-wilt .leaves::before,
+.stage-wilt .leaves::after { display: none; }
+.health-label {
+  font-size: 0.55rem;
+  color: #555;
+  letter-spacing: 1px;
+  margin-top: 1rem;
+  text-transform: uppercase;
+}
+.retro-btn {
+  margin-top: 2rem;
+  padding: 1rem 2.5rem;
+  background: transparent;
+  border: 2px solid #FFF;
+  color: #FFF;
+  font-family: 'Space Mono', monospace;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.retro-btn:hover {
+  background: #FFF;
+  color: #000;
+}
+.retro-btn.hidden { display: none; }
+@keyframes treeGrow {
+  0% { transform: scaleY(0); opacity: 0; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+@keyframes flashWhite {
+  0% { background: #FFF; }
+  100% { background: #000; }
+}
+.flash-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: #FFF;
+  z-index: 9999;
+  pointer-events: none;
+  animation: flashWhite 0.3s ease-out forwards;
+}
+.grow-anim .stem {
+  animation: treeGrow 0.8s ease-out forwards;
+  transform-origin: bottom center;
+}
+.grow-anim .leaves {
+  animation: treeGrow 0.8s ease-out 0.2s forwards;
+  transform-origin: bottom center;
+}
+</style>
+
+<div class="focus-container">
+  <div class="note-reading-area">
+    <h1>{{ note.title }}</h1>
+    <div class="content">{{ note.content }}</div>
+  </div>
+  <div class="garden-area">
+    <div id="timer-display">05:00</div>
+    {% if wilted %}
+    <div class="wilt-warning">WITHERING &middot; {{ note.wither_days() }} DAYS UNTENDED</div>
+    {% endif %}
+    <div class="retro-tree stage-seed" id="plant" data-health="{{ health }}">
+      <div class="stem"></div>
+      <div class="leaves">
+        <div></div><div></div><div></div><div></div>
+      </div>
+    </div>
+    <div class="health-label">HEALTH {{ health }}/100</div>
+    <button id="start-btn" class="retro-btn">START REVISION</button>
+  </div>
+</div>
+<script>
+  const currentNoteId = {{ note.id }};
+</script>
+<script src="{{ url_for('static', filename='js/garden.js') }}"></script>
+{% endblock %}

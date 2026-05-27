@@ -1,21 +1,19 @@
 {% extends "base.html" %}
-
 {% block title %}Knowledge Graph | MemoAtlas{% endblock %}
-
 {% block content %}
-<div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
-  <div>
-    <h2>// KNOWLEDGE ATLAS</h2>
-    <p>Explore the living constellation of your thoughts.</p>
+<div class="forest-content animate-in">
+  <div class="forest-page-header">
+    <h1>// KNOWLEDGE FOREST</h1>
+    <button id="pulse-btn" class="forest-btn forest-btn-sm" style="width:auto;padding:0.5rem 1.5rem;">PULSE</button>
   </div>
-  <button id="pulse-btn" class="pulse-btn">
-    <span class="pulse-indicator"></span>
-    PULSE
-  </button>
-</div>
 
-<div class="graph-container">
-  <div id="mynetwork" style="width:100%;min-height:60vh;"></div>
+  <div style="border:1px solid var(--forest-border);min-height:60vh;overflow:hidden;">
+    <div id="mynetwork" style="width:100%;min-height:60vh;"></div>
+  </div>
+
+  <div style="margin-top:1.5rem;">
+    <a href="{{ url_for('notes.workspace') }}" style="font-size:0.6rem;color:var(--forest-dim);letter-spacing:1px;">&larr; BACK TO FOREST</a>
+  </div>
 </div>
 
 <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
