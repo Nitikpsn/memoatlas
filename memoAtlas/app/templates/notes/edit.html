@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block title %}MemoAtlas | Edit {{ note.title }}{% endblock %}
 {% block content %}
-<div style="display:flex;height:100vh;">
+<div style="display:flex;min-height:100vh;">
   {% include "notes/_sidebar.html" %}
   <div class="forest-content animate-in">
     <div class="tree-detail" style="max-width:720px;margin:0 auto;">
       <svg style="width:28px;height:28px;margin-bottom:1rem;" viewBox="0 0 28 28">
-        <line x1="14" y1="24" x2="14" y2="8" stroke="#888" stroke-width="1.5"/>
-        <polygon points="14,4 6,14 22,14" fill="none" stroke="#FFF" stroke-width="1.5"/>
+        <line x1="14" y1="24" x2="14" y2="8" stroke="#6b6b82" stroke-width="1.5"/>
+        <polygon points="14,4 6,14 22,14" fill="none" stroke="#eeeff1" stroke-width="1.5"/>
       </svg>
-      <h1 style="font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:2rem;">TEND TO "{{ note.title }}"</h1>
+      <h1 style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:2rem;">TEND TO "{{ note.title }}"</h1>
 
       <form method="POST">
         {{ form.hidden_tag() }}
@@ -30,8 +30,8 @@
         </div>
 
         <div style="display:flex;gap:1rem;align-items:center;">
-          <button type="submit" class="forest-btn" style="width:auto;padding:0.7rem 2rem;">SAVE CHANGES</button>
-          <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="forest-btn forest-btn-dim" style="width:auto;padding:0.7rem 2rem;">CANCEL</a>
+          <button type="submit" class="forest-btn">SAVE CHANGES</button>
+          <a href="{{ url_for('notes.view_note', note_id=note.id) }}" class="forest-btn forest-btn-dim">CANCEL</a>
         </div>
       </form>
     </div>

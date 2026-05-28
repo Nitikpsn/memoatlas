@@ -1,8 +1,3 @@
-/*
- * atlas_graph.js - builds the vis.js network graph
- * this is used by graph.js to show all your notes as connected nodes
- */
-
 var AtlasGraph = {
     buildNetwork: function(containerId, data, userOptions) {
         var container = document.getElementById(containerId);
@@ -10,18 +5,17 @@ var AtlasGraph = {
             return null;
         }
 
-        // default settings for how the graph looks
         var options = {
             nodes: {
                 shape: 'dot',
                 size: 16,
-                color: { background: '#EF4444', border: '#EF4444' },
-                font: { color: '#cccccc', size: 11, face: 'Pixelify Sans' },
+                color: { background: '#10b981', border: '#10b981' },
+                font: { color: '#a0a0b8', size: 11, face: 'Space Mono' },
                 borderWidth: 0,
                 scaling: { label: { enabled: false } }
             },
             edges: {
-                color: { color: 'rgba(239,68,68,0.25)', highlight: 'rgba(239,68,68,0.5)' },
+                color: { color: 'rgba(16,185,129,0.2)', highlight: 'rgba(16,185,129,0.4)' },
                 smooth: { type: 'cubicBezier', roundness: 0.4 },
                 width: 1.2
             },
@@ -38,7 +32,6 @@ var AtlasGraph = {
             interaction: { hover: true }
         };
 
-        // merge user options into defaults
         if (userOptions) {
             for (var key in userOptions) {
                 if (userOptions.hasOwnProperty(key)) {
@@ -47,7 +40,6 @@ var AtlasGraph = {
             }
         }
 
-        // turn the data into vis.js DataSets
         var nodesArray = [];
         for (var i = 0; i < data.nodes.length; i++) {
             var n = data.nodes[i];
@@ -74,7 +66,6 @@ var AtlasGraph = {
         }
         var edges = new vis.DataSet(edgesArray);
 
-        // create the network
         var network = new vis.Network(container, { nodes: nodes, edges: edges }, options);
 
         return {

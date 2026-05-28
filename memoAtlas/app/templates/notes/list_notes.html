@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block title %}MemoAtlas | Forest{% endblock %}
 {% block content %}
-<div class="workspace-layout" style="display:flex;height:100vh;">
+<div style="display:flex;min-height:100vh;">
   {% include "notes/_sidebar.html" %}
   <div class="forest-content animate-in">
     <div class="forest-page-header">
-      <h1>// YOUR TREES</h1>
+      <h1>YOUR TREES</h1>
       <span>{{ notes|length }} TREE{% if notes|length != 1 %}S{% endif %}</span>
     </div>
 
@@ -19,27 +19,27 @@
         <div class="tree-icon plant-{{ stage }}">
           {% if stage == "wilt" %}
           <svg viewBox="0 0 24 24" width="24" height="24">
-            <line x1="12" y1="20" x2="12" y2="8" stroke="#444" stroke-width="1.5"/>
-            <line x1="8" y1="4" x2="12" y2="8" stroke="#444" stroke-width="1.5"/>
-            <line x1="16" y1="4" x2="12" y2="8" stroke="#444" stroke-width="1.5"/>
-            <line x1="8" y1="14" x2="16" y2="14" stroke="#444" stroke-width="1"/>
+            <line x1="12" y1="20" x2="12" y2="8" stroke="#3a3a3a" stroke-width="1.5"/>
+            <line x1="8" y1="4" x2="12" y2="8" stroke="#3a3a3a" stroke-width="1.5"/>
+            <line x1="16" y1="4" x2="12" y2="8" stroke="#3a3a3a" stroke-width="1.5"/>
+            <line x1="8" y1="14" x2="16" y2="14" stroke="#3a3a3a" stroke-width="1"/>
           </svg>
           {% elif stage == "seed" %}
           <svg viewBox="0 0 24 24" width="24" height="24">
-            <circle cx="12" cy="16" r="3" fill="none" stroke="#888" stroke-width="1.5"/>
-            <line x1="12" y1="16" x2="12" y2="6" stroke="#888" stroke-width="1.5"/>
-            <circle cx="12" cy="4" r="1.5" fill="#888"/>
+            <circle cx="12" cy="16" r="3" fill="none" stroke="#6b6b82" stroke-width="1.5"/>
+            <line x1="12" y1="16" x2="12" y2="6" stroke="#6b6b82" stroke-width="1.5"/>
+            <circle cx="12" cy="4" r="1.5" fill="#6b6b82"/>
           </svg>
           {% elif stage == "sprout" %}
           <svg viewBox="0 0 24 24" width="24" height="24">
-            <line x1="12" y1="20" x2="12" y2="8" stroke="#888" stroke-width="1.5"/>
-            <polygon points="12,4 6,14 18,14" fill="none" stroke="#FFF" stroke-width="1.5"/>
+            <line x1="12" y1="20" x2="12" y2="8" stroke="#6b6b82" stroke-width="1.5"/>
+            <polygon points="12,4 6,14 18,14" fill="none" stroke="#a0a0b8" stroke-width="1.5"/>
           </svg>
           {% else %}
           <svg viewBox="0 0 24 24" width="24" height="24">
-            <line x1="12" y1="20" x2="12" y2="6" stroke="#888" stroke-width="1.5"/>
-            <polygon points="12,2 4,14 20,14" fill="none" stroke="#FFF" stroke-width="1.5"/>
-            <polygon points="12,6 6,16 18,16" fill="none" stroke="#888" stroke-width="1"/>
+            <line x1="12" y1="20" x2="12" y2="6" stroke="#6b6b82" stroke-width="1.5"/>
+            <polygon points="12,2 4,14 20,14" fill="none" stroke="#eeeff1" stroke-width="1.5"/>
+            <polygon points="12,6 6,16 18,16" fill="none" stroke="#6b6b82" stroke-width="1"/>
           </svg>
           {% endif %}
         </div>
@@ -59,13 +59,13 @@
     {% else %}
     <div class="forest-empty">
       <svg style="width:48px;height:48px;margin:0 auto 1.5rem;display:block;" viewBox="0 0 48 48">
-        <line x1="24" y1="40" x2="24" y2="18" stroke="#888" stroke-width="1.5"/>
-        <polygon points="24,6 8,26 40,26" fill="none" stroke="#888" stroke-width="1.5"/>
-        <circle cx="24" cy="14" r="3" fill="none" stroke="#888" stroke-width="1.5"/>
+        <line x1="24" y1="40" x2="24" y2="18" stroke="#48485c" stroke-width="1.5"/>
+        <polygon points="24,6 8,26 40,26" fill="none" stroke="#48485c" stroke-width="1.5"/>
+        <circle cx="24" cy="14" r="3" fill="none" stroke="#48485c" stroke-width="1.5"/>
       </svg>
-      <p class="forest-empty-title">// YOUR FOREST IS EMPTY</p>
+      <p class="forest-empty-title">YOUR FOREST IS EMPTY</p>
       <p class="forest-empty-subtitle">Plant your first tree and start growing your knowledge.</p>
-      <a href="{{ url_for('notes.create_note') }}" class="forest-btn" style="display:inline-block;width:auto;padding:0.7rem 2rem;">PLANT A TREE</a>
+      <a href="{{ url_for('notes.create_note') }}" class="forest-btn">PLANT A TREE</a>
     </div>
     {% endif %}
   </div>

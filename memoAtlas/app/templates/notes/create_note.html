@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% block title %}MemoAtlas | Plant Tree{% endblock %}
 {% block content %}
-<div style="display:flex;height:100vh;">
+<div style="display:flex;min-height:100vh;">
   {% include "notes/_sidebar.html" %}
   <div class="forest-content animate-in">
     <div class="tree-detail" style="max-width:720px;margin:0 auto;">
       <svg style="width:28px;height:28px;margin-bottom:1rem;" viewBox="0 0 28 28">
-        <circle cx="14" cy="18" r="4" fill="none" stroke="#888" stroke-width="1.5"/>
-        <line x1="14" y1="18" x2="14" y2="6" stroke="#888" stroke-width="1.5"/>
-        <circle cx="14" cy="3" r="1.5" fill="#FFF"/>
+        <circle cx="14" cy="18" r="4" fill="none" stroke="#6b6b82" stroke-width="1.5"/>
+        <line x1="14" y1="18" x2="14" y2="6" stroke="#6b6b82" stroke-width="1.5"/>
+        <circle cx="14" cy="3" r="1.5" fill="#10b981"/>
       </svg>
-      <h1 style="font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.25rem;">PLANT A NEW TREE</h1>
-      <p style="font-size:0.6rem;color:var(--forest-muted);margin-bottom:2rem;">every thought starts as a seed.</p>
+      <h1 style="font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:0.25rem;">PLANT A NEW TREE</h1>
+      <p style="font-size:0.55rem;color:var(--text-muted);margin-bottom:2rem;">every thought starts as a seed.</p>
 
       <form method="POST">
         {{ form.hidden_tag() }}
@@ -32,8 +32,8 @@
         </div>
 
         <div style="display:flex;gap:1rem;align-items:center;">
-          <button type="submit" class="forest-btn" style="width:auto;padding:0.7rem 2rem;">PLANT TREE</button>
-          <a href="{{ url_for('notes.workspace') }}" class="forest-btn forest-btn-dim" style="width:auto;padding:0.7rem 2rem;">CANCEL</a>
+          <button type="submit" class="forest-btn">PLANT TREE</button>
+          <a href="{{ url_for('notes.workspace') }}" class="forest-btn forest-btn-dim">CANCEL</a>
         </div>
       </form>
     </div>

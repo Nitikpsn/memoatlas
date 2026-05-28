@@ -3,7 +3,7 @@
 <div class="forest-content animate-in">
   <div class="forest-profile">
     <div class="forest-page-header">
-      <h1>// PROFILE</h1>
+      <h1>PROFILE</h1>
     </div>
 
     <div class="forest-profile-grid">
@@ -29,8 +29,8 @@
 
       <div class="forest-profile-card" style="grid-column:3;grid-row:1;">
         <h3>Connections</h3>
-        <p style="font-size:0.65rem;color:var(--forest-muted);">
-          Your forest has <strong style="color:var(--forest-text);">{{ user.notes|length }}</strong> trees.
+        <p style="font-size:0.6rem;color:var(--text-muted);">
+          Your forest has <strong style="color:var(--text);">{{ user.notes|length }}</strong> trees.
         </p>
       </div>
 
@@ -54,7 +54,7 @@
     </div>
 
     <div style="margin-top:1.5rem;">
-      <a href="{{ url_for('notes.workspace') }}" class="forest-btn forest-btn-sm forest-btn-dim" style="display:inline-block;width:auto;">&larr; BACK TO FOREST</a>
+      <a href="{{ url_for('notes.workspace') }}" class="forest-btn forest-btn-sm forest-btn-dim">BACK TO FOREST</a>
     </div>
   </div>
 </div>

@@ -1,8 +1,3 @@
-/*
- * graph.js - controls the graph visualization page
- * uses atlas_graph.js to build the vis.js network
- */
-
 var network;
 var nodes;
 var graphData;
@@ -12,7 +7,6 @@ var nodePulseData = [];
 
 var pulseBtn = document.getElementById('pulse-btn');
 
-// fetch graph data and build the network
 fetch('/api/graph-data')
     .then(function(r) { return r.json(); })
     .then(function(data) {
@@ -21,11 +15,11 @@ fetch('/api/graph-data')
         var result = AtlasGraph.buildNetwork('mynetwork', data, {
             nodes: {
                 size: 16,
-                color: { background: '#555555', border: '#555555' },
-                font: { color: '#888888', size: 12 }
+                color: { background: '#2a2a42', border: '#2a2a42' },
+                font: { color: '#6b6b82', size: 12 }
             },
             edges: {
-                color: { color: '#333333' }
+                color: { color: '#1e1e32' }
             },
             physics: {
                 barnesHut: { gravitationalConstant: -2000, springLength: 250, springConstant: 0.04 }
@@ -39,18 +33,15 @@ fetch('/api/graph-data')
         network = result.network;
         nodes = result.nodes;
 
-        // click a node to go to that note
         network.on('click', function(params) {
             if (params.nodes.length > 0) {
                 window.location.href = '/note/' + params.nodes[0];
             }
         });
 
-        // set up pulse data for each node
         preparePulseData(data.nodes);
     })
     .catch(function() {
-        // fail silently
     });
 
 function preparePulseData(nodesData) {
@@ -63,7 +54,6 @@ function preparePulseData(nodesData) {
         var diffHours = (now - updatedAt) / (1000 * 60 * 60);
         var speed;
 
-        // faster pulse for recently updated notes
         if (diffHours < 1) {
             speed = 5 + Math.random();
         } else if (diffHours < 24) {
@@ -82,7 +72,6 @@ function preparePulseData(nodesData) {
     }
 }
 
-// toggle pulse animation when button is clicked
 if (pulseBtn) {
     pulseBtn.addEventListener('click', function() {
         pulseActive = !pulseActive;

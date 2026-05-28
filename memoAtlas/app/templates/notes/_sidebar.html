@@ -1,14 +1,14 @@
 <aside class="garden-sidebar">
   <div class="garden-sidebar-header">
-    <h2>// FOREST</h2>
+    <h1>FOREST</h1>
   </div>
 
   <nav class="garden-sidebar-nav">
     <a href="{{ url_for('notes.workspace') }}" class="garden-nav-item {% if request.endpoint == 'notes.workspace' %}active{% endif %}">TREES</a>
     <a href="{{ url_for('notes.create_note') }}" class="garden-nav-item {% if request.endpoint == 'notes.create_note' %}active{% endif %}">+ NEW TREE</a>
 
-    <div style="border-top:1px solid var(--garden-border);margin:0.75rem 1rem;padding-top:0.75rem;">
-      <span style="font-size:0.55rem;color:var(--garden-dim);letter-spacing:1px;display:block;padding:0 1rem;margin-bottom:0.5rem;text-transform:uppercase;">Canopy</span>
+    <div style="border-top:1px solid var(--border);margin:0.75rem 1.25rem;padding-top:0.75rem;">
+      <span style="font-size:0.5rem;color:var(--text-dim);letter-spacing:1px;display:block;padding:0 1.25rem;margin-bottom:0.5rem;text-transform:uppercase;">Canopy</span>
       <ul class="garden-folder">
         {% for month, folder_notes in folders.items() %}
         <li>
@@ -32,7 +32,7 @@
   </nav>
 
   <div class="garden-sidebar-footer">
-    <a href="{{ url_for('notes.create_note') }}" class="garden-btn garden-btn-sm">+ NEW TREE</a>
-    <a href="{{ url_for('auth.logout') }}" class="garden-btn garden-btn-sm garden-btn-dim">LOG OUT</a>
+    <a href="{{ url_for('notes.create_note') }}" class="forest-btn forest-btn-sm">+ NEW TREE</a>
+    <a href="{{ url_for('auth.logout') }}" class="forest-btn forest-btn-sm forest-btn-dim">LOG OUT</a>
   </div>
 </aside>

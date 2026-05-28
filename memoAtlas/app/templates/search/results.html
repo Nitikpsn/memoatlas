@@ -3,10 +3,10 @@
 <div class="forest-content animate-in">
   <div class="forest-search">
     <div class="forest-page-header">
-      <h1>// SEARCH</h1>
+      <h1>SEARCH</h1>
     </div>
     <form method="GET" action="{{ url_for('search.index') }}">
-      <input type="text" name="q" value="{{ query }}" placeholder="Search your forest..." class="forest-input" style="font-size:0.85rem;">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search your forest..." class="forest-input">
     </form>
     {% if query %}
       <p class="forest-search-count">{{ results|length }} result{% if results|length != 1 %}s{% endif %} for "{{ query }}"</p>
@@ -25,11 +25,11 @@
         {% endfor %}
       </div>
       {% else %}
-      <p style="text-align:center;padding:3rem;font-size:0.7rem;color:var(--forest-dim);">No trees match your search.</p>
+      <p style="text-align:center;padding:3rem;font-size:0.6rem;color:var(--text-dim);">No trees match your search.</p>
       {% endif %}
     {% endif %}
     <div style="margin-top:1.5rem;">
-      <a href="{{ url_for('notes.workspace') }}" style="font-size:0.6rem;color:var(--forest-dim);letter-spacing:1px;">&larr; BACK TO FOREST</a>
+      <a href="{{ url_for('notes.workspace') }}" class="back-link">&larr; BACK TO FOREST</a>
     </div>
   </div>
 </div>
