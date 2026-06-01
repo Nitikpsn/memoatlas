@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ tree.title }} | MemoAtlas{% endblock %}
+{% block content %}
+<div class="form-page">
+  <div class="form-card">
+    <div class="tree-display young-tree"><div class="tree-stem"></div><div class="tree-crown"><div class="tree-foliage"></div><div class="tree-foliage s2"></div></div></div>
+    <h1>TEND TO "{{ tree.title }}"</h1>
+    <form method="POST">
+      <div class="field">
+        <label>Title</label>
+        <input type="text" name="title" class="input" value="{{ tree.title }}" required>
+      </div>
+      <div class="field">
+        <label>Content</label>
+        <textarea name="content" class="input input-area" required>{{ tree.content }}</textarea>
+      </div>
+      <div class="field">
+        <label>Tags</label>
+        <input type="text" name="tags" class="input" value="{{ tree.tags or '' }}" placeholder="comma, separated, values">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn">SAVE CHANGES</button>
+        <a href="{{ url_for('forest.view_tree', tree_id=tree.id) }}" class="btn btn-dim">CANCEL</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

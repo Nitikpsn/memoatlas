@@ -1,38 +1,30 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from ..models import User, db
-from ..forms.register_form import RegisterForm
+from ..models import db, User
 
 auth = Blueprint('auth', __name__)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    # if user is already logged in, send them to the workspace
     if current_user.is_authenticated:
-        return redirect(url_for('notes.workspace'))
+        return redirect(url_for('forest.dashboard'))
 
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        remember = True if request.form.get('remember') else False
+        remember = request.form.get('remember') is not None
 
-        # find the user by email
         user = User.query.filter_by(email=email).first()
-
-        # check if user exists and password is correct
         if not user or not user.check_password(password):
-            flash('Please check your login details and try again.', 'danger')
+            flash('Wrong email or password.', 'danger')
             return redirect(url_for('auth.login'))
 
-        # log the user in
         login_user(user, remember=remember)
-
-        # go to the page they were trying to visit, or the workspace
         next_page = request.args.get('next')
         if next_page:
             return redirect(next_page)
-        return redirect(url_for('notes.workspace'))
+        return redirect(url_for('forest.dashboard'))
 
     return render_template('auth/login.html')
 
@@ -40,39 +32,47 @@ def login():
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('notes.workspace'))
+        return redirect(url_for('forest.dashboard'))
 
-    form = RegisterForm()
-    if form.validate_on_submit():
-        # check if email is already taken
-        if User.query.filter_by(email=form.email.data).first():
-            flash('Email address already exists.', 'danger')
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = request.form.get('password')
+        confirm = request.form.get('confirm')
+
+        if User.query.filter_by(email=email).first():
+            flash('Email already in use.', 'danger')
             return redirect(url_for('auth.register'))
 
-        # check if username is already taken
-        if User.query.filter_by(username=form.username.data).first():
-            flash('Username already exists.', 'danger')
+        if User.query.filter_by(username=username).first():
+            flash('Username already taken.', 'danger')
             return redirect(url_for('auth.register'))
 
-        # create the new user
-        new_user = User(
-            username=form.username.data,
-            email=form.email.data
-        )
-        new_user.set_password(form.password.data)
+        if password != confirm:
+            flash('Passwords do not match.', 'danger')
+            return redirect(url_for('auth.register'))
 
-        db.session.add(new_user)
+        if len(password) < 6:
+            flash('Password must be at least 6 characters.', 'danger')
+            return redirect(url_for('auth.register'))
+
+        user = User(username=username, email=email)
+        user.set_password(password)
+        db.session.add(user)
+
+        progress = Progress(user_id=user.id, xp=0, level=1)
+        db.session.add(progress)
+
         db.session.commit()
-
-        flash('Registration successful! You can now log in.', 'success')
+        flash('Account created! Welcome to the forest.', 'success')
         return redirect(url_for('auth.login'))
 
-    return render_template('auth/register.html', form=form)
+    return render_template('auth/register.html')
 
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.', 'info')
-    return redirect(url_for('main.index'))
+    flash('Logged out.', 'info')
+    return redirect(url_for('auth.login'))

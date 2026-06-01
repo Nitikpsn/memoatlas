@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Forest Map | MemoAtlas{% endblock %}
+{% block content %}
+<div class="map-page">
+  <div class="map-header">
+    <h1>FOREST MAP</h1>
+    <button id="pulse-btn" class="btn btn-sm">PULSE</button>
+  </div>
+  <div class="map-container">
+    <div id="network"></div>
+  </div>
+  <div class="back-link">
+    <a href="{{ url_for('forest.dashboard') }}">&larr; BACK TO FOREST</a>
+  </div>
+</div>
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+<script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+{% endblock %}

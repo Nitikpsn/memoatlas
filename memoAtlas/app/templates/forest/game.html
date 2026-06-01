@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Game | MemoAtlas{% endblock %}
+{% block content %}
+<div class="game-page">
+  <h1>FOREST GAME</h1>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num">{{ progress.xp }}</div>
+      <div class="stat-label">XP</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ progress.level }}</div>
+      <div class="stat-label">Level</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ trees|length }}</div>
+      <div class="stat-label">Trees</div>
+    </div>
+  </div>
+  <p class="game-hint">Connect trees to earn XP. Revise trees to keep them alive.</p>
+  <div class="back-link">
+    <a href="{{ url_for('forest.dashboard') }}">&larr; BACK TO FOREST</a>
+  </div>
+</div>
+{% endblock %}

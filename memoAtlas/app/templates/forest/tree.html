@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}{{ tree.title }} | MemoAtlas{% endblock %}
+{% block content %}
+{% set h = tree.get_effective_health() %}
+{% set s = tree.get_stage() %}
+{% set days = tree.days_unrevised() %}
+<div class="detail-page">
+  <div class="detail-card">
+    <div class="detail-top">
+      <div class="tree-display {% if s == 'dead' or s == 'wilting' or s == 'fading' %}dead-tree{% elif s == 'ancient' %}ancient-tree{% elif s == 'mature' %}mature-tree{% elif s == 'young' %}young-tree{% elif s == 'sprout' %}sprout-tree{% else %}seed-tree{% endif %}">
+        <div class="tree-stem"></div>
+        <div class="tree-crown">
+          <div class="tree-foliage"></div>
+          <div class="tree-foliage s2"></div>
+          <div class="tree-foliage s3"></div>
+          <div class="tree-foliage s4"></div>
+          {% if s == 'ancient' %}<div class="glow"></div>{% endif %}
+        </div>
+      </div>
+      <div class="detail-info">
+        <h1 class="{% if s == 'dead' or s == 'wilting' %}dead-title{% endif %}">{{ tree.title }}</h1>
+        <div class="detail-meta">
+          <span class="stage-badge {{ s }}">{{ s }}</span>
+          <span>Health: {{ h }}/100</span>
+          <span>Age: {{ tree.created_at.strftime('%b %d, %Y') }}</span>
+          <span>Last revised: {{ tree.last_revised.strftime('%b %d, %Y') }}</span>
+          {% if days > 30 %}
+          <span class="wilt-warn">{{ days }} days untended</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% if tree.tags %}
+    <div class="tag-row">
+      {% for tag in tree.get_tag_list() %}
+      <span class="tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="detail-body">{{ tree.content }}</div>
+
+    <div class="health-bar big-bar">
+      <div class="health-fill {{ s }}" style="width:{{ h }}%"></div>
+    </div>
+
+    {% if connected %}
+    <div class="conn-section">
+      <h3>BRANCHES</h3>
+      <div class="conn-list">
+        {% for c in connected %}
+        <a href="{{ url_for('forest.view_tree', tree_id=c.id) }}" class="conn-item">{{ c.title }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="detail-actions">
+      <a href="{{ url_for('forest.revise_view', tree_id=tree.id) }}" class="btn">TEND TREE</a>
+      <a href="{{ url_for('forest.edit_tree', tree_id=tree.id) }}" class="btn btn-dim">EDIT</a>
+      <form method="POST" action="{{ url_for('forest.delete_tree', tree_id=tree.id) }}" onsubmit="return confirm('Remove this tree from your forest?')">
+        <button type="submit" class="btn btn-danger">DELETE</button>
+      </form>
+    </div>
+
+    <div class="back-link">
+      <a href="{{ url_for('forest.dashboard') }}">&larr; BACK TO FOREST</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

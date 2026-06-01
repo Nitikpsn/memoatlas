@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block head %}
+<style>
+body, .forest-shell { margin: 0; padding: 0; overflow: hidden; }
+.flash-wrap { display: none; }
+</style>
+{% endblock %}
+{% block content %}
+{% set h = tree.get_effective_health() %}
+{% set s = tree.get_stage() %}
+<div class="focus-view">
+  <div class="focus-left">
+    <h1>{{ tree.title }}</h1>
+    <div class="focus-content">{{ tree.content }}</div>
+  </div>
+  <div class="focus-right">
+    <div id="timer">05:00</div>
+    {% if s == 'dead' or s == 'wilting' or s == 'fading' %}
+    <div class="wilt-note">{{ tree.days_unrevised() }} DAYS UNTENDED</div>
+    {% endif %}
+    <div class="focus-tree" id="focus-tree">
+      <div class="tree-display {% if s == 'dead' or s == 'wilting' or s == 'fading' %}dead-tree{% elif h <= 20 %}seed-tree{% elif h <= 40 %}sprout-tree{% elif h <= 70 %}young-tree{% elif h <= 90 %}mature-tree{% else %}ancient-tree{% endif %}" id="tree-visual">
+        <div class="tree-stem"></div>
+        <div class="tree-crown">
+          <div class="tree-foliage"></div>
+          <div class="tree-foliage s2"></div>
+          <div class="tree-foliage s3"></div>
+          <div class="tree-foliage s4"></div>
+          {% if h > 90 %}<div class="glow"></div>{% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="focus-health">HEALTH {{ h }}/100</div>
+    <button id="start-revise" class="btn">START REVISION</button>
+  </div>
+</div>
+<script>
+  const treeId = {{ tree.id }};
+</script>
+<script src="{{ url_for('static', filename='js/garden.js') }}"></script>
+{% endblock %}

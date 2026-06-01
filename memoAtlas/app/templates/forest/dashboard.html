@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}MemoAtlas | Your Forest{% endblock %}
+{% block content %}
+<div class="dash">
+  <div class="dash-header">
+    <div class="dash-header-left">
+      <h1>YOUR FOREST</h1>
+      <span class="tree-count">{{ total }} tree{% if total != 1 %}s{% endif %}</span>
+    </div>
+    <div class="dash-header-right">
+      <a href="{{ url_for('forest.plant') }}" class="btn">+ PLANT TREE</a>
+      <a href="{{ url_for('graph.index') }}" class="btn btn-dim">FOREST MAP</a>
+      <a href="{{ url_for('forest.search') }}?q=" class="btn btn-dim">SEARCH</a>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num">{{ forest_health }}%</div>
+      <div class="stat-label">Forest Health</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ total }}</div>
+      <div class="stat-label">Total Trees</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ ancient_count }}</div>
+      <div class="stat-label">Ancient Trees</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ needing_care }}</div>
+      <div class="stat-label">Need Care</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ progress.xp }}</div>
+      <div class="stat-label">XP</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ progress.level }}</div>
+      <div class="stat-label">Level</div>
+    </div>
+  </div>
+
+  {% macro tree_card(t) %}
+  {% set s = t.get_stage() %}
+  {% set h = t.get_effective_health() %}
+  <a href="{{ url_for('forest.view_tree', tree_id=t.id) }}" class="tree-card {{ s }}-card">
+    <div class="tree-card-tree">
+      <div class="tree-display {% if s == 'dead' or s == 'wilting' or s == 'fading' %}dead-tree{% elif s == 'ancient' %}ancient-tree{% elif s == 'mature' %}mature-tree{% elif s == 'young' %}young-tree{% elif s == 'sprout' %}sprout-tree{% else %}seed-tree{% endif %}">
+        <div class="tree-stem"></div>
+        <div class="tree-crown">
+          <div class="tree-foliage"></div>
+          <div class="tree-foliage s2"></div>
+          <div class="tree-foliage s3"></div>
+          <div class="tree-foliage s4"></div>
+          {% if s == 'ancient' %}<div class="glow"></div>{% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="tree-card-body">
+      <h3 class="{% if s == 'dead' or s == 'wilting' %}dead-title{% endif %}">{{ t.title }}</h3>
+      <div class="tree-card-meta">
+        <span class="stage-badge {{ s }}">{{ s }}</span>
+        <span class="health-val">{{ h }}/100</span>
+      </div>
+      <div class="health-bar">
+        <div class="health-fill {{ s }}" style="width:{{ h }}%"></div>
+      </div>
+    </div>
+  </a>
+  {% endmacro %}
+
+  {% if total == 0 %}
+  <div class="empty-state">
+    <div class="tree-display seed-tree"><div class="tree-stem"></div><div class="tree-crown"><div class="tree-foliage"></div></div></div>
+    <h2>YOUR FOREST IS EMPTY</h2>
+    <p>Plant your first tree and start growing your knowledge.</p>
+    <a href="{{ url_for('forest.plant') }}" class="btn">PLANT A TREE</a>
+  </div>
+  {% else %}
+    {% for stage_name, stage_label in [('ancient', 'ANCIENT TREES'), ('mature', 'MATURE TREES'), ('young', 'YOUNG TREES'), ('sprout', 'SPROUTS'), ('seed', 'SEEDS'), ('fading', 'FADING'), ('wilting', 'WILTING'), ('dead', 'DEAD TREES')] %}
+      {% if stages[stage_name] %}
+      <div class="stage-section">
+        <h2 class="stage-heading">{{ stage_label }} <span class="stage-count">{{ stages[stage_name]|length }}</span></h2>
+        <div class="tree-grid">
+          {% for t in stages[stage_name] %}
+            {{ tree_card(t) }}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</div>
+{% endblock %}

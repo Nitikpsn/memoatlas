@@ -1,45 +1,33 @@
 {% extends "base.html" %}
 {% block title %}Register | MemoAtlas{% endblock %}
 {% block content %}
-<div class="forest-auth animate-in">
-  <div class="forest-auth-card">
-    <svg viewBox="0 0 36 36">
-      <circle cx="18" cy="22" r="6" fill="none" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
-      <line x1="18" y1="22" x2="18" y2="8" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
-      <circle cx="18" cy="5" r="2.5" fill="#10b981" opacity="0.7"/>
-    </svg>
-    <h2>Create Your Forest</h2>
-    <p class="forest-auth-subtitle">Start growing your knowledge today.</p>
-
-    <form method="POST">
-      {{ form.hidden_tag() }}
-
-      <div class="forest-form-group">
-        <label class="forest-label">Username</label>
-        {{ form.username(class="forest-input", placeholder="Choose a username") }}
-      </div>
-
-      <div class="forest-form-group">
-        <label class="forest-label">Email</label>
-        {{ form.email(class="forest-input", placeholder="student@university.edu") }}
-      </div>
-
-      <div class="forest-form-group">
-        <label class="forest-label">Password</label>
-        {{ form.password(class="forest-input", placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;") }}
-      </div>
-
-      <div class="forest-form-group">
-        <label class="forest-label">Confirm Password</label>
-        {{ form.confirm_password(class="forest-input", placeholder="Confirm password") }}
-      </div>
-
-      <button type="submit" class="forest-btn">PLANT YOUR TREE</button>
-    </form>
-
-    <div class="forest-auth-footer">
-      Already have an account? <a href="{{ url_for('auth.login') }}">Log In</a>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-tree">
+      <div class="tree-display sprout-tree"><div class="tree-stem"></div><div class="tree-crown"><div class="tree-foliage"></div></div></div>
     </div>
+    <h2>CREATE YOUR FOREST</h2>
+    <p class="auth-sub">Start growing your knowledge today.</p>
+    <form method="POST">
+      <div class="field">
+        <label>Username</label>
+        <input type="text" name="username" class="input" placeholder="Choose a username" required>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" class="input" placeholder="you@email.com" required>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" class="input" placeholder="At least 6 characters" required>
+      </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <input type="password" name="confirm" class="input" placeholder="Repeat password" required>
+      </div>
+      <button type="submit" class="btn btn-full">PLANT YOUR TREE</button>
+    </form>
+    <p class="auth-foot">Already have an account? <a href="{{ url_for('auth.login') }}">Log In</a></p>
   </div>
 </div>
 {% endblock %}

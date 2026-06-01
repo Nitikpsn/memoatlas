@@ -1,38 +1,28 @@
 {% extends "base.html" %}
 {% block title %}Login | MemoAtlas{% endblock %}
 {% block content %}
-<div class="forest-auth animate-in">
-  <div class="forest-auth-card">
-    <svg viewBox="0 0 36 36">
-      <polygon points="18,6 4,32 32,32" fill="none" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
-      <line x1="18" y1="16" x2="18" y2="26" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
-      <line x1="12" y1="26" x2="24" y2="26" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
-    </svg>
-    <h2>Welcome Back</h2>
-    <p class="forest-auth-subtitle">Log in to tend your forest.</p>
-
-    <form method="POST">
-      <div class="forest-form-group">
-        <label class="forest-label">Email</label>
-        <input type="email" name="email" class="forest-input" placeholder="name@email.com" required>
-      </div>
-
-      <div class="forest-form-group">
-        <label class="forest-label">Password</label>
-        <input type="password" name="password" class="forest-input" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" required>
-      </div>
-
-      <div class="forest-checkbox">
-        <input type="checkbox" name="remember" id="remember">
-        <label for="remember">Remember me</label>
-      </div>
-
-      <button type="submit" class="forest-btn">LOGIN TO FOREST</button>
-    </form>
-
-    <div class="forest-auth-footer">
-      New here? <a href="{{ url_for('auth.register') }}">Create an account</a>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-tree">
+      <div class="tree-display young-tree"><div class="tree-stem"></div><div class="tree-crown"><div class="tree-foliage"></div><div class="tree-foliage s2"></div></div></div>
     </div>
+    <h2>WELCOME BACK</h2>
+    <p class="auth-sub">Log in to tend your forest.</p>
+    <form method="POST">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" class="input" placeholder="name@email.com" required>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" class="input" placeholder="********" required>
+      </div>
+      <label class="remember">
+        <input type="checkbox" name="remember"> Remember me
+      </label>
+      <button type="submit" class="btn btn-full">LOGIN TO FOREST</button>
+    </form>
+    <p class="auth-foot">New here? <a href="{{ url_for('auth.register') }}">Create an account</a></p>
   </div>
 </div>
 {% endblock %}

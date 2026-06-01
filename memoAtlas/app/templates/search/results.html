@@ -1,36 +1,33 @@
 {% extends "base.html" %}
+{% block title %}Search | MemoAtlas{% endblock %}
 {% block content %}
-<div class="forest-content animate-in">
-  <div class="forest-search">
-    <div class="forest-page-header">
-      <h1>SEARCH</h1>
+<div class="search-page">
+  <div class="search-header">
+    <h1>SEARCH</h1>
+  </div>
+  <form method="GET" action="{{ url_for('forest.search') }}">
+    <input type="text" name="q" value="{{ query }}" class="input search-input" placeholder="Search your forest...">
+  </form>
+  {% if query %}
+  <p class="search-count">{{ results|length }} result{% if results|length != 1 %}s{% endif %} for "{{ query }}"</p>
+    {% if results %}
+    <div class="search-results">
+      {% for t in results %}
+      <a href="{{ url_for('forest.view_tree', tree_id=t.id) }}" class="search-item">
+        <h3>{{ t.title }}</h3>
+        <p>{{ t.content[:200] }}{% if t.content|length > 200 %}...{% endif %}</p>
+        <span class="stage-badge {{ t.get_stage() }}">{{ t.get_stage() }}</span>
+      </a>
+      {% endfor %}
     </div>
-    <form method="GET" action="{{ url_for('search.index') }}">
-      <input type="text" name="q" value="{{ query }}" placeholder="Search your forest..." class="forest-input">
-    </form>
-    {% if query %}
-      <p class="forest-search-count">{{ results|length }} result{% if results|length != 1 %}s{% endif %} for "{{ query }}"</p>
-      {% if results %}
-      <div class="forest-search-list">
-        {% for note in results %}
-        <a href="{{ url_for('notes.view_note', note_id=note.id) }}" style="text-decoration:none;display:block;">
-          <div class="tree-card">
-            <div class="tree-card-header">
-              <h3 class="tree-card-title">{{ note.title }}</h3>
-              <span class="tree-card-date">{{ note.date_posted.strftime('%b %d') }}</span>
-            </div>
-            <p class="tree-card-preview">{{ note.content[:200] }}{% if note.content|length > 200 %}...{% endif %}</p>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
-      {% else %}
-      <p style="text-align:center;padding:3rem;font-size:0.6rem;color:var(--text-dim);">No trees match your search.</p>
-      {% endif %}
+    {% else %}
+    <div class="empty-state">
+      <p>No trees match your search.</p>
+    </div>
     {% endif %}
-    <div style="margin-top:1.5rem;">
-      <a href="{{ url_for('notes.workspace') }}" class="back-link">&larr; BACK TO FOREST</a>
-    </div>
+  {% endif %}
+  <div class="back-link">
+    <a href="{{ url_for('forest.dashboard') }}">&larr; BACK TO FOREST</a>
   </div>
 </div>
 {% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Plant a Tree | MemoAtlas{% endblock %}
+{% block content %}
+<div class="form-page">
+  <div class="form-card">
+    <div class="tree-display seed-tree"><div class="tree-stem"></div><div class="tree-crown"><div class="tree-foliage"></div></div></div>
+    <h1>PLANT A NEW TREE</h1>
+    <p class="form-sub">Every thought starts as a seed.</p>
+
+    <form method="POST">
+      <div class="field">
+        <label>Title</label>
+        <input type="text" name="title" class="input" placeholder="e.g. Quantum Physics Basics" required>
+      </div>
+      <div class="field">
+        <label>Content</label>
+        <textarea name="content" class="input input-area" placeholder="Write your thoughts here..." required></textarea>
+      </div>
+      <div class="field">
+        <label>Tags</label>
+        <input type="text" name="tags" class="input" placeholder="comma, separated, values">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn">PLANT TREE</button>
+        <a href="{{ url_for('forest.dashboard') }}" class="btn btn-dim">CANCEL</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

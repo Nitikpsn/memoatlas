@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Profile | MemoAtlas{% endblock %}
+{% block content %}
+<div class="profile-page">
+  <div class="profile-card">
+    <img src="{{ current_user.get_avatar() }}" class="avatar" alt="avatar">
+    <h2>{{ current_user.username }}</h2>
+    <p class="profile-date">Joined {{ current_user.created_at.strftime('%b %Y') }}</p>
+  </div>
+  <div class="profile-stats">
+    <div class="stat-card">
+      <div class="stat-num">{{ current_user.trees|length }}</div>
+      <div class="stat-label">Total Trees</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ progress.xp }}</div>
+      <div class="stat-label">XP</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">{{ progress.level }}</div>
+      <div class="stat-label">Level</div>
+    </div>
+  </div>
+  <div class="back-link">
+    <a href="{{ url_for('forest.dashboard') }}">&larr; BACK TO FOREST</a>
+  </div>
+</div>
+{% endblock %}

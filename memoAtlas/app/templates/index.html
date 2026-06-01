@@ -1,56 +1,52 @@
 {% extends "base.html" %}
+{% block title %}MemoAtlas | Your Mind is a Forest{% endblock %}
 {% block content %}
-<div class="forest-hero animate-in">
-  <svg viewBox="0 0 56 56" class="sway">
-    <line x1="28" y1="52" x2="28" y2="24" stroke="#6b6b82" stroke-width="1.5"/>
-    <polygon points="28,8 6,34 50,34" fill="none" stroke="#eeeff1" stroke-width="1.5"/>
-    <polygon points="28,18 10,40 46,40" fill="none" stroke="#6b6b82" stroke-width="1"/>
-    <circle cx="28" cy="22" r="3" fill="#10b981"/>
-  </svg>
+<div class="hero">
+  <div class="hero-tree">
+    <div class="tree-display ancient-tree">
+      <div class="tree-stem"></div>
+      <div class="tree-crown">
+        <div class="tree-foliage"></div>
+        <div class="tree-foliage s2"></div>
+        <div class="tree-foliage s3"></div>
+        <div class="tree-foliage s4"></div>
+        <div class="glow"></div>
+      </div>
+    </div>
+  </div>
   <h1>YOUR MIND IS A FOREST.<br>GROW IT.</h1>
-  <p>
-    Every thought is a tree. Plant it, revise it, watch it grow.<br>
-    No folders. No files. Just a living woodland of knowledge.
-  </p>
-  <div class="forest-hero-actions">
+  <p class="hero-sub">Every thought is a tree. Plant it, tend it, watch it grow.<br>No folders. No files. Just a living woodland of knowledge.</p>
+  <div class="hero-actions">
     {% if current_user.is_authenticated %}
-      <a href="{{ url_for('notes.workspace') }}" class="forest-btn">OPEN YOUR FOREST</a>
+      <a href="{{ url_for('forest.dashboard') }}" class="btn">OPEN YOUR FOREST</a>
     {% else %}
-      <a href="{{ url_for('auth.register') }}" class="forest-btn">PLANT YOUR FIRST TREE</a>
-      <a href="{{ url_for('auth.login') }}" class="forest-btn forest-btn-dim">SIGN IN</a>
+      <a href="{{ url_for('auth.register') }}" class="btn">PLANT YOUR FIRST TREE</a>
+      <a href="{{ url_for('auth.login') }}" class="btn btn-dim">SIGN IN</a>
     {% endif %}
   </div>
 </div>
 
-<div class="forest-features">
-  <div class="forest-features-grid">
-    <div class="forest-feature-card">
-      <svg class="forest-feature-icon" viewBox="0 0 32 32">
-        <line x1="16" y1="30" x2="16" y2="14" stroke="#10b981" stroke-width="1.5" opacity="0.6"/>
-        <polygon points="16,4 4,20 28,20" fill="none" stroke="#eeeff1" stroke-width="1.5"/>
-        <circle cx="16" cy="12" r="2" fill="#10b981"/>
-      </svg>
-      <h3>PLANT A TREE</h3>
-      <p>Create a node for any thought&mdash;a snippet, a dream, or a paper. Every spark finds soil.</p>
+<div class="features">
+  <div class="feature-card">
+    <div class="feature-icon seed-icon">
+      <div class="mini-seed"></div>
     </div>
-    <div class="forest-feature-card">
-      <svg class="forest-feature-icon" viewBox="0 0 32 32">
-        <line x1="16" y1="30" x2="16" y2="10" stroke="#10b981" stroke-width="1.5" opacity="0.6"/>
-        <polygon points="16,2 4,16 28,16" fill="none" stroke="#eeeff1" stroke-width="1.5"/>
-        <polygon points="16,8 8,20 24,20" fill="none" stroke="#6b6b82" stroke-width="1"/>
-      </svg>
-      <h3>GROW BRANCHES</h3>
-      <p>Watch your ideas branch out. Connect thoughts and see your forest expand.</p>
+    <h3>PLANT A TREE</h3>
+    <p>Every thought finds soil. Create a tree for any idea, snippet, or dream.</p>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon branch-icon">
+      <div class="mini-branch"></div>
     </div>
-    <div class="forest-feature-card">
-      <svg class="forest-feature-icon" viewBox="0 0 32 32">
-        <line x1="16" y1="30" x2="16" y2="12" stroke="#10b981" stroke-width="1.5" opacity="0.6"/>
-        <polygon points="16,4 6,18 26,18" fill="none" stroke="#eeeff1" stroke-width="1.5"/>
-        <circle cx="16" cy="10" r="1.5" fill="#10b981"/>
-      </svg>
-      <h3>TEND YOUR FOREST</h3>
-      <p>Revise notes every 30 days or they wither. Keep your knowledge alive and growing.</p>
+    <h3>GROW BRANCHES</h3>
+    <p>Connect your trees. Watch your forest expand as ideas link together.</p>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon tend-icon">
+      <div class="mini-tree"></div>
     </div>
+    <h3>TEND YOUR FOREST</h3>
+    <p>Revise trees every 30 days or they wither. Keep your knowledge alive.</p>
   </div>
 </div>
 {% endblock %}

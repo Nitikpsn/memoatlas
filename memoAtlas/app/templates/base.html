@@ -3,32 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-  <title>{% block title %}MemoAtlas | Forest{% endblock %}</title>
-  {% block head %}{% endblock %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <title>{% block title %}MemoAtlas{% endblock %}</title>
 </head>
 <body>
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-      <div class="forest-flash">
-      {% for category, message in messages %}
-        <div class="forest-flash-msg">{{ message }}</div>
+      <div class="flash-wrap">
+      {% for cat, msg in messages %}
+        <div class="flash-msg">{{ msg }}</div>
       {% endfor %}
       </div>
     {% endif %}
   {% endwith %}
 
-  <div class="forest-shell">
-    <div class="forest-main">
-      <main>
-        {% block content %}{% endblock %}
-      </main>
-      <footer class="forest-footer">
-        <p>&copy; 2026 MemoAtlas &mdash; Tend your forest.</p>
-      </footer>
-    </div>
-  </div>
-
+  {% block content %}{% endblock %}
   {% block scripts %}{% endblock %}
 </body>
 </html>
