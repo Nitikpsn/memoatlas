@@ -73,18 +73,18 @@ a:hover { color: var(--green); }
 /* BUTTONS */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
-  padding: 0.75rem 1.75rem; background: transparent;
+  padding: 0.9rem 2rem; background: transparent;
   border: 1px solid var(--border-light); color: var(--text);
-  font-family: var(--font); font-size: 0.6rem; letter-spacing: 2px;
+  font-family: var(--font); font-size: 0.65rem; letter-spacing: 2px;
   text-transform: uppercase; cursor: pointer;
   transition: all 0.2s; border-radius: var(--radius-sm);
   white-space: nowrap;
 }
 .btn:hover {
   border-color: var(--green); color: var(--green);
-  background: var(--green-sub); box-shadow: 0 0 20px rgba(16,185,129,0.08);
+  background: var(--green-sub);
 }
-.btn-sm { padding: 0.5rem 1.25rem; font-size: 0.55rem; letter-spacing: 1.5px; }
+.btn-sm { padding: 0.6rem 1.5rem; font-size: 0.6rem; letter-spacing: 1.5px; }
 .btn-dim { border-color: var(--border); color: var(--text-muted); }
 .btn-dim:hover {
   border-color: var(--text-dim); color: var(--text-sec);
@@ -92,8 +92,7 @@ a:hover { color: var(--green); }
 }
 .btn-danger { border-color: var(--red-dim); color: var(--red); }
 .btn-danger:hover {
-  border-color: var(--red); background: rgba(239,68,68,0.08);
-  box-shadow: 0 0 20px rgba(239,68,68,0.08); color: var(--red);
+  border-color: var(--red); background: rgba(239,68,68,0.08); color: var(--red);
 }
 .btn-full { width: 100%; }
 .btn.active { border-color: var(--green); background: var(--green-sub); color: var(--green); }
@@ -117,20 +116,20 @@ a:hover { color: var(--green); }
 
 /* TREE CSS ILLUSTRATIONS */
 .tree-display {
-  position: relative; width: 80px; height: 120px;
+  position: relative; width: 100px; height: 150px;
   flex-shrink: 0; transition: all 0.5s ease;
 }
 .tree-stem {
   position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 6px; background: linear-gradient(180deg, #6b6b82, #48485c);
+  width: 8px; background: linear-gradient(180deg, #6b6b82, #48485c);
   border-radius: 3px 3px 1px 1px; transition: height 0.5s ease;
 }
-.seed-tree .tree-stem { height: 20px; width: 4px; }
-.sprout-tree .tree-stem { height: 50px; }
-.young-tree .tree-stem { height: 70px; }
-.mature-tree .tree-stem { height: 90px; }
-.ancient-tree .tree-stem { height: 100px; width: 8px; }
-.dead-tree .tree-stem { height: 15px; background: #3a3a3a; }
+.seed-tree .tree-stem { height: 25px; width: 5px; }
+.sprout-tree .tree-stem { height: 62px; }
+.young-tree .tree-stem { height: 88px; }
+.mature-tree .tree-stem { height: 112px; }
+.ancient-tree .tree-stem { height: 125px; width: 10px; }
+.dead-tree .tree-stem { height: 20px; background: #3a3a3a; }
 
 .tree-crown { position: absolute; left: 50%; transform: translateX(-50%); transition: all 0.5s ease; }
 .tree-foliage {
@@ -139,78 +138,69 @@ a:hover { color: var(--green); }
   transition: all 0.5s ease;
 }
 
-.seed-tree .tree-crown { bottom: 18px; }
-.seed-tree .tree-foliage { width: 12px; height: 12px; opacity: 0.6; box-shadow: 0 0 8px rgba(16,185,129,0.3); }
+.seed-tree .tree-crown { bottom: 22px; }
+.seed-tree .tree-foliage { width: 16px; height: 16px; opacity: 0.6; }
 .seed-tree .s2, .seed-tree .s3, .seed-tree .s4 { display: none; }
 
-.sprout-tree .tree-crown { bottom: 45px; }
+.sprout-tree .tree-crown { bottom: 56px; }
 .sprout-tree .tree-foliage {
-  width: 30px; height: 30px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  width: 38px; height: 38px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   border-radius: 0; opacity: 0.75;
 }
 .sprout-tree .s2, .sprout-tree .s3, .sprout-tree .s4 { display: none; }
 
-.young-tree .tree-crown { bottom: 60px; }
+.young-tree .tree-crown { bottom: 75px; }
 .young-tree .tree-foliage {
-  width: 50px; height: 45px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  width: 62px; height: 56px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   border-radius: 0; opacity: 0.8;
 }
 .young-tree .s2 {
-  display: block; width: 35px; height: 35px; top: -20px;
+  display: block; width: 44px; height: 44px; top: -24px;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%); opacity: 0.7;
 }
 .young-tree .s3, .young-tree .s4 { display: none; }
 
-.mature-tree .tree-crown { bottom: 80px; }
+.mature-tree .tree-crown { bottom: 100px; }
 .mature-tree .tree-foliage {
-  width: 65px; height: 55px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  width: 82px; height: 68px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   border-radius: 0; opacity: 0.85; background: var(--green-light);
 }
 .mature-tree .s2 {
-  display: block; width: 50px; height: 45px; top: -25px;
+  display: block; width: 62px; height: 56px; top: -30px;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%); opacity: 0.8;
 }
 .mature-tree .s3 {
-  display: block; width: 35px; height: 35px; top: -10px; left: -30px;
+  display: block; width: 44px; height: 44px; top: -12px; left: -36px;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%); opacity: 0.6;
   transform: rotate(-20deg);
 }
 .mature-tree .s4 {
-  display: block; width: 35px; height: 35px; top: -10px; left: 30px;
+  display: block; width: 44px; height: 44px; top: -12px; left: 36px;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%); opacity: 0.6;
   transform: rotate(20deg);
 }
 
-.ancient-tree .tree-crown { bottom: 85px; }
+.ancient-tree .tree-crown { bottom: 106px; }
 .ancient-tree .tree-foliage {
-  width: 80px; height: 65px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  width: 100px; height: 82px; clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   border-radius: 0; opacity: 0.9; background: var(--green-light);
 }
 .ancient-tree .s2 {
-  display: block; width: 60px; height: 50px; top: -30px;
+  display: block; width: 76px; height: 62px; top: -36px;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%); opacity: 0.85;
 }
 .ancient-tree .s3 {
-  display: block; width: 45px; height: 40px; top: -15px; left: -35px;
+  display: block; width: 56px; height: 50px; top: -18px; left: -42px;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%); opacity: 0.7;
   transform: rotate(-25deg);
 }
 .ancient-tree .s4 {
-  display: block; width: 45px; height: 40px; top: -15px; left: 35px;
+  display: block; width: 56px; height: 50px; top: -18px; left: 42px;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%); opacity: 0.7;
   transform: rotate(25deg);
 }
-.ancient-tree .glow {
-  position: absolute; width: 100px; height: 100px; top: -30px; left: -10px;
-  background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%);
-  pointer-events: none; animation: treeGlow 3s ease-in-out infinite;
-}
-@keyframes treeGlow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
 
-.dead-tree .tree-crown { bottom: 15px; }
+.dead-tree .tree-crown { bottom: 20px; }
 .dead-tree .tree-foliage { width: 0; height: 0; opacity: 0; }
 .dead-tree .s2, .dead-tree .s3, .dead-tree .s4 { display: none; }
 
@@ -249,14 +239,14 @@ a:hover { color: var(--green); }
   margin: 0 auto;
 }
 .hero-tree { margin-bottom: 2rem; }
-.hero-tree .tree-display { width: 100px; height: 150px; margin: 0 auto; }
+.hero-tree .tree-display { width: 130px; height: 190px; margin: 0 auto; }
 .hero h1 { font-size: 2rem; line-height: 1.2; margin-bottom: 1.5rem; letter-spacing: 1px; }
 .hero-sub {
   font-size: 0.75rem; color: var(--text-muted); line-height: 1.9;
   max-width: 520px; margin: 0 auto 2.5rem;
 }
 .hero-actions { display: flex; gap: 1rem; justify-content: center; }
-.hero-actions .btn { padding: 0.9rem 2.5rem; font-size: 0.65rem; }
+.hero-actions .btn { padding: 1rem 3rem; font-size: 0.7rem; }
 
 /* FEATURES */
 .features {
@@ -275,7 +265,7 @@ a:hover { color: var(--green); }
 .feature-card p { font-size: 0.6rem; color: var(--text-muted); line-height: 1.8; }
 .feature-icon { margin-bottom: 1rem; width: 32px; height: 32px; }
 
-.mini-seed { width: 12px; height: 12px; background: var(--green); border-radius: 50%; box-shadow: 0 0 8px rgba(16,185,129,0.3); }
+.mini-seed { width: 12px; height: 12px; background: var(--green); border-radius: 50%; }
 .mini-branch {
   width: 0; height: 0; border-left: 2px solid var(--green);
   border-bottom: 2px solid var(--green); padding: 6px;
@@ -303,7 +293,7 @@ a:hover { color: var(--green); }
   background: linear-gradient(90deg, transparent, var(--green), transparent);
 }
 .auth-tree { margin-bottom: 1rem; text-align: center; }
-.auth-tree .tree-display { width: 50px; height: 80px; margin: 0 auto; }
+.auth-tree .tree-display { width: 70px; height: 110px; margin: 0 auto; }
 .auth-card h2 { font-size: 0.9rem; text-align: center; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.4rem; }
 .auth-sub { text-align: center; font-size: 0.6rem; color: var(--text-muted); margin-bottom: 2rem; }
 .auth-foot { text-align: center; margin-top: 1.5rem; font-size: 0.6rem; color: var(--text-muted); }
@@ -377,7 +367,7 @@ a:hover { color: var(--green); }
 .dead-card { border-color: var(--wilt-border); border-style: dashed; opacity: 0.6; }
 .dead-card::before { background: linear-gradient(90deg, transparent, var(--wilt), transparent); }
 
-.tree-card-tree .tree-display { width: 50px; height: 80px; }
+.tree-card-tree .tree-display { width: 70px; height: 110px; }
 .tree-card-body { flex: 1; min-width: 0; }
 .tree-card-body h3 { font-size: 0.7rem; letter-spacing: 0.5px; text-transform: uppercase; word-break: break-word; margin-bottom: 0.5rem; }
 .tree-card-meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
@@ -387,7 +377,7 @@ a:hover { color: var(--green); }
 .empty-state {
   text-align: center; padding: 5rem 2rem; max-width: 400px; margin: 0 auto;
 }
-.empty-state .tree-display { width: 60px; height: 90px; margin: 0 auto 1.5rem; }
+.empty-state .tree-display { width: 80px; height: 120px; margin: 0 auto 1.5rem; }
 .empty-state h2 { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 2px; }
 .empty-state p { font-size: 0.65rem; color: var(--text-dim); margin-bottom: 2rem; }
 
@@ -403,7 +393,7 @@ a:hover { color: var(--green); }
   opacity: 0.4;
 }
 .detail-top { display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 1.5rem; }
-.detail-top .tree-display { width: 70px; height: 110px; }
+.detail-top .tree-display { width: 90px; height: 140px; }
 .detail-info h1 { font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; }
 .detail-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; font-size: 0.5rem; color: var(--text-dim); }
 .wilt-warn { color: var(--amber); }
@@ -441,7 +431,7 @@ a:hover { color: var(--green); }
   background: var(--card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 2.5rem;
 }
-.form-card .tree-display { width: 50px; height: 80px; margin: 0 auto 1rem; }
+.form-card .tree-display { width: 70px; height: 110px; margin: 0 auto 1rem; }
 .form-card h1 { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; text-align: center; }
 .form-sub { text-align: center; font-size: 0.55rem; color: var(--text-muted); margin-bottom: 2rem; }
 .form-actions { display: flex; gap: 1rem; align-items: center; margin-top: 2rem; }
@@ -469,7 +459,7 @@ a:hover { color: var(--green); }
   align-items: center; justify-content: center; padding: 2rem;
   background: linear-gradient(180deg, rgba(16,185,129,0.02) 0%, transparent 100%);
 }
-.focus-right .focus-tree .tree-display { width: 120px; height: 200px; }
+.focus-right .focus-tree .tree-display { width: 150px; height: 240px; }
 .focus-right .focus-tree .tree-display .tree-crown { transition: all 0.8s ease; }
 .focus-right .focus-tree .tree-display .tree-stem { transition: height 0.8s ease; }
 .focus-right .focus-tree .tree-display .tree-foliage { transition: all 0.8s ease; }
@@ -557,7 +547,7 @@ a:hover { color: var(--green); }
   .focus-view { flex-direction: column; }
   .focus-left { padding: 2rem; border-right: none; border-bottom: 1px solid var(--border); max-height: 50vh; }
   .focus-right { width: 100%; padding: 2rem; }
-  .focus-right .focus-tree .tree-display { width: 80px; height: 140px; }
+  .focus-right .focus-tree .tree-display { width: 100px; height: 170px; }
 }
 @media (max-width: 640px) {
   .dash { padding: 1.5rem; }
