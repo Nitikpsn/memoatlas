@@ -1,6 +1,6 @@
 import unittest
-from app import create_app, db
-from app.models.user import User
+from app import create_app
+from app.models import db, User
 
 
 class AuthTestCase(unittest.TestCase):
@@ -11,12 +11,12 @@ class AuthTestCase(unittest.TestCase):
             WTF_CSRF_ENABLED=False
         ))
         self.client = self.app.test_client()
-        with self.app.app_context(): 
+        with self.app.app_context():
             db.create_all()
             user = User(username='testuser', email='test@example.com')
             user.set_password('password123')
             db.session.add(user)
-            db.session.commit() 
+            db.session.commit()
 
     def tearDown(self):
         with self.app.app_context():
@@ -24,52 +24,56 @@ class AuthTestCase(unittest.TestCase):
             db.drop_all()
 
     def test_login_page(self):
-        response = self.client.get('/login')
-        self.assertEqual(response.status_code, 200)
+        r = self.client.get('/login')
+        self.assertEqual(r.status_code, 200)
 
     def test_register_page(self):
-        response = self.client.get('/register')
-        self.assertEqual(response.status_code, 200)
+        r = self.client.get('/register')
+        self.assertEqual(r.status_code, 200)
+
+    def test_landing_page(self):
+        r = self.client.get('/')
+        self.assertEqual(r.status_code, 200)
 
     def test_login_success(self):
-        response = self.client.post('/login', data={
+        r = self.client.post('/login', data={
             'email': 'test@example.com',
             'password': 'password123'
         }, follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(r.status_code, 200)
 
     def test_login_failure(self):
-        response = self.client.post('/login', data={
+        r = self.client.post('/login', data={
             'email': 'test@example.com',
-            'password': 'wrongpassword'
+            'password': 'wrong'
         })
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(r.status_code, 302)
 
     def test_register_success(self):
-        response = self.client.post('/register', data={
+        r = self.client.post('/register', data={
             'username': 'newuser',
             'email': 'new@example.com',
             'password': 'password123',
-            'confirm_password': 'password123'
+            'confirm': 'password123'
         }, follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(r.status_code, 200)
 
     def test_register_duplicate_username(self):
-        response = self.client.post('/register', data={
+        r = self.client.post('/register', data={
             'username': 'testuser',
             'email': 'another@example.com',
             'password': 'password123',
-            'confirm_password': 'password123'
+            'confirm': 'password123'
         })
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(r.status_code, 302)
 
     def test_logout(self):
         self.client.post('/login', data={
             'email': 'test@example.com',
             'password': 'password123'
-        }, follow_redirects=True)
-        response = self.client.get('/logout', follow_redirects=True)
-        self.assertEqual(response.status_code, 200)
+        })
+        r = self.client.get('/logout', follow_redirects=True)
+        self.assertEqual(r.status_code, 200)
 
 
 if __name__ == '__main__':

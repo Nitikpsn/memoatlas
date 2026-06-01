@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from ..models import db, User
+from ..models import db, User, Progress
 
 auth = Blueprint('auth', __name__)
 
@@ -59,6 +59,7 @@ def register():
         user = User(username=username, email=email)
         user.set_password(password)
         db.session.add(user)
+        db.session.flush()
 
         progress = Progress(user_id=user.id, xp=0, level=1)
         db.session.add(progress)

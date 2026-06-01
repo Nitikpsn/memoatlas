@@ -1,123 +1,111 @@
-var network;
-var nodes;
-var graphData;
-var pulseActive = false;
-var pulseInterval = null;
-var nodePulseData = [];
+document.addEventListener('DOMContentLoaded', function() {
+  var container = document.getElementById('network')
+  if (!container) return
 
-var pulseBtn = document.getElementById('pulse-btn');
+  var pulseBtn = document.getElementById('pulse-btn')
+  var network = null
+  var nodes = null
+  var pulseInterval = null
+  var pulseActive = false
 
-fetch('/api/graph-data')
-    .then(function(r) { return r.json(); })
+  fetch('/api/graph-data')
+    .then(function(r) { return r.json() })
     .then(function(data) {
-        graphData = data;
+      if (!data.nodes.length) return
 
-        var result = AtlasGraph.buildNetwork('mynetwork', data, {
-            nodes: {
-                size: 16,
-                color: { background: '#2a2a42', border: '#2a2a42' },
-                font: { color: '#6b6b82', size: 12 }
-            },
-            edges: {
-                color: { color: '#1e1e32' }
-            },
-            physics: {
-                barnesHut: { gravitationalConstant: -2000, springLength: 250, springConstant: 0.04 }
-            }
-        });
+      var nodeArray = data.nodes.map(function(n) {
+        var size = 16
+        if (n.stage === 'ancient') size = 24
+        else if (n.stage === 'mature') size = 20
+        else if (n.stage === 'seed' || n.stage === 'dead') size = 12
+        return { id: n.id, label: n.title, size: size, updated_at: n.updated_at }
+      })
 
-        if (!result) {
-            return;
+      var edgeArray = data.links.map(function(l) {
+        return { from: l.source, to: l.target }
+      })
+
+      nodes = new vis.DataSet(nodeArray)
+      var edges = new vis.DataSet(edgeArray)
+
+      var options = {
+        nodes: {
+          shape: 'dot',
+          color: { background: '#10b981', border: '#10b981' },
+          font: { color: '#a0a0b8', size: 11, face: 'Space Mono' },
+          borderWidth: 0,
+          scaling: { label: { enabled: false } }
+        },
+        edges: {
+          color: { color: 'rgba(16,185,129,0.2)', highlight: 'rgba(16,185,129,0.4)' },
+          smooth: { type: 'cubicBezier', roundness: 0.4 },
+          width: 1.2
+        },
+        physics: {
+          solver: 'barnesHut',
+          barnesHut: {
+            gravitationalConstant: -3000,
+            springLength: 200,
+            springConstant: 0.03
+          },
+          stabilization: { iterations: 150 }
+        },
+        interaction: { hover: true }
+      }
+
+      network = new vis.Network(container, { nodes: nodes, edges: edges }, options)
+
+      network.on('click', function(params) {
+        if (params.nodes.length > 0) {
+          window.location.href = '/tree/' + params.nodes[0]
         }
+      })
 
-        network = result.network;
-        nodes = result.nodes;
-
-        network.on('click', function(params) {
-            if (params.nodes.length > 0) {
-                window.location.href = '/note/' + params.nodes[0];
-            }
-        });
-
-        preparePulseData(data.nodes);
+      if (pulseBtn) {
+        pulseBtn.addEventListener('click', function() {
+          pulseActive = !pulseActive
+          this.classList.toggle('active')
+          if (pulseActive) startPulse(data.nodes)
+          else stopPulse()
+        })
+      }
     })
-    .catch(function() {
-    });
 
-function preparePulseData(nodesData) {
-    var now = Date.now();
-    nodePulseData = [];
+  function startPulse(nodesData) {
+    if (!network || !nodes) return
+    var now = Date.now()
+    var speeds = nodesData.map(function(n) {
+      var t = n.updated_at ? new Date(n.updated_at).getTime() : now
+      var diff = (now - t) / (1000 * 60 * 60)
+      var speed = 0.5
+      if (diff < 1) speed = 5 + Math.random()
+      else if (diff < 24) speed = 3 + Math.random() * 0.5
+      else if (diff < 168) speed = 1.5 + Math.random() * 0.3
+      return { id: n.id, speed: speed }
+    })
 
-    for (var i = 0; i < nodesData.length; i++) {
-        var n = nodesData[i];
-        var updatedAt = n.updated_at ? new Date(n.updated_at).getTime() : now;
-        var diffHours = (now - updatedAt) / (1000 * 60 * 60);
-        var speed;
-
-        if (diffHours < 1) {
-            speed = 5 + Math.random();
-        } else if (diffHours < 24) {
-            speed = 3 + Math.random() * 0.5;
-        } else if (diffHours < 168) {
-            speed = 1.5 + Math.random() * 0.3;
-        } else {
-            speed = 0.5 + Math.random() * 0.3;
-        }
-
-        nodePulseData.push({
-            id: n.id,
-            speed: speed,
-            baseSize: 16
-        });
-    }
-}
-
-if (pulseBtn) {
-    pulseBtn.addEventListener('click', function() {
-        pulseActive = !pulseActive;
-        this.classList.toggle('active');
-        if (pulseActive) {
-            startPulse();
-        } else {
-            stopPulse();
-        }
-    });
-}
-
-function startPulse() {
-    if (!network || !nodes) {
-        return;
-    }
-
-    var time = 0;
+    var time = 0
     pulseInterval = setInterval(function() {
-        time += 0.04;
-        var updates = [];
+      time += 0.04
+      var updates = speeds.map(function(s) {
+        var size = 16 + Math.sin(time * s.speed) * 5
+        return { id: s.id, size: Math.max(3, size) }
+      })
+      nodes.update(updates)
+    }, 40)
+  }
 
-        for (var i = 0; i < nodePulseData.length; i++) {
-            var n = nodePulseData[i];
-            var oscillation = Math.sin(time * n.speed) * 5;
-            updates.push({
-                id: n.id,
-                size: Math.max(3, n.baseSize + oscillation)
-            });
-        }
-
-        nodes.update(updates);
-    }, 40);
-}
-
-function stopPulse() {
+  function stopPulse() {
     if (pulseInterval) {
-        clearInterval(pulseInterval);
-        pulseInterval = null;
+      clearInterval(pulseInterval)
+      pulseInterval = null
     }
-
     if (nodes) {
-        var reset = [];
-        for (var i = 0; i < nodePulseData.length; i++) {
-            reset.push({ id: nodePulseData[i].id, size: 16 });
-        }
-        nodes.update(reset);
+      var reset = nodes.get().map(function(n) {
+        var size = 16
+        return { id: n.id, size: size }
+      })
+      nodes.update(reset)
     }
-}
+  }
+})

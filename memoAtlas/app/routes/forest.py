@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, flash, abort, request, jsonify
 from flask_login import login_required, current_user
-from ..models import db, Tree, Progress
+from ..models import db, Tree, Connection, Progress
 
 forest = Blueprint('forest', __name__)
 
@@ -16,8 +16,9 @@ def get_or_create_progress(user_id):
 
 
 @forest.route('/')
-@login_required
 def dashboard():
+    if not current_user.is_authenticated:
+        return render_template('index.html')
     trees = Tree.query.filter_by(user_id=current_user.id).order_by(Tree.created_at.desc()).all()
     progress = get_or_create_progress(current_user.id)
     total = len(trees)
