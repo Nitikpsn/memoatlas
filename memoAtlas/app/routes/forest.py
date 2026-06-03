@@ -163,6 +163,11 @@ def profile():
     return render_template('forest/profile.html', progress=progress)
 
 
+@forest.route('/help')
+def help_page():
+    return render_template('forest/help.html')
+
+
 @forest.route('/game')
 @login_required
 def game():
