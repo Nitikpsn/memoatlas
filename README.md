@@ -1,11 +1,11 @@
-# MemoAtlas 🧠🌐
+# MemoAtlas
 
 
 **MemoAtlas** is a visual "Second Brain" platform designed to map the atlas of your thoughts.
 
 ---
 
-## 🚀 Vision
+## Vision
 Turn scattered thoughts into a structured network. Whether you are a student, researcher, or developer, MemoAtlas helps you find hidden patterns in your data through interactive link analysis.
 
 ## ✨ Core Features
@@ -16,7 +16,7 @@ Turn scattered thoughts into a structured network. Whether you are a student, re
 
 ---
 
-## 📂 Project Roadmap & Structure
+## Project Roadmap & Structure
 > **CRITICAL:** This project is case-sensitive. To maintain accurate **Hackatime/WakaTime** stats, always operate within the `memoAtlas/` (CamelCase) root.
 
 ```text
@@ -28,7 +28,7 @@ memoAtlas/
 │   └── templates/      # Obsidian-themed Jinja2 templates
 ├── run.py              # Application Entry Point
 └── .venv/              # Isolated Environment
-🛠️ Tech Stack
+Tech Stack
 Backend: Python 3.12 / Flask
 
 Database: SQLAlchemy / SQLite
@@ -37,7 +37,7 @@ Frontend: Custom CSS / Vis.js
 
 Forms: Flask-WTF
 
-🛠️ Quick Start
+Quick Start
 Initialize Environment:
 
 Bash
@@ -58,7 +58,7 @@ Bash
 
 
 python3 run.py
-🤝 Contributing
+Contributing
 Contributions are welcome! Please ensure all file names follow the snake_case.py convention to avoid Linux import conflicts.
 
 ⚖️ License

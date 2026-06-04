@@ -59,7 +59,7 @@
   {% macro tree_card(t) %}
   {% set s = t.get_stage() %}
   {% set h = t.get_effective_health() %}
-  {% set emoji = '💀' if s == 'dead' else '⚠️' if s == 'wilting' else '🍂' if s == 'fading' else '✨' if s == 'ancient' else '🌲' if s == 'mature' else '🌳' if s == 'young' else '🌿' if s == 'sprout' else '🌱' %}
+  {% set emoji = '' %}
   <div class="tree-card {{ s }}-card">
     <a href="{{ url_for('forest.view_tree', tree_id=t.id) }}" class="tree-card-link">
       <div class="tree-card-tree">
@@ -76,7 +76,7 @@
       <div class="tree-card-body">
         <h3 class="{% if s in ('dead','wilting') %}dead-title{% endif %}">{{ t.title }}</h3>
         <div class="tree-card-meta">
-          <span class="stage-badge {{ s }}">{{ emoji }} {{ s }}</span>
+          <span class="stage-badge {{ s }}">{{ s }}</span>
           <span class="health-val">{{ h }}/100</span>
         </div>
         <div class="health-bar">
@@ -103,14 +103,14 @@
   </div>
   {% else %}
     {% set stage_config = [
-      ('ancient', '✨ Ancient Trees'),
-      ('mature', '🌲 Mature Trees'),
-      ('young', '🌳 Young Trees'),
-      ('sprout', '🌿 Sprouts'),
-      ('seed', '🌱 Seeds'),
-      ('fading', '🍂 Fading'),
-      ('wilting', '⚠️ Wilting'),
-      ('dead', '💀 Dead')
+      ('ancient', 'Ancient Trees'),
+      ('mature', 'Mature Trees'),
+      ('young', 'Young Trees'),
+      ('sprout', 'Sprouts'),
+      ('seed', 'Seeds'),
+      ('fading', 'Fading'),
+      ('wilting', 'Wilting'),
+      ('dead', 'Dead')
     ] %}
     {% for stage_name, stage_label in stage_config %}
       {% if stages[stage_name] %}
