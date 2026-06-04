@@ -29,8 +29,6 @@ def jaccard(a, b):
     if not set_a and not set_b:
         return 0.0
     union = set_a | set_b
-    if not union:
-        return 0.0
     return len(set_a & set_b) / len(union)
 
 

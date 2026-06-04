@@ -3,51 +3,186 @@
 {% block content %}
 <div class="help-page">
   <div class="help-card">
-    <h1>HOW TO USE MEMOATLAS</h1>
-    <p class="help-sub">Your mind is a forest. Here's how to grow it.</p>
+    <h1>MEMOATLAS</h1>
+    <p class="help-sub">A forest where your knowledge grows.</p>
 
     <div class="help-section">
-      <h2>1. PLANT A TREE</h2>
-      <p>Every idea, thought, or snippet of knowledge starts as a <strong>seed</strong>. Click <strong>"PLANT TREE"</strong> to create a new tree. Give it a title and write down what you want to remember. Over time, your tree will grow as you tend to it.</p>
+      <h2>WHAT IS THIS?</h2>
+      <p>MemoAtlas turns your notes into trees. Every idea you save starts as a <strong>seed</strong>. When you revise it, the tree grows. Neglect it, and it withers. The healthier your forest, the stronger your memory.</p>
+      <p>It is not a doc editor. It is a <strong>living atlas</strong> of your mind.</p>
     </div>
 
     <div class="help-section">
-      <h2>2. TEND YOUR TREES</h2>
-      <p>Trees need care. Every <strong>30 days</strong>, your trees will start to wither. Click <strong>"TEND"</strong> on any tree to revise it — read what you wrote and confirm you still remember it. This boosts the tree's health and helps it grow to the next stage.</p>
+      <h2>TREE STAGES</h2>
+      <p>Every tree passes through these stages based on its health and how recently you revised it.</p>
+
+      <div class="stage-showcase">
+        <div class="stage-item">
+          <div class="stage-item-tree">
+            <div class="tree-display seed-tree">
+              <div class="tree-stem"></div>
+              <div class="tree-crown"><div class="tree-foliage"></div></div>
+            </div>
+          </div>
+          <div class="stage-item-info">
+            <span class="stage-badge seed">Seed</span>
+            <span class="stage-item-health">Health 1-20</span>
+            <p class="stage-item-desc">A new idea, just planted. Fragile but full of potential. Revise it to help it break ground.</p>
+          </div>
+        </div>
+
+        <div class="stage-item">
+          <div class="stage-item-tree">
+            <div class="tree-display sprout-tree">
+              <div class="tree-stem"></div>
+              <div class="tree-crown"><div class="tree-foliage"></div></div>
+            </div>
+          </div>
+          <div class="stage-item-info">
+            <span class="stage-badge sprout">Sprout</span>
+            <span class="stage-item-health">Health 21-40</span>
+            <p class="stage-item-desc">Taking root. The idea is becoming clearer. Keep revising to push it higher.</p>
+          </div>
+        </div>
+
+        <div class="stage-item">
+          <div class="stage-item-tree">
+            <div class="tree-display young-tree">
+              <div class="tree-stem"></div>
+              <div class="tree-crown">
+                <div class="tree-foliage"></div>
+                <div class="tree-foliage s2"></div>
+              </div>
+            </div>
+          </div>
+          <div class="stage-item-info">
+            <span class="stage-badge young">Young</span>
+            <span class="stage-item-health">Health 41-70</span>
+            <p class="stage-item-desc">Growing strong. The concept has structure. Branches are forming. Regular revision keeps it thriving.</p>
+          </div>
+        </div>
+
+        <div class="stage-item">
+          <div class="stage-item-tree">
+            <div class="tree-display mature-tree">
+              <div class="tree-stem"></div>
+              <div class="tree-crown">
+                <div class="tree-foliage"></div>
+                <div class="tree-foliage s2"></div>
+                <div class="tree-foliage s3"></div>
+                <div class="tree-foliage s4"></div>
+              </div>
+            </div>
+          </div>
+          <div class="stage-item-info">
+            <span class="stage-badge mature">Mature</span>
+            <span class="stage-item-health">Health 71-90</span>
+            <p class="stage-item-desc">A well-established tree. The idea is solid and deeply rooted. Full canopy of knowledge.</p>
+          </div>
+        </div>
+
+        <div class="stage-item">
+          <div class="stage-item-tree">
+            <div class="tree-display ancient-tree">
+              <div class="tree-stem"></div>
+              <div class="tree-crown">
+                <div class="tree-foliage"></div>
+                <div class="tree-foliage s2"></div>
+                <div class="tree-foliage s3"></div>
+                <div class="tree-foliage s4"></div>
+              </div>
+            </div>
+          </div>
+          <div class="stage-item-info">
+            <span class="stage-badge ancient">Ancient</span>
+            <span class="stage-item-health">Health 91-100</span>
+            <p class="stage-item-desc">Peak growth. This knowledge is deeply ingrained. A wise, towering tree in your forest.</p>
+          </div>
+        </div>
+
+        <div class="stage-item">
+          <div class="stage-item-tree">
+            <div class="tree-display fading-tree">
+              <div class="tree-stem"></div>
+              <div class="tree-crown"><div class="tree-foliage"></div></div>
+            </div>
+          </div>
+          <div class="stage-item-info">
+            <span class="stage-badge fading">Fading</span>
+            <span class="stage-item-health">30+ days unrevised</span>
+            <p class="stage-item-desc">The first signs of neglect. The tree is losing its color. Revise soon or it will weaken further.</p>
+          </div>
+        </div>
+
+        <div class="stage-item">
+          <div class="stage-item-tree">
+            <div class="tree-display wilting-tree">
+              <div class="tree-stem"></div>
+              <div class="tree-crown"><div class="tree-foliage"></div></div>
+            </div>
+          </div>
+          <div class="stage-item-info">
+            <span class="stage-badge wilting">Wilting</span>
+            <span class="stage-item-health">45+ days unrevised</span>
+            <p class="stage-item-desc">Near death. The tree is barely holding on. Urgent revision needed to save it.</p>
+          </div>
+        </div>
+
+        <div class="stage-item">
+          <div class="stage-item-tree">
+            <div class="tree-display dead-tree">
+              <div class="tree-stem"></div>
+            </div>
+          </div>
+          <div class="stage-item-info">
+            <span class="stage-badge dead">Dead</span>
+            <span class="stage-item-health">60+ days unrevised</span>
+            <p class="stage-item-desc">The tree has died. It remains in your forest as a stump. Reviving is not possible — plant a new tree.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="help-section">
-      <h2>3. WATCH THEM GROW</h2>
-      <p>Trees grow through stages: <span class="hl hl-seed">Seed</span> &rarr; <span class="hl hl-sprout">Sprout</span> &rarr; <span class="hl hl-young">Young</span> &rarr; <span class="hl hl-mature">Mature</span> &rarr; <span class="hl hl-ancient">Ancient</span>. The more you revise, the bigger and healthier your trees become. Neglect them and they will <span class="hl hl-fading">Fade</span>, <span class="hl hl-wilting">Wilt</span>, and eventually <span class="hl hl-dead">Die</span>.</p>
+      <h2>HOW HEALTH WORKS</h2>
+      <p>Each tree starts with <strong>20 health</strong>. Revising a tree (reading its content and confirming you remember it) adds <strong>+20 health</strong>, up to a maximum of 100.</p>
+      <p>If you do not revise a tree for <strong>30 days</strong>, its health begins to decay by <strong>1 point per day</strong>. A tree that reaches 0 health or goes 60+ days without revision dies.</p>
+      <p>The revision page includes a <strong>5-minute timer</strong>. Use that time to read the content and reflect. When the timer ends, the revision counts.</p>
     </div>
 
     <div class="help-section">
-      <h2>4. CONNECT IDEAS</h2>
-      <p>On a tree's detail page, you can <strong>link it to other trees</strong>. This creates connections between related ideas, just like branches in a forest. Use the <strong>"MAP"</strong> view to see your whole forest as a network of connected thoughts.</p>
+      <h2>HOW TO GAIN XP</h2>
+      <p>Every time you revise a tree, you earn <strong>XP</strong>. The more trees you tend, the more XP you accumulate, and your <strong>level</strong> rises. Higher levels reflect a well-maintained, thriving forest of knowledge.</p>
+      <ul>
+        <li>Revising a tree earns XP</li>
+        <li>XP contributes to your player level</li>
+        <li>A healthy forest = a higher Forest Health score</li>
+        <li>Check your level on the Profile page</li>
+      </ul>
     </div>
 
     <div class="help-section">
-      <h2>5. EARN XP & LEVEL UP</h2>
-      <p>Tending your trees earns you <strong>XP</strong>. As you gain XP, your <strong>level</strong> increases. Keep your whole forest healthy to see your <strong>Forest Health</strong> score grow. A healthy forest is a healthy mind.</p>
+      <h2>CONNECTING TREES</h2>
+      <p>On any tree's detail page, you can link it to other trees. This creates visible connections between related ideas. Open the <strong>MAP</strong> view to see your entire forest as a network of connected thoughts.</p>
     </div>
 
     <div class="help-section">
-      <h2>6. SEARCH YOUR FOREST</h2>
-      <p>Use the <strong>"SEARCH"</strong> button to quickly find any tree by title or content. No more lost thoughts — everything is just a search away.</p>
+      <h2>GAME MODE</h2>
+      <p>The <strong>GAME</strong> page tests your recall. It shows you a random tree description and you must pick the correct tree from your forest. A good way to check what you actually remember.</p>
     </div>
 
     <div class="help-section">
       <h2>TIPS</h2>
       <ul>
-        <li>Tend trees <strong>before</strong> they turn yellow to keep them healthy</li>
-        <li>Use tags on your trees to organize by topic</li>
-        <li>Revise regularly to build a forest of ancient, wise trees</li>
-        <li>The game page tests your recall — pick the right tree for each description</li>
+        <li>Revise trees before they turn yellow (before day 30) to prevent decay</li>
+        <li>Use tags to organize trees by topic</li>
+        <li>Revise regularly to grow Ancient trees — they are the pride of your forest</li>
+        <li>Use the Game page to test recall of your weakest trees</li>
       </ul>
     </div>
 
     <div class="help-footer">
-      <p>Remember: <em>every great forest started as a single seed.</em></p>
+      <p>Every great forest started as a single seed.</p>
     </div>
   </div>
 </div>

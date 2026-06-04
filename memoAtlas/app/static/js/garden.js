@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
       var m = Math.floor(timeLeft / 60)
       var s = timeLeft % 60
       timer.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0')
-      timer.style.opacity = (timeLeft % 2 === 0) ? '0.7' : '1'
       if (timeLeft <= 0) {
         clearInterval(interval)
         timer.textContent = 'DONE'

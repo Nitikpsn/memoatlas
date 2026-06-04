@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         interaction: { hover: true }
       }
+      
 
       network = new vis.Network(container, { nodes: nodes, edges: edges }, options)
 
@@ -80,10 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
       var speed = 0.5
       if (diff < 1) speed = 5 + Math.random()
       else if (diff < 24) speed = 3 + Math.random() * 0.5
-      else if (diff < 168) speed = 1.5 + Math.random() * 0.3
+      else speed = 1.5 + Math.random() * 0.3
       return { id: n.id, speed: speed }
     })
-
     var time = 0
     pulseInterval = setInterval(function() {
       time += 0.04

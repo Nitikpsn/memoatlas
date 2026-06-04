@@ -45,7 +45,6 @@ class Tree(db.Model):
         if not self.tags:
             return []
         return [t.strip() for t in self.tags.split(',') if t.strip()]
-
     def days_unrevised(self):
         delta = datetime.utcnow() - self.last_revised
         return delta.days
@@ -56,7 +55,6 @@ class Tree(db.Model):
             return self.health_score
         decay = days - 30
         return max(0, self.health_score - decay)
-
     def get_stage(self):
         health = self.get_effective_health()
         days = self.days_unrevised()
