@@ -37,10 +37,12 @@ def dashboard():
     needing_care = sum(1 for t in trees if t.needs_care())
     ancient_count = len(stages['ancient'])
 
+    xp_for_next = progress.level * 100
     return render_template('forest/dashboard.html',
                            trees=trees, progress=progress, stages=stages,
                            forest_health=forest_health, needing_care=needing_care,
-                           total=total, ancient_count=ancient_count)
+                           total=total, ancient_count=ancient_count,
+                           xp_for_next=xp_for_next)
 
 
 @forest.route('/plant', methods=['GET', 'POST'])
