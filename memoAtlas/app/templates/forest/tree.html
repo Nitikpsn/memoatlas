@@ -60,6 +60,7 @@
       <a href="{{ url_for('forest.revise_view', tree_id=tree.id) }}" class="btn">TEND TREE</a>
       <a href="{{ url_for('forest.edit_tree', tree_id=tree.id) }}" class="btn btn-dim">EDIT</a>
       <form method="POST" action="{{ url_for('forest.delete_tree', tree_id=tree.id) }}" onsubmit="return confirm('Remove this tree from your forest?')">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <button type="submit" class="btn btn-danger">DELETE</button>
       </form>
     </div>

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Forbidden | MemoAtlas{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card" style="text-align:center;">
+    <div class="auth-tree">
+      <div class="tree-display dead-tree"><div class="tree-stem"></div><div class="tree-crown"><div class="tree-foliage"></div></div></div>
+    </div>
+    <h2>403 — FORBIDDEN</h2>
+    <p class="auth-sub">This is not your tree to tend.</p>
+    <a href="{{ url_for('forest.dashboard') }}" class="btn">BACK TO FOREST</a>
+  </div>
+</div>
+{% endblock %}

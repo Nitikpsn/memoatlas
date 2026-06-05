@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Not Found | MemoAtlas{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card" style="text-align:center;">
+    <div class="auth-tree">
+      <div class="tree-display wilting-tree"><div class="tree-stem"></div><div class="tree-crown"><div class="tree-foliage"></div></div></div>
+    </div>
+    <h2>404 — LOST IN THE WOODS</h2>
+    <p class="auth-sub">That path doesn't exist in this forest.</p>
+    <a href="{{ url_for('forest.dashboard') }}" class="btn">BACK TO FOREST</a>
+  </div>
+</div>
+{% endblock %}

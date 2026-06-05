@@ -9,6 +9,7 @@
     <h2>CREATE YOUR FOREST</h2>
     <p class="auth-sub">Start growing your knowledge today.</p>
     <form method="POST">
+      {{ form.hidden_tag() }}
       <div class="field">
         <label>Username</label>
         <input type="text" name="username" class="input" placeholder="Choose a username" required>

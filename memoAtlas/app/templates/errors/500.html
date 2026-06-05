@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Server Error | MemoAtlas{% endblock %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card" style="text-align:center;">
+    <div class="auth-tree">
+      <div class="tree-display fading-tree"><div class="tree-stem"></div><div class="tree-crown"><div class="tree-foliage"></div></div></div>
+    </div>
+    <h2>500 — FOREST FIRE</h2>
+    <p class="auth-sub">Something went wrong. The forest spirits are working on it.</p>
+    <a href="{{ url_for('forest.dashboard') }}" class="btn">BACK TO FOREST</a>
+  </div>
+</div>
+{% endblock %}

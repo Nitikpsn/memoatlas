@@ -6,6 +6,7 @@
     <div class="tree-display young-tree"><div class="tree-stem"></div><div class="tree-crown"><div class="tree-foliage"></div><div class="tree-foliage s2"></div></div></div>
     <h1>TEND TO "{{ tree.title }}"</h1>
     <form method="POST">
+      {{ form.hidden_tag() }}
       <div class="field">
         <label>Title</label>
         <input type="text" name="title" class="input" value="{{ tree.title }}" required>

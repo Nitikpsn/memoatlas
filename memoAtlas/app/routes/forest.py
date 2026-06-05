@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, flash, abort, request, jsonify
 from flask_login import login_required, current_user
 from ..models import db, Tree, Connection, Progress
+from ..forms import TreeForm
 
 forest = Blueprint('forest', __name__)
 
@@ -45,14 +46,11 @@ def dashboard():
 @forest.route('/plant', methods=['GET', 'POST'])
 @login_required
 def plant():
-    if request.method == 'POST':
-        title = request.form.get('title', '').strip()
-        content = request.form.get('content', '').strip()
-        tags = request.form.get('tags', '').strip()
-
-        if not title or not content:
-            flash('Title and content are required.', 'danger')
-            return redirect(url_for('forest.plant'))
+    form = TreeForm()
+    if form.validate_on_submit():
+        title = form.title.data.strip()
+        content = form.content.data.strip()
+        tags = form.tags.data.strip() if form.tags.data else ''
 
         tree = Tree(title=title, content=content, tags=tags, author=current_user)
         db.session.add(tree)
@@ -60,7 +58,7 @@ def plant():
         flash('Tree planted!', 'success')
         return redirect(url_for('forest.dashboard'))
 
-    return render_template('forest/plant.html')
+    return render_template('forest/plant.html', form=form)
 
 
 @forest.route('/tree/<int:tree_id>')
@@ -92,15 +90,20 @@ def edit_tree(tree_id):
     if tree.author != current_user:
         abort(403)
 
-    if request.method == 'POST':
-        tree.title = request.form.get('title', tree.title)
-        tree.content = request.form.get('content', tree.content)
-        tree.tags = request.form.get('tags', tree.tags)
+    form = TreeForm()
+    if form.validate_on_submit():
+        tree.title = form.title.data.strip()
+        tree.content = form.content.data.strip()
+        tree.tags = form.tags.data.strip() if form.tags.data else ''
         db.session.commit()
         flash('Tree updated.', 'success')
         return redirect(url_for('forest.view_tree', tree_id=tree.id))
 
-    return render_template('forest/edit.html', tree=tree)
+    form.title.data = tree.title
+    form.content.data = tree.content
+    form.tags.data = tree.tags
+
+    return render_template('forest/edit.html', tree=tree, form=form)
 
 
 @forest.route('/tree/<int:tree_id>/delete', methods=['POST'])

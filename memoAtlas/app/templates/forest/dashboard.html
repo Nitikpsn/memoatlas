@@ -59,7 +59,6 @@
   {% macro tree_card(t) %}
   {% set s = t.get_stage() %}
   {% set h = t.get_effective_health() %}
-  {% set emoji = '' %}
   <div class="tree-card {{ s }}-card">
     <a href="{{ url_for('forest.view_tree', tree_id=t.id) }}" class="tree-card-link">
       <div class="tree-card-tree">

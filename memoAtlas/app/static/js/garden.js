@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var healthLabel = document.querySelector('.focus-health')
   var timeLeft = 300
   var interval = null
+  var csrfToken = document.querySelector('meta[name="csrf-token"]')
 
   if (!btn) return
 
@@ -29,13 +30,22 @@ document.addEventListener('DOMContentLoaded', function() {
     overlay.className = 'flash-overlay'
     document.body.appendChild(overlay)
 
-    fetch('/revise/' + treeId, { method: 'POST' })
+    var headers = { 'Content-Type': 'application/json' }
+    if (csrfToken) {
+      headers['X-CSRFToken'] = csrfToken.getAttribute('content')
+    }
+
+    fetch('/revise/' + treeId, { method: 'POST', headers: headers })
       .then(function(r) { return r.json() })
       .then(function(data) {
         if (data.success) {
           setTimeout(function() { overlay.remove() }, 500)
           updateTree(data.new_health)
         }
+      })
+      .catch(function() {
+        overlay.remove()
+        timer.textContent = 'ERROR'
       })
   }
 

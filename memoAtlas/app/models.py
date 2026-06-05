@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 import hashlib
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,10 +12,10 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
     avatar_url = db.Column(db.String(500), nullable=True)
-    trees = db.relationship('Tree', backref='author', lazy=True)
-    progress = db.relationship('Progress', uselist=False, backref='user')
+    trees = db.relationship('Tree', backref='author', lazy=True, cascade='all, delete-orphan')
+    progress = db.relationship('Progress', uselist=False, backref='user', cascade='all, delete-orphan')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -45,6 +45,7 @@ class Tree(db.Model):
         if not self.tags:
             return []
         return [t.strip() for t in self.tags.split(',') if t.strip()]
+
     def days_unrevised(self):
         delta = datetime.utcnow() - self.last_revised
         return delta.days
@@ -55,6 +56,7 @@ class Tree(db.Model):
             return self.health_score
         decay = days - 30
         return max(0, self.health_score - decay)
+
     def get_stage(self):
         health = self.get_effective_health()
         days = self.days_unrevised()

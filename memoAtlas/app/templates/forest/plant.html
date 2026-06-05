@@ -8,6 +8,7 @@
     <p class="form-sub">Every thought starts as a seed.</p>
 
     <form method="POST">
+      {{ form.hidden_tag() }}
       <div class="field">
         <label>Title</label>
         <input type="text" name="title" class="input" placeholder="e.g. Quantum Physics Basics" required>

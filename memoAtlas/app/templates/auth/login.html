@@ -9,6 +9,7 @@
     <h2>WELCOME BACK</h2>
     <p class="auth-sub">Log in to tend your forest.</p>
     <form method="POST">
+      {{ form.hidden_tag() }}
       <div class="field">
         <label>Email</label>
         <input type="email" name="email" class="input" placeholder="name@email.com" required>

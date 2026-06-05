@@ -1,6 +1,8 @@
+from urllib.parse import urlparse
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from ..models import db, User, Progress
+from ..forms import LoginForm, RegisterForm
 
 auth = Blueprint('auth', __name__)
 
@@ -10,23 +12,20 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('forest.dashboard'))
 
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        remember = request.form.get('remember') is not None
-
-        user = User.query.filter_by(email=email).first()
-        if not user or not user.check_password(password):
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if not user or not user.check_password(form.password.data):
             flash('Wrong email or password.', 'danger')
             return redirect(url_for('auth.login'))
 
-        login_user(user, remember=remember)
+        login_user(user, remember=form.remember.data)
         next_page = request.args.get('next')
-        if next_page:
+        if next_page and not urlparse(next_page).netloc:
             return redirect(next_page)
         return redirect(url_for('forest.dashboard'))
 
-    return render_template('auth/login.html')
+    return render_template('auth/login.html', form=form)
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -34,11 +33,10 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('forest.dashboard'))
 
-    if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        confirm = request.form.get('confirm')
+    form = RegisterForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        email = form.email.data
 
         if User.query.filter_by(email=email).first():
             flash('Email already in use.', 'danger')
@@ -48,16 +46,8 @@ def register():
             flash('Username already taken.', 'danger')
             return redirect(url_for('auth.register'))
 
-        if password != confirm:
-            flash('Passwords do not match.', 'danger')
-            return redirect(url_for('auth.register'))
-
-        if len(password) < 6:
-            flash('Password must be at least 6 characters.', 'danger')
-            return redirect(url_for('auth.register'))
-
         user = User(username=username, email=email)
-        user.set_password(password)
+        user.set_password(form.password.data)
         db.session.add(user)
         db.session.flush()
 
@@ -68,7 +58,7 @@ def register():
         flash('Account created! Welcome to the forest.', 'success')
         return redirect(url_for('auth.login'))
 
-    return render_template('auth/register.html')
+    return render_template('auth/register.html', form=form)
 
 
 @auth.route('/logout')
