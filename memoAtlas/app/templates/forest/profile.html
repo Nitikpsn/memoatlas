@@ -12,9 +12,15 @@
       <div class="stat-num">{{ current_user.trees|length }}</div>
       <div class="stat-label">Total Trees</div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card stat-xp">
       <div class="stat-num">{{ progress.xp }}</div>
       <div class="stat-label">XP</div>
+      <div class="xp-bar-wrap">
+        <div class="xp-track">
+          <div class="xp-fill" style="width:{{ (progress.xp / xp_for_next * 100) | round }}%"></div>
+        </div>
+        <span class="xp-next">next {{ xp_for_next }}</span>
+      </div>
     </div>
     <div class="stat-card">
       <div class="stat-num">{{ progress.level }}</div>
