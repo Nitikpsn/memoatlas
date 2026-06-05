@@ -651,10 +651,6 @@ a:hover { color: var(--green); }
   align-items: center; justify-content: center; padding: 3rem;
   background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
 }
-.focus-right .focus-tree .tree-display { width: 150px; height: 240px; }
-.focus-right .focus-tree .tree-display .tree-crown { transition: all 0.8s ease; }
-.focus-right .focus-tree .tree-display .tree-stem { transition: height 0.8s ease; }
-.focus-right .focus-tree .tree-display .tree-foliage { transition: all 0.8s ease; }
 #timer {
   font-size: 4rem; color: #fff; margin-bottom: 1rem;
   font-weight: 700; letter-spacing: 4px;
@@ -663,8 +659,42 @@ a:hover { color: var(--green); }
   font-size: 0.55rem; color: #aaa; letter-spacing: 2px;
   margin-bottom: 1.5rem; text-transform: uppercase; font-weight: 700;
 }
-.focus-health { font-size: 0.55rem; color: #aaa; letter-spacing: 2px; margin-top: 1rem; text-transform: uppercase; font-weight: 700; }
-.focus-right .btn { margin-top: 2rem; }
+.health-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 1.5rem; flex: 1; justify-content: center;
+}
+.health-icon {
+  display: flex; align-items: center; justify-content: center;
+}
+.heart {
+  font-size: 2.5rem; color: #fff; line-height: 1;
+}
+.hp-bar-wrap {
+  width: 220px; text-align: center;
+}
+.hp-label {
+  display: block; font-size: 0.7rem; color: #fff;
+  letter-spacing: 1px; font-weight: 700; margin-bottom: 0.5rem;
+}
+.hp-track {
+  width: 100%; height: 14px; background: #222;
+  border: 2px solid #666; border-radius: 4px; overflow: hidden;
+}
+.hp-fill {
+  height: 100%; background: #fff; transition: width 0.8s ease;
+  border-radius: 2px;
+}
+.btn-revise {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 1rem 2.5rem; background: #fff; color: #000;
+  font-family: var(--font); font-size: 0.7rem; letter-spacing: 2px;
+  text-transform: uppercase; cursor: pointer; font-weight: 700;
+  border: none; border-radius: 4px; margin-top: auto;
+  transition: all 0.2s;
+}
+.btn-revise:hover {
+  background: #000; color: #fff; border: 2px solid #fff;
+}
 @keyframes flashGreen {
   0% { background: rgba(255,255,255,0.2); }
   100% { background: transparent; }

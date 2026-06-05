@@ -18,19 +18,18 @@ body, .forest-shell { margin: 0; padding: 0; overflow: hidden; }
     {% if s == 'dead' or s == 'wilting' or s == 'fading' %}
     <div class="wilt-note">{{ tree.days_unrevised() }} DAYS UNTENDED</div>
     {% endif %}
-    <div class="focus-tree" id="focus-tree">
-      <div class="tree-display {% if s == 'dead' or s == 'wilting' or s == 'fading' %}dead-tree{% elif h <= 20 %}seed-tree{% elif h <= 40 %}sprout-tree{% elif h <= 70 %}young-tree{% elif h <= 90 %}mature-tree{% else %}ancient-tree{% endif %}" id="tree-visual">
-        <div class="tree-stem"></div>
-        <div class="tree-crown">
-          <div class="tree-foliage"></div>
-          <div class="tree-foliage s2"></div>
-          <div class="tree-foliage s3"></div>
-          <div class="tree-foliage s4"></div>
+    <div class="health-wrap" id="tree-visual">
+      <div class="health-icon">
+        <div class="heart">♥</div>
+      </div>
+      <div class="hp-bar-wrap">
+        <span class="hp-label" id="hp-label">{{ h }}/100 HP</span>
+        <div class="hp-track">
+          <div class="hp-fill" id="hp-fill" style="width:{{ h }}%"></div>
         </div>
       </div>
     </div>
-    <div class="focus-health">HEALTH {{ h }}/100</div>
-    <button id="start-revise" class="btn">START REVISION</button>
+    <button id="start-revise" class="btn-revise">START REVISION</button>
   </div>
 </div>
 <script>

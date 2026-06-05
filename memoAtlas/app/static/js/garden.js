@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
   var timer = document.getElementById('timer')
   var btn = document.getElementById('start-revise')
-  var visual = document.getElementById('tree-visual')
-  var healthLabel = document.querySelector('.focus-health')
+  var hpFill = document.getElementById('hp-fill')
+  var hpLabel = document.getElementById('hp-label')
+  var heartIcon = document.querySelector('.heart')
   var timeLeft = 300
   var interval = null
   var csrfToken = document.querySelector('meta[name="csrf-token"]')
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(function(data) {
         if (data.success) {
           setTimeout(function() { overlay.remove() }, 500)
-          updateTree(data.new_health)
+          updateHp(data.new_health)
         }
       })
       .catch(function() {
@@ -49,15 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
       })
   }
 
-  function updateTree(health) {
-    var cls = 'tree-display '
-    if (health <= 20) cls += 'seed-tree'
-    else if (health <= 40) cls += 'sprout-tree'
-    else if (health <= 70) cls += 'young-tree'
-    else if (health <= 90) cls += 'mature-tree'
-    else cls += 'ancient-tree'
-
-    visual.className = cls
-    healthLabel.textContent = 'HEALTH ' + health + '/100'
+  function updateHp(health) {
+    hpFill.style.width = health + '%'
+    hpLabel.textContent = health + '/100 HP'
   }
 })
