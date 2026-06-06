@@ -4,7 +4,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SECRET_KEY = os.environ.get('nitikpsnmemo')
     if not SECRET_KEY:
         raise RuntimeError('SECRET_KEY environment variable is not set')
 
