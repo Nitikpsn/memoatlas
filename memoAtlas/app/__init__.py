@@ -48,6 +48,9 @@ def create_app(test_config=None):
         return render_template('errors/500.html'), 500
 
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+        except Exception as e:
+            app.logger.warning(f"Could not create database tables: {e}")
 
     return app

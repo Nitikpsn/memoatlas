@@ -8,7 +8,7 @@ class Config:
     if not SECRET_KEY:
         raise RuntimeError('SECRET_KEY environment variable is not set')
 
-    if os.environ.get('VERCEL'):
+    if os.environ.get('VERCEL') or os.environ.get('VERCEL_ENV'):
         SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/memoatlas.db'
     else:
         SQLALCHEMY_DATABASE_URI = os.environ.get(
