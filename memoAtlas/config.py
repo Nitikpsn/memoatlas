@@ -4,9 +4,9 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SECRET_KEY = os.environ.get('nitikpsnmemo')
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     if not SECRET_KEY:
-        raise RuntimeError('nitikpsnmemo environment variable is not set')
+        raise RuntimeError('SECRET_KEY environment variable is not set')
 
     if os.environ.get('VERCEL'):
         SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/memoatlas.db'
