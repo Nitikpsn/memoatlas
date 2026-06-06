@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Blueprint, render_template, redirect, url_for, flash, abort, request, jsonify
+from flask import Blueprint, render_template, redirect, url_for, flash, abort, jsonify
 from flask_login import login_required, current_user
 from ..models import db, Tree, Connection, Progress
 from ..forms import TreeForm
@@ -146,19 +146,6 @@ def complete_revision(tree_id):
         'stage': tree.get_stage(),
         'message': 'Tree grew stronger!'
     })
-
-
-@forest.route('/search')
-@login_required
-def search():
-    q = request.args.get('q', '').strip()
-    results = []
-    if q:
-        results = Tree.query.filter(
-            Tree.user_id == current_user.id,
-            (Tree.title.ilike('%' + q + '%')) | (Tree.content.ilike('%' + q + '%'))
-        ).all()
-    return render_template('search/results.html', query=q, results=results)
 
 
 @forest.route('/profile')

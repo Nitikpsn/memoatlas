@@ -5,24 +5,6 @@ from ..models import db, Tree, Connection, Progress
 api = Blueprint('api', __name__, url_prefix='/api')
 
 
-@api.route('/search')
-@login_required
-def search():
-    q = request.args.get('q', '').strip()
-    if not q:
-        return jsonify([])
-    results = Tree.query.filter(
-        Tree.user_id == current_user.id,
-        (Tree.title.ilike('%' + q + '%')) | (Tree.content.ilike('%' + q + '%'))
-    ).all()
-    return jsonify([{
-        'id': t.id,
-        'title': t.title,
-        'snippet': t.content[:150],
-        'stage': t.get_stage()
-    } for t in results])
-
-
 def jaccard(a, b):
     set_a = set(a)
     set_b = set(b)
