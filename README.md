@@ -47,6 +47,36 @@ To comply with the review criteria, the codebase has been verified across multip
 
 ### Setup Instructions
 1. Clone the project repository from GitHub:
-   ```bash
+   ```
    git clone [https://github.com/Nitikpsn/memoatlas.git](https://github.com/Nitikpsn/memoatlas.git)
    cd memoatlas
+   ```
+Configure a local isolated Python environment:
+
+```
+python -m venv venv
+```
+3. Activate the environment:
+
+On Windows: venv\Scripts\activate
+On macOS or Linux: source venv/bin/activate
+
+4. Install the required external library dependencies:
+
+```
+pip install -r requirements.txt
+```
+5. Configure your local configuration file. Create a file named .env in the root folder using our template file:
+```
+SECRET_KEY=your-local-key-here
+DATABASE_URL=sqlite:///memoatlas.db
+```
+6. Start the local Flask development web server:
+
+```
+python app.py
+```
+Navigate to http://127.0.0.1:5000 inside your web browser to test the local build.
+
+## here i take help from : 
+(https://www.youtube.com/live/ZA25WHO62ZA?si=6gpATtGq7hvmQ2HL)
