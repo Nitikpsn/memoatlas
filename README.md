@@ -92,5 +92,8 @@ Navigate to http://127.0.0.1:5000 inside your web browser to test the local buil
 <img width="1220" height="613" alt="image" src="https://github.com/user-attachments/assets/c160fa6e-bba1-48c2-a9c5-716fafa979e2" />
 and experincee...
 
+---
+## Video
+https://github.com/Nitikpsn/memoatlas/blob/main/2026-06-07%2016-09-30.mp4
 
 
