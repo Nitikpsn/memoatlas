@@ -80,3 +80,17 @@ Navigate to http://127.0.0.1:5000 inside your web browser to test the local buil
 
 ## here i take help from : 
 (https://www.youtube.com/live/ZA25WHO62ZA?si=6gpATtGq7hvmQ2HL)
+
+--------
+# Images
+**page 1**
+<img width="1270" height="656" alt="image" src="https://github.com/user-attachments/assets/e6261e9a-826c-4cd8-9702-0e1eff1beafa" />
+
+**page 2**
+<img width="1223" height="637" alt="image" src="https://github.com/user-attachments/assets/1cdcdaf0-c4b8-4c16-af02-f9360f8ba000" />
+**page 3**
+<img width="1220" height="613" alt="image" src="https://github.com/user-attachments/assets/c160fa6e-bba1-48c2-a9c5-716fafa979e2" />
+and experincee...
+
+
+
