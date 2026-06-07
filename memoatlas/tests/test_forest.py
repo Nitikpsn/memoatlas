@@ -1,6 +1,6 @@
 import unittest
-from app import create_app
-from app.models import db, User, Tree
+from memoatlas import create_app
+from memoatlas.models import db, User, Tree
 
 
 class ForestTestCase(unittest.TestCase):

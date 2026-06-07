@@ -1,6 +1,6 @@
 import unittest
-from app import create_app
-from app.models import db, User, Tree, Connection, Progress
+from memoatlas import create_app
+from memoatlas.models import db, User, Tree, Connection, Progress
 
 
 class GraphTestCase(unittest.TestCase):

@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask_login import LoginManager
 from flask_wtf import CSRFProtect
-from ..config import Config
+from .config import Config
 from .models import db, User
 
 login_manager = LoginManager()
