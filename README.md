@@ -1,52 +1,59 @@
 # MemoAtlas
 
-## Introduction
-This is my very first software project. I built MemoAtlas because traditional note-taking apps feel too rigid and disorganized for the way my brain actually processes ideas. Instead of forcing notes into standard, isolated folders where they eventually get buried and forgotten, MemoAtlas connects your thoughts together visually like a living forest. Every note you write is a tree you plant. Each tree has a health system that grows when you revise it and decays when you do not. If you neglect a note for too long, it dies and becomes a permanent stump in your forest. This is not just a visual gimmick; it is a pressure system designed to actually make you revisit and engage with your old knowledge.
+I built this as my first real software project. I wanted a note-taking app that didn't feel like a bunch of dead text files sitting in folders. So I made one where each note is a tree in a forest, and the forest lives or dies based on how often you revisit what you wrote.
 
-## Project Link
-The live application demo can be accessed here: https://memoatlas.vercel.app/
+Live demo: https://memoatlas.vercel.app/
 
-## How It Works
-The application treats every individual note as a dynamic node in a digital web, operating through several core mechanics:
+## What it does
 
-1. **Spaced Repetition Without Flashcards:** Instead of using boring rote memorization, MemoAtlas uses revision streaks to keep your notes alive. You open a tree, start the timer, and re-engage with what you wrote. The forest only thrives when you actively tend to it.
-2. **Connections are XP:** Linking two trees together is a core gameplay mechanic rather than just basic organization. Each connection you make gives you +100 XP. The app even recommends new connections using Jaccard similarity based on your tags and content, helping you discover relationships between thoughts that you might have completely missed.
-3. **The Pulsing Graph:** Your knowledge graph is powered by Vis.js and is fully dynamic. When you hit the "Pulse" feature, every node breathes. Recently revised trees pulse quickly, while forgotten ones barely move, giving you a living map of where your attention has been focused.
-4. **Knowledge Life Cycle:** Your thoughts progress through an explicit life cycle: Seed, Sprout, Young, Mature, and Ancient. Conversely, neglected thoughts slide down through Fading, Wilting, and finally, Dead. The game does not end when you stop writing new things; it ends when you stop revisiting what you already know.
+- Write notes (they're called trees)
+- Link related notes together to build a knowledge graph
+- Revise notes to keep them alive — if you ignore a tree too long, it dies and becomes a stump
+- Earn XP by making connections between ideas
+- A pulsing graph shows you where your attention has been vs. what you're neglecting
 
----
+Notes go through life stages: Seed → Sprout → Young → Mature → Ancient. Neglected ones fade and eventually die.
 
-## Technical Stack and Architecture
+## Tech I used
 
-* **Backend:** Flask (Python) handles the application routing, secure session authentication, and request handling.
-* **Database & Mapping:** SQLite paired with Flask-SQLAlchemy manages the relational storage of user profiles, text data, and node relationships.
-* **Forms & Validation:** Flask-WTF and WTForms process input handling, using email-validator to handle user signup security.
-* **Graph Visualization:** Vis.js renders the dynamic, responsive frontend network map.
-* **Frontend Design:** Vanilla JS and raw CSS with no heavy JS frameworks or complex build steps. The interface uses a clean, spacious monochrome theme to avoid distracting UI clutter and focus user attention entirely on the visual thought mapping.
-* **Themed Error Handling:** The application includes custom, on-theme error pages with personality instead of generic error screens, such as 403: "Not your tree to tend", 404: "Lost in the woods", and 500: "Forest fire".
+- Python + Flask for the backend
+- SQLite (with Flask-SQLAlchemy)
+- Vis.js for the graph visualization
+- Plain CSS and JavaScript (no frameworks)
+- Deployed on Vercel
 
----
+## Challenges I faced
 
-## Environment and Operating System Compatibility
+The hardest part was getting the graph to work properly. I had never used Vis.js before, so figuring out how to make nodes pulse based on revision data took a lot of trial and error. The data format the library expected was different from what I was sending, and I kept getting blank graphs for hours until I realized my JSON structure was wrong.
 
-To comply with the review criteria, the codebase has been verified across multiple development and host environments to ensure structural parity.
+I also struggled with the health decay logic. Getting the timing right — when does a tree start wilting, how many days without revision triggers decay — took several rewrites. I originally made the decay too aggressive and all my test trees died in a week.
 
-| Platform | Architecture | Tested OS Version | Status |
-| :--- | :--- | :--- | :--- |
-| **Linux** | `x86_64` | Ubuntu 22.04 LTS | Primary development platform; thoroughly tested. |
-| **Windows** | `x86_64` | Windows 11 (Build 22631) | Fully functional; verified local environment parity. |
-| **Cloud/Web** | Serverless (`uv`) | Vercel Serverless Function | Live production environment using temporary fallback storage. |
+Deployment on Vercel was another headache. Flask + serverless doesn't play well with SQLite out of the box, and I had to figure out the temp directory setup for the database file.
 
----
+## What I learned
 
-## Local Installation and Execution
+- How sessions and authentication work in Flask
+- Basic graph theory and Jaccard similarity for the connection recommendations
+- That CSS without a framework is both freeing and painful
+- How to debug serverless deployments
 
-### Prerequisites
-* Python 3.10 or higher installed on your system.
-* Git command line tools.
+## Setup
 
-### Setup Instructions
-1. Clone the project repository from GitHub:
-   ```bash
-   git clone [https://github.com/Nitikpsn/memoatlas.git](https://github.com/Nitikpsn/memoatlas.git)
-   cd memoatlas
+```
+git clone https://github.com/Nitikpsn/memoatlas.git
+cd memoatlas
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python run.py
+```
+
+Needs a `SECRET_KEY` environment variable (see `.env.example`).
+
+## What's next
+
+- Better search
+- User accounts (it's single-user right now on the live site)
+- Maybe PostgreSQL support for real persistence
+
+Thanks for checking it out.
